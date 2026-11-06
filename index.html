@@ -21,7 +21,7 @@
   color-scheme:light;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:70px}
+html{scroll-padding-top:70px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);margin:0}
 button{font:inherit;color:inherit}
@@ -171,6 +171,28 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 
 .mapwrap{position:relative;height:clamp(380px,62vh,620px);border-top:1px solid var(--line);background:var(--rail)}
 .mapwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+.shield{position:absolute;inset:0;z-index:2;width:100%;height:100%;border:0;background:transparent;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding:14px}
+.shield::after{content:attr(data-l);}
+.shield{font:600 12px var(--sans);color:var(--ink)}
+.shield span,.shield{text-shadow:none}
+.mapwrap.live .shield{display:none}
+.mapwrap .shield{background:linear-gradient(transparent 70%,rgba(0,0,0,.45))}
+@media (max-width:860px){.mapwrap{height:420px}}
+html{scroll-behavior:auto}
+nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+
+#dTx{height:118px;overflow:hidden}
+#dRows{height:150px;overflow:hidden}
+#dChecks{height:190px;overflow:hidden}
+#oChecks{height:118px}
+#kAns,#pAns{min-height:120px}
+#tLog{height:66px}
+#rGal{min-height:150px}
+#rVer{min-height:40px}
+#fWhy{min-height:72px}
+.tl div{opacity:1}
+.fadein{animation:none!important}
 /* theme toggle */
 .skins{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 10px;color:var(--muted)}
@@ -342,7 +364,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
     </div>
   </div>
   <div class="panel"><div class="ph"><span class="k">Live map · interact with it</span><div class="opts" id="mTabs" role="tablist"></div></div>
-    <div class="mapwrap"><iframe id="mFrame" title="Live OSINT map" loading="lazy" src="about:blank"></iframe></div>
+    <div class="mapwrap"><button type="button" class="shield" id="mShield">Tap to explore the map</button><iframe id="mFrame" title="Live OSINT map" loading="lazy" src="about:blank"></iframe></div>
     <p class="hint" style="margin:0;padding:8px 12px">The real pages, running live on public data. Pan, zoom, hover cells for numbers. <a id="mOpen" href="#" target="_blank" rel="noopener">Open full page ↗</a></p></div>
 </section>
 
@@ -558,19 +580,21 @@ let sv='';try{sv=localStorage.getItem('skin')||''}catch(_){}if(sv!=='light')sv='
 const MAPS=[{label:"Namibia EEZ · fishing grid",url:"https://myersmail9-afk.github.io/client-demos/eez-watch/",h:"Where the fishing is"},{label:"Darfur · fire grid vs baseline",url:"https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/",h:"Where: detections"}];
 function mShow(it){const f=$('mFrame');$('mOpen').href=it.url;f.onload=()=>{try{const d=f.contentDocument;const h=[...d.querySelectorAll('h2')].find(x=>x.textContent.trim().startsWith(it.h));if(h)f.contentWindow.scrollTo(0,h.getBoundingClientRect().top+f.contentWindow.scrollY-8)}catch(_){}};f.src=it.url}
 opts($('mTabs'),MAPS,mShow);
+$('mShield').onclick=()=>{$('mShield').parentElement.classList.add('live')};$('mFrame').addEventListener('mouseleave',()=>$('mShield').parentElement.classList.remove('live'));
+
 const mio=new IntersectionObserver(es=>{if(es[0].isIntersecting){$('mTabs').children[0].click();mio.disconnect()}},{rootMargin:'200px'});mio.observe($('mFrame'));
 /* autoplay demos once when they scroll into view */
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function onView(el,fn){if(RM||!el)return;const o=new IntersectionObserver(es=>{if(es[0].isIntersecting){fn();o.disconnect()}},{threshold:.45});o.observe(el)}
-onView($('dTx'),()=>$('dPlay').click());onView($('bTl'),()=>$('bPlay').click());onView($('oChecks'),()=>$('oVerify').click());
+/* no autoplay: demos run only when tapped, so nothing moves while scrolling */
 /* copy + nav */
 $('copy').onclick=async e=>{const t=$('email').textContent;try{await navigator.clipboard.writeText(t);e.target.textContent='Copied'}catch(_){const r=document.createRange();r.selectNodeContents($('email'));const s=getSelection();s.removeAllRanges();s.addRange(r);e.target.textContent='Selected'}};
 const links=[...document.querySelectorAll('.nav a')];
 const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
 let lock=0;
-function mark(id){links.forEach(l=>{const on=l.getAttribute('href')==='#'+id;l.classList.toggle('on',on);if(on){l.setAttribute('aria-current','true');if(l.parentElement.scrollWidth>l.parentElement.clientWidth)l.scrollIntoView({block:'nearest',inline:'nearest'})}else l.removeAttribute('aria-current')})}
+function mark(id){links.forEach(l=>{const on=l.getAttribute('href')==='#'+id;l.classList.toggle('on',on);if(on){l.setAttribute('aria-current','true');const n=l.parentElement;if(n.scrollWidth>n.clientWidth){const t=l.offsetLeft-16;if(Math.abs(n.scrollLeft-t)>4)n.scrollLeft=t}}else l.removeAttribute('aria-current')})}
 function spy(){if(Date.now()<lock)return;const off=(document.querySelector('.nav').getBoundingClientRect().bottom>0&&innerWidth<=860?document.querySelector('.nav').offsetHeight:0)+80;let cur=secs[0].id;for(const s of secs){if(s.getBoundingClientRect().top-off<=0)cur=s.id}if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)cur=secs[secs.length-1].id;mark(cur)}
 links.forEach(a=>a.addEventListener('click',()=>{lock=Date.now()+900;mark(a.getAttribute('href').slice(1))}));
-addEventListener('scroll',spy,{passive:true});spy();
+let rq=0;addEventListener('scroll',()=>{if(!rq){rq=requestAnimationFrame(()=>{rq=0;spy()})}},{passive:true});spy();
 </script>
 </html>
