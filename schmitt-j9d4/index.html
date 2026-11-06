@@ -199,6 +199,19 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 .flowd span.h{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}
 .flowd span.g::before{content:"✓ "} .flowd span.h::before{content:"● "}
 .flowd i{font-style:normal;color:var(--muted);padding:0 2px}
+
+.gallery2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tile{all:unset;cursor:zoom-in;display:grid;gap:4px;align-content:start;background:var(--pane);border:1px solid var(--line);border-radius:3px;overflow:hidden;min-width:0}
+.tile:focus-visible{outline:2px solid var(--blue)}
+.tile img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;background:#fff;border-bottom:1px solid var(--line)}
+.tile .tt{padding:8px 10px 0;font-weight:600;font-size:14px}
+.tile .td{padding:0 10px;font-size:12.5px;color:var(--ink);line-height:1.4}
+.tile .tm{padding:2px 10px 10px;font:11px var(--mono);color:var(--muted)}
+.lb{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:3px}
+.lbx{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 12px);border:0;background:#fff;color:#000;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer}
+@media (max-width:860px){.gallery2{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.gallery2{grid-template-columns:1fr}}
 /* theme toggle */
 .skins{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 10px;color:var(--muted)}
@@ -235,6 +248,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <a href="#tools">Permissions<span>default-deny</span></a>
   <a href="#osint">OSINT screens<span>public data</span></a>
   <a href="#brain">Company memory<span>2,490 facts</span></a>
+  <a href="#work">Built work<span>real examples</span></a>
   <a href="#reid">Re-identification<span>computer vision</span></a>
   <a href="#draft">Draft agent<span>recording → quote</span></a>
   <a href="#brief">Briefings<span>event-driven</span></a>
@@ -325,6 +339,12 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
 </section>
 
+<section class="sys" id="work">
+  <header><div class="pills"><span class="pill live">Real builds</span><span class="pill">Public data · tap to enlarge</span></div>
+  <h2>Built work</h2></header>
+  <div class="gallery2"><button type="button" class="tile" data-full="img/gallery/report-answer.jpg"><img src="../img/gallery/report-answer.jpg" alt="Reporting assistant: Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded." loading="lazy"><span class="tt">Reporting assistant</span><span class="td">Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded.</span><span class="tm">Concept on a demining NGO's public monthly data</span></button><button type="button" class="tile" data-full="img/gallery/darfur-grid.jpg"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid: 112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements." loading="lazy"><span class="tt">Darfur fire grid</span><span class="td">112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements.</span><span class="tm">Public data · fires are not attacks</span></button><button type="button" class="tile" data-full="img/gallery/map-namibia-fire.jpg"><img src="../img/gallery/map-namibia-fire.jpg" alt="Omaheke, Namibia · fire history: Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once." loading="lazy"><span class="tt">Omaheke, Namibia · fire history</span><span class="td">Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once.</span><span class="tm">Public data · Leaflet + OSM</span></button><button type="button" class="tile" data-full="img/gallery/map-kunene-rain.jpg"><img src="../img/gallery/map-kunene-rain.jpg" alt="Kunene, Namibia · rainfall: 2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more." loading="lazy"><span class="tt">Kunene, Namibia · rainfall</span><span class="td">2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more.</span><span class="tm">Public data · slider by season</span></button><button type="button" class="tile" data-full="img/gallery/darfur-baseline.jpg"><img src="../img/gallery/darfur-baseline.jpg" alt="Month by month vs baseline: Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year." loading="lazy"><span class="tt">Month by month vs baseline</span><span class="td">Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year.</span><span class="tm">Public data</span></button><button type="button" class="tile" data-full="img/gallery/report-kpi.jpg"><img src="../img/gallery/report-kpi.jpg" alt="Reporting assistant · KPIs: Every chart point links back to the public rows it came from." loading="lazy"><span class="tt">Reporting assistant · KPIs</span><span class="td">Every chart point links back to the public rows it came from.</span><span class="tm">Concept on public data</span></button></div>
+</section>
+<div class="lb" id="lb" hidden><button type="button" class="lbx" id="lbx" aria-label="Close">✕</button><img id="lbimg" alt=""></div>
 <!-- REID -->
 <section class="sys" id="reid">
   <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
@@ -595,6 +615,11 @@ let sv='';try{sv=localStorage.getItem('skin')||''}catch(_){}if(sv!=='light')sv='
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function onView(el,fn){if(RM||!el)return;const o=new IntersectionObserver(es=>{if(es[0].isIntersecting){fn();o.disconnect()}},{threshold:.45});o.observe(el)}
 /* no autoplay: demos run only when tapped, so nothing moves while scrolling */
+
+/* gallery lightbox */
+document.querySelectorAll('.tile').forEach(t=>t.addEventListener('click',()=>{$('lbimg').src=t.dataset.full;$('lbimg').alt=t.querySelector('img').alt;$('lb').hidden=false;document.body.style.overflow='hidden';$('lbx').focus()}));
+function lbClose(){$('lb').hidden=true;document.body.style.overflow=''}
+$('lb').addEventListener('click',e=>{if(e.target.id!=='lbimg')lbClose()});addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('lb').hidden)lbClose()});
 /* copy + nav */
 $('copy').onclick=async e=>{const t=$('email').textContent;try{await navigator.clipboard.writeText(t);e.target.textContent='Copied'}catch(_){const r=document.createRange();r.selectNodeContents($('email'));const s=getSelection();s.removeAllRanges();s.addRange(r);e.target.textContent='Selected'}};
 const links=[...document.querySelectorAll('.nav a')];
