@@ -261,7 +261,10 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="reid">
   <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
   <h2>Which giraffe is this?</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div><div><dt>System</dt><dd class="sysline">Detector vote → coat-pattern match → calibration → review queue → hash-chained log</dd></div></dl></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div><div><dt>System</dt><dd class="sysline">Detector vote → coat-pattern match → calibration → review queue → hash-chained log</dd></div></dl>
+  <figure class="panel" style="margin:0"><div class="ph"><span class="k">The review screen · numbered circles mark coat spots that line up</span><span class="demo">REAL APP · DEMO DATA</span></div>
+    <img src="img/reid-match.jpg" alt="Review screen: matching coat spots circled and numbered on a new photo and a suggested giraffe, with Same / Not this one / New / Can't tell buttons" style="display:block;width:100%;height:auto" loading="lazy" width="1000" height="907">
+    <figcaption class="hint" style="padding:8px 12px">Each colored pair is a spot the matcher verified on both photos. The person decides: Same giraffe, Not this one, New giraffe, or Can't tell. Keys 1–4.</figcaption></figure></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
       <div class="body">
