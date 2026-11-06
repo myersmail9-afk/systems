@@ -4,21 +4,22 @@
 <meta name="description" content="AI systems Joseph Myers has built: clickable demos, the evidence they work, and their limits.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap">
 <style>
 /* Layout: analyst workstation — sticky top bar, left index, one scrolling case file. Each system = BLUF line + clickable demo + numbers + limits. */
+/* Tokens from the U.S. Web Design System (USWDS) system palette: gray-cool, blue-v, green-cool-v, gold-v, red-v. Dark is the default; Light is a toggle. */
 :root{
-  --bg:#eef1f4; --pane:#ffffff; --rail:#f6f8fa; --ink:#111820; --muted:#5b6672; --line:#d5dbe1; --hover:#e8edf2;
-  --blue:#215db0; --blue-soft:#dce8f8; --green:#1c6e42; --green-soft:#dcf0e4; --amber:#935610; --amber-soft:#f8ead4; --red:#ac2f33; --red-soft:#f8e0e0;
-  --sans:"IBM Plex Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --bg:#1c1d1f; --pane:#252629; --rail:#202124; --ink:#f0f0f0; --muted:#a9aeb1; --line:#3d4551; --hover:#2d2e2f;
+  --blue:#58b4ff; --blue-soft:#11263b; --green:#00ce9c; --green-soft:#0d2a24; --amber:#ffbe2e; --amber-soft:#332a10; --red:#fb5a47; --red-soft:#3b1a16;
+  --sans:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono:"Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#14191f; --pane:#1c232b; --rail:#181e25; --ink:#e9edf1; --muted:#97a3af; --line:#2d3743; --hover:#232c36;
-  --blue:#5c9bf0; --blue-soft:#1d2d44; --green:#5fc08a; --green-soft:#17312a; --amber:#e4a54f; --amber-soft:#36291a; --red:#ec7a7d; --red-soft:#3a1f22; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#14191f; --pane:#1c232b; --rail:#181e25; --ink:#e9edf1; --muted:#97a3af; --line:#2d3743; --hover:#232c36;
-  --blue:#5c9bf0; --blue-soft:#1d2d44; --green:#5fc08a; --green-soft:#17312a; --amber:#e4a54f; --amber-soft:#36291a; --red:#ec7a7d; --red-soft:#3a1f22; color-scheme:dark}
+:root[data-skin="light"]{
+  --bg:#f0f0f0; --pane:#ffffff; --rail:#f7f7f7; --ink:#1b1b1b; --muted:#565c65; --line:#dfe1e2; --hover:#eef0f1;
+  --blue:#005ea2; --blue-soft:#e7f2f5; --green:#00796b; --green-soft:#e3f5f1; --amber:#8a5c00; --amber-soft:#faf3d1; --red:#b50909; --red-soft:#fde0db;
+  color-scheme:light;
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:70px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -154,17 +155,14 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 .door{grid-template-columns:1fr 1fr}
 .door p{margin:2px 0 0;font-size:13px}
 @media (max-width:860px){.mapgrid{grid-template-columns:1fr}.lane:first-child ul{grid-template-columns:1fr}.door{grid-template-columns:1fr}}
-/* skins */
+/* theme toggle */
 .skins{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 9px;color:var(--muted)}
-.skins button[aria-pressed="true"]{background:var(--ink);color:var(--pane)}
+.skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 10px;color:var(--muted)}
+.skins button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .skins button:focus-visible{outline:2px solid var(--blue)}
-:root[data-skin="tactical"]{--bg:#0b0f0c;--pane:#111712;--rail:#0e130f;--ink:#d8e6d6;--muted:#7f927f;--line:#243024;--hover:#162016;--blue:#7fd18b;--blue-soft:#15281a;--green:#7fd18b;--green-soft:#15281a;--amber:#e3b341;--amber-soft:#2a2410;--red:#ff6b5e;--red-soft:#2c1512;--sans:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
-:root[data-skin="tactical"] h2,:root[data-skin="tactical"] .sig{text-transform:uppercase;letter-spacing:.02em;font-size:18px}
-:root[data-skin="tactical"] .panel,:root[data-skin="tactical"] .metrics,:root[data-skin="tactical"] .facts,:root[data-skin="tactical"] .pss{border-radius:0}
-:root[data-skin="clean"]{--bg:#ffffff;--pane:#ffffff;--rail:#fafafa;--ink:#0a0a0a;--muted:#6b6b6b;--line:#e4e4e4;--hover:#f3f3f3;--blue:#d9480f;--blue-soft:#fff0e8;--green:#2b8a3e;--green-soft:#ebfbee;--amber:#b35c00;--amber-soft:#fff4e6;--red:#c92a2a;--red-soft:#fff0f0;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;color-scheme:light}
-:root[data-skin="clean"] .panel,:root[data-skin="clean"] .metrics,:root[data-skin="clean"] .facts,:root[data-skin="clean"] .pss{border-left:0;border-right:0;border-radius:0}
-:root[data-skin="clean"] h2{font-size:24px;font-weight:700;letter-spacing:-.01em}
+.src-line{font:12px/1.5 var(--mono);color:var(--muted);margin:0}
+.src-line b{color:var(--ink);font-weight:500}
+.conf{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border-radius:2px;border:1px solid var(--blue);color:var(--blue)}
 
 @media (max-width:860px){
   .shell{grid-template-columns:1fr}
@@ -183,7 +181,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 </style>
 
 <div class="top"><b>Joseph Myers</b><span class="tag">Applied AI · systems I've built</span>
-  <div class="skins" role="group" aria-label="Design"><button type="button" data-s="">Workstation</button><button type="button" data-s="tactical">Tactical</button><button type="button" data-s="clean">Clean</button></div><div class="mail"><code id="email">myersmail9@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></div></div>
+  <div class="skins" role="group" aria-label="Theme"><button type="button" data-s="">Dark</button><button type="button" data-s="light">Light</button></div><div class="mail"><code id="email">myersmail9@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></div></div>
 
 <div class="shell">
 <nav class="nav" aria-label="Sections">
@@ -232,6 +230,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
   <h2>A field recording becomes a draft quote in about a minute</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div><div><dt>System</dt><dd class="sysline">Recording → transcript watcher → agent (6 read tools, 1 draft tool) → 12 read-back checks → estimator</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [1] Production run log, 151 runs, 23 Sep – 4 Nov 2026; [2] live test battery record, 26 Oct</p>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Try it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body">
@@ -263,6 +262,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
   <h2>Every stop briefed before the knock</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div><div><dt>System</dt><dd class="sysline">Schedule watcher → call transcript + request + past work + past price + cited expert facts → signed-in page → usage tracking</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [3] Watcher event log, 4 Nov 2026 (single event; short production history)</p>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Replay a real event · 4 Nov</span><span class="demo">REAL TIMESTAMPS</span></div>
       <div class="body">
@@ -284,6 +284,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <header><div class="pills"><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
   <h2>A company memory that knows where every fact came from</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div><div><dt>System</dt><dd class="sysline">Recordings + documents → atomic facts → hybrid search, reranked → cite or abstain → nightly regression gate → health report</dd></div></dl>
+  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [4] Knowledge-base state report, 5 Nov 2026; [5] golden-set eval files, Sep–Oct 2026. Adoption evidence is weak.</p>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">2,490 facts by provenance</span></div>
       <svg class="chart" viewBox="0 0 360 120" role="img" aria-label="2,347 verbatim, 90 inferred, 53 need confirmation">
@@ -308,6 +309,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <header><div class="pills"><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
   <h2>The agent can only do what its tools allow</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div><div><dt>System</dt><dd class="sysline">Custom MCP server · read clients, requests, quotes, jobs, visits, catalog · create_draft_quote · nothing else</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [6] MCP connector source and tool manifest</p>
   <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
     <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
 </section>
@@ -317,6 +319,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <header><div class="pills"><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
   <h2>Utility locates: four views reconciled, never one field trusted</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div><div><dt>System</dt><dd class="sysline">Visits + job status + digging line items + tasks + email → covered / opening window / no date → staged form → human submit → ticket written to job, future visits, pinned note</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [7] Locate scan log, 5 Nov 2026 (one morning)</p>
   <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
     <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Locate reconciliation counts">
       <g style="font-size:11px">
@@ -337,9 +340,10 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
   <h2>Which giraffe is this?</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div><div><dt>System</dt><dd class="sysline">Detector vote → coat-pattern match → calibration → review queue → hash-chained log</dd></div></dl>
-  <figure class="panel" style="margin:0"><div class="ph"><span class="k">The review screen · numbered circles mark coat spots that line up</span><span class="demo">REAL APP · DEMO DATA</span></div>
-    <img src="img/reid-match.jpg" alt="Review screen: matching coat spots circled and numbered on a new photo and a suggested giraffe, with Same / Not this one / New / Can't tell buttons" style="display:block;width:100%;height:auto" loading="lazy" width="1000" height="907">
-    <figcaption class="hint" style="padding:8px 12px">Each colored pair is a spot the matcher verified on both photos. The person decides: Same giraffe, Not this one, New giraffe, or Can't tell. Keys 1–4.</figcaption></figure></header>
+  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [8] Pre-registered eval files on public datasets (GZGC Nairobi, CDLA-Permissive-1.0; Snapshot Serengeti). Not yet tested on partner animals.</p>
+  <figure class="panel" style="margin:0"><div class="ph"><span class="k">The review screen · numbered circles mark coat spots that line up</span><span class="demo">REAL APP · REAL PHOTOS</span></div>
+    <img src="img/reid-real.jpg" alt="Review screen on real Nairobi giraffe photos: matching coat spots circled and numbered on a new photo and a suggested giraffe, with Same / Not this one / New / Can't tell buttons" style="display:block;width:100%;height:auto" loading="lazy" width="1000" height="667">
+    <figcaption class="hint" style="padding:8px 12px">Real Masai giraffe photos from the public Nairobi National Park dataset (NNP GZC, CDLA-Permissive-1.0). Each colored pair is a spot the matcher verified on both photos. The person decides: Same giraffe, Not this one, New giraffe, or Can't tell. Keys 1–4.</figcaption></figure></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
       <div class="body">
@@ -367,7 +371,8 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="osint">
   <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
   <h2>Screens that check their own numbers</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div><div><dt>System</dt><dd class="sysline">NASA FIRMS · Sentinel-1 · AIS → baseline → anomaly screen → verify.py → analyst</dd></div></dl></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div><div><dt>System</dt><dd class="sysline">NASA FIRMS · Sentinel-1 · AIS → baseline → anomaly screen → verify.py → analyst</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [9] verify.py outputs against NASA FIRMS, Global Fishing Watch, Sentinel-1 public archives</p></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Darfur fires vs pre-war baseline · real totals</span><span class="demo">DEMO</span></div>
       <div class="body">
@@ -393,7 +398,8 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="report">
   <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
   <h2>The model routes, code does the math</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div><div><dt>System</dt><dd class="sysline">Question → tool choice → code → source rows → named human release gate</dd></div></dl></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div><div><dt>System</dt><dd class="sysline">Question → tool choice → code → source rows → named human release gate</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [10] 82-question eval and 255-question stress test files</p></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body"><div class="opts" id="pOpts"></div><div class="ans" id="pAns"><span class="hint">Pick a question.</span></div></div></div>
@@ -412,7 +418,8 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="forecast">
   <header><div class="pills"><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
   <h2>Forecasts, logged and scored</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div><div><dt>System</dt><dd class="sysline">Base rate → indicators and signposts → dated updates → Brier score</dd></div></dl></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div><div><dt>System</dt><dd class="sysline">Base rate → indicators and signposts → dated updates → Brier score</dd></div></dl>
+  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [11] Forecast casebook, 28 logged / 10 resolved. Small sample.</p></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Step through an update</span><span class="demo">REAL LOG</span></div>
       <div class="body">
@@ -443,6 +450,11 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <div class="panel"><div class="ph"><span class="k">Background</span></div><div class="prose">
     <p>During university I had a traumatic brain injury and had to relearn walking, talking, driving, even how to move my eyes together. I taught myself neuroscience to do it. That's where my problem-solving comes from: if something's broken, I figure out how the system works and rebuild it.</p>
     <p>International Studies, Utah State · Global Peacebuilding certificate · Anticipatory Intelligence minor. CEO of a refugee NGO running a school for girls in Herat. Nearly two years in Botswana, Namibia and South Africa. Logan, Utah. US citizen.</p></div></div>
+
+  <div class="panel"><div class="ph"><span class="k">How this page is built</span></div><div class="prose" style="font-size:13px">
+    <p><b>Analytic standards:</b> claims follow ODNI ICD 203. Facts are separated from assessments, uncertainty is stated, and each section carries a confidence level with its source. Confidence: <b>High</b> = direct system logs or eval files; <b>Moderate</b> = real data with small samples or known gaps.</p>
+    <p><b>Sourcing:</b> numbered source descriptors in the style of ICD 206. Raw logs stay private; the descriptors say what kind of record each number came from.</p>
+    <p><b>Design:</b> U.S. Web Design System color tokens and Public Sans. Built to Section 508 / WCAG 2.1 AA: text contrast, keyboard access, alt text.</p></div></div>
   <p class="foot">Numbers come from my own logs and evaluation files. Demos marked “sample content” use invented examples; employer and partner data stays private.</p>
 </section>
 </main>
@@ -527,7 +539,7 @@ $('dCase').children[0].click();$('kOpts').children[0].click();$('tOpts').childre
 const SK=document.querySelectorAll('.skins button');
 function skin(v){if(v)document.documentElement.setAttribute('data-skin',v);else document.documentElement.removeAttribute('data-skin');SK.forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===v?'true':'false'));try{localStorage.setItem('skin',v)}catch(_){}}
 SK.forEach(b=>b.onclick=()=>skin(b.dataset.s));
-let sv='';try{sv=localStorage.getItem('skin')||''}catch(_){}skin(sv);
+let sv='';try{sv=localStorage.getItem('skin')||''}catch(_){}if(sv!=='light')sv='';skin(sv);
 /* copy + nav */
 $('copy').onclick=async e=>{const t=$('email').textContent;try{await navigator.clipboard.writeText(t);e.target.textContent='Copied'}catch(_){const r=document.createRange();r.selectNodeContents($('email'));const s=getSelection();s.removeAllRanges();s.addRange(r);e.target.textContent='Selected'}};
 const links=[...document.querySelectorAll('.nav a')];
