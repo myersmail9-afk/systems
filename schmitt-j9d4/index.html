@@ -320,7 +320,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <div class="hi3">
     <a href="#reid"><img src="../img/reid-pair.jpg" alt="Same giraffe matched across two photos" loading="eager"><b>Same giraffe, two photos</b><span>165 coat points matched</span></a>
     <a href="#osint"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid" loading="eager"><b>Darfur fire grid</b><span>112,416 detections vs baseline</span></a>
-    <a href="#work"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread map" loading="eager"><b>Etosha fire spread</b><span>73 of 73 dates matched</span></a>
+    <a href="#work"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread map" loading="eager"><b>Etosha fire spread</b><span>73 of 73 re-checks passed</span></a>
   </div>
   <p class="sig">Production AI agents, evaluation, computer vision, geospatial.</p>
   <p class="bluf"><b>BLUF</b>AI that does real work, checks itself, and leaves the big decisions to people.</p>
@@ -328,7 +328,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
     <div class="fact"><span class="v">20</span><span class="l">AI systems built · 13 live and doing real work</span></div>
     <div class="fact"><span class="v">151</span><span class="l">production agent runs, failures kept on the record</span></div>
     <div class="fact"><span class="v">2,490</span><span class="l">sourced facts in a company memory</span></div>
-    <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, vision re-ID test</span></div>
+    <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, pre-registered re-ID test</span></div>
   </div>
 </section>
 
@@ -347,7 +347,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <section class="sys" id="osint" data-st="concept">
   <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
   <h2>Screens that check their own numbers</h2>
-  <div class="hl"><span class="v">73 / 73</span><span class="l">fire dates matched a published investigation</span></div>
+  <div class="hl"><span class="v">73 / 73</span><span class="l">automated re-checks passed · dates consistent with a published investigation</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Satellite · AIS · fire then Pre-war baseline then Anomaly screen then verify.py then Analyst"><span>Satellite · AIS · fire</span><i>→</i><span>Pre-war baseline</span><i>→</i><span>Anomaly screen</span><i>→</i><span class="g">verify.py</span><i>→</i><span class="h">Analyst</span></div></header>
   <div class="grid2">
@@ -360,7 +360,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
       </div></div>
     <div style="display:grid;gap:12px;align-content:start">
       <div class="metrics">
-        <div class="metric"><span class="v">73/73</span><span class="l">fire dates matched a published investigation</span></div>
+        <div class="metric"><span class="v">73/73</span><span class="l">automated re-checks passed · dates consistent with a published investigation</span></div>
         <div class="metric"><span class="v">S1 vs AIS</span><span class="l">radar detections vs ship broadcasts, Red Sea</span></div>
       </div>
       
@@ -400,8 +400,8 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <section class="sys" id="reid" data-st="pilot">
   <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
   <h2>Which giraffe is this?</h2>
-  <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches on another team's photos</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
+  <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches, pre-registered test on public photos · most had a near-duplicate photo</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person decides almost every case.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
   </header>
   <figure class="panel" style="margin:0 0 14px"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
@@ -419,14 +419,14 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <div class="grid2 rg">
     <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
       <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
-        <text x="12" y="22" style="fill:var(--ink)">Found 74 of 77 animals</text>
+        <text x="12" y="22" style="fill:var(--ink)">Detectors found 74 of 77 giraffes</text>
         <rect x="12" y="30" width="336" height="14" fill="var(--line)"/><rect x="12" y="30" width="323" height="14" fill="var(--green)"/>
         <text x="12" y="72" style="fill:var(--ink)">Top-1 60% · 95% CI 46–72</text>
         <rect x="12" y="80" width="336" height="10" fill="var(--line)"/><rect x="12" y="80" width="202" height="10" fill="var(--blue)"/>
         <line x1="167" y1="76" x2="167" y2="94" stroke="var(--ink)"/><line x1="254" y1="76" x2="254" y2="94" stroke="var(--ink)"/><line x1="167" y1="85" x2="254" y2="85" stroke="var(--ink)"/>
         <text x="12" y="120" style="fill:var(--ink)">Top-5 73%</text>
         <rect x="12" y="128" width="336" height="10" fill="var(--line)"/><rect x="12" y="128" width="245" height="10" fill="var(--blue)"/>
-        <text x="12" y="166" style="fill:var(--ink)">Wrong automatic matches: 0 of 32</text>
+        <text x="12" y="166" style="fill:var(--ink)">Separate test: 0 of 32 auto-matches wrong</text>
         <text x="12" y="186">14-animal test: right animal first, 20 of 21</text>
       </svg></div>
   </div>
@@ -436,7 +436,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <section class="sys" id="work">
   <header><div class="pills"><span class="pill live">Real builds</span><span class="pill">Public data · tap to enlarge</span></div>
   <h2>Built work</h2></header>
-  <div class="gallery2"><button type="button" class="tile" data-full="img/gallery/report-answer.jpg"><img src="../img/gallery/report-answer.jpg" alt="Reporting assistant: Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded." loading="lazy"><span class="tt">Reporting assistant</span><span class="td">Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded.</span><span class="tm">Concept on a demining NGO's public monthly data</span></button><button type="button" class="tile" data-full="img/gallery/darfur-grid.jpg"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid: 112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements." loading="lazy"><span class="tt">Darfur fire grid</span><span class="td">112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements.</span><span class="tm">Public data · fires are not attacks</span></button><button type="button" class="tile" data-full="img/gallery/map-namibia-fire.jpg"><img src="../img/gallery/map-namibia-fire.jpg" alt="Omaheke, Namibia · fire history: Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once." loading="lazy"><span class="tt">Omaheke, Namibia · fire history</span><span class="td">Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once.</span><span class="tm">Public data · Leaflet + OSM</span></button><button type="button" class="tile" data-full="img/gallery/map-kunene-rain.jpg"><img src="../img/gallery/map-kunene-rain.jpg" alt="Kunene, Namibia · rainfall: 2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more." loading="lazy"><span class="tt">Kunene, Namibia · rainfall</span><span class="td">2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more.</span><span class="tm">Public data · slider by season</span></button><button type="button" class="tile" data-full="img/gallery/darfur-baseline.jpg"><img src="../img/gallery/darfur-baseline.jpg" alt="Month by month vs baseline: Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year." loading="lazy"><span class="tt">Month by month vs baseline</span><span class="td">Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year.</span><span class="tm">Public data</span></button><button type="button" class="tile" data-full="img/gallery/etosha-timeline.jpg"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread: each 1 km cell colored by first detection date, 22 Sep to 10 Oct 2025" loading="lazy"><span class="tt">Etosha · how the fire spread</span><span class="td">Each ~1 km cell colored by the day fire first reached it, 22 Sep – 10 Oct 2025. Dates checked against a published investigation, 73 of 73.</span><span class="tm">Public data · NASA, Copernicus, OSM</span></button></div>
+  <div class="gallery2"><button type="button" class="tile" data-full="img/gallery/report-answer.jpg"><img src="../img/gallery/report-answer.jpg" alt="Reporting assistant: Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded." loading="lazy"><span class="tt">Reporting assistant</span><span class="td">Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded.</span><span class="tm">Concept on a demining NGO's public monthly data</span></button><button type="button" class="tile" data-full="img/gallery/darfur-grid.jpg"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid: 112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements." loading="lazy"><span class="tt">Darfur fire grid</span><span class="td">112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements.</span><span class="tm">Public data · fires are not attacks</span></button><button type="button" class="tile" data-full="img/gallery/map-namibia-fire.jpg"><img src="../img/gallery/map-namibia-fire.jpg" alt="Omaheke, Namibia · fire history: Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once." loading="lazy"><span class="tt">Omaheke, Namibia · fire history</span><span class="td">Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once.</span><span class="tm">Public data · Leaflet + OSM</span></button><button type="button" class="tile" data-full="img/gallery/map-kunene-rain.jpg"><img src="../img/gallery/map-kunene-rain.jpg" alt="Kunene, Namibia · rainfall: 2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more." loading="lazy"><span class="tt">Kunene, Namibia · rainfall</span><span class="td">2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more.</span><span class="tm">Public data · slider by season</span></button><button type="button" class="tile" data-full="img/gallery/darfur-baseline.jpg"><img src="../img/gallery/darfur-baseline.jpg" alt="Month by month vs baseline: Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year." loading="lazy"><span class="tt">Month by month vs baseline</span><span class="td">Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year.</span><span class="tm">Public data</span></button><button type="button" class="tile" data-full="img/gallery/etosha-timeline.jpg"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread: each 1 km cell colored by first detection date, 22 Sep to 10 Oct 2025" loading="lazy"><span class="tt">Etosha · how the fire spread</span><span class="td">Each ~1 km cell colored by the day fire first reached it, 22 Sep – 10 Oct 2025. Dates consistent with a published investigation; 73 of 73 automated re-checks passed.</span><span class="tm">Public data · NASA, Copernicus, OSM</span></button></div>
 </section>
 <div class="lb" id="lb" hidden><button type="button" class="lbx" id="lbx" aria-label="Close">✕</button><img id="lbimg" alt=""></div>
 
@@ -444,7 +444,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <section class="sys" id="draft" data-st="live">
   <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
   <h2>A field recording becomes a draft quote in about a minute</h2>
-  <div class="hl"><span class="v">151</span><span class="l">recorded production runs · 119 succeeded, 22 stopped on purpose</span></div>
+  <div class="hl"><span class="v">151</span><span class="l">recorded production runs · 119 succeeded, 22 stopped, 10 failed</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Field recording then Transcript then Agent · 6 reads then Draft quote · $0 then 12 read-back checks then Estimator prices + sends"><span>Field recording</span><i>→</i><span>Transcript</span><i>→</i><span>Agent · 6 reads</span><i>→</i><span>Draft quote · $0</span><i>→</i><span class="g">12 read-back checks</span><i>→</i><span class="h">Estimator prices + sends</span></div>
   <div class="ba">
@@ -476,7 +476,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
       <div class="panel"><div class="ph"><span class="k">151 recorded runs · 23 Sep – 4 Nov</span></div>
         <svg class="chart" viewBox="0 0 360 96" role="img" aria-label="119 succeeded, 22 stopped, 10 failed">
           <rect x="10" y="14" width="269" height="26" fill="var(--green)"/><rect x="279" y="14" width="50" height="26" fill="var(--amber)"/><rect x="329" y="14" width="22" height="26" fill="var(--red)"/>
-          <text x="12" y="62" style="fill:var(--ink)">119 succeeded</text><text x="190" y="62" style="fill:var(--amber)">22 stopped on purpose</text><text x="290" y="82" style="fill:var(--red)">10 failed</text>
+          <text x="12" y="62" style="fill:var(--ink)">119 succeeded</text><text x="190" y="62" style="fill:var(--amber)">22 stopped</text><text x="290" y="82" style="fill:var(--red)">10 failed</text>
         </svg></div>
       <div class="metrics">
         <div class="metric"><span class="v">~1.2 min</span><span class="l">typical run · 14 agent steps</span></div>
