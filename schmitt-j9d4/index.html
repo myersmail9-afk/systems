@@ -192,6 +192,13 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 #fWhy{min-height:72px}
 .tl div{opacity:1}
 .fadein{animation:none!important}
+
+.flowd{display:flex;flex-wrap:wrap;gap:6px 4px;align-items:center;font:500 12.5px/1.3 var(--mono)}
+.flowd span{padding:7px 10px;border:1px solid var(--line);border-radius:3px;background:var(--pane)}
+.flowd span.g{border-color:var(--green);color:var(--green);background:var(--green-soft)}
+.flowd span.h{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}
+.flowd span.g::before{content:"✓ "} .flowd span.h::before{content:"● "}
+.flowd i{font-style:normal;color:var(--muted);padding:0 2px}
 /* theme toggle */
 .skins{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 10px;color:var(--muted)}
@@ -228,8 +235,8 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <a href="#tools">Permissions<span>default-deny</span></a>
   <a href="#osint">OSINT screens<span>public data</span></a>
   <a href="#brain">Company memory<span>2,490 facts</span></a>
-  <a href="#draft">Draft agent<span>recording → quote</span></a>
   <a href="#reid">Re-identification<span>computer vision</span></a>
+  <a href="#draft">Draft agent<span>recording → quote</span></a>
   <a href="#brief">Briefings<span>event-driven</span></a>
   <a href="#locates">Locates<span>4-view check</span></a>
   <a href="#map">System map<span>20 systems</span></a>
@@ -252,6 +259,9 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
     <div class="fact"><span class="v">2,490</span><span class="l">sourced facts in a company memory</span></div>
     <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, vision re-ID test</span></div>
   </div>
+  <figure class="panel" style="margin:0"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
+    <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
+    <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure>
 </section>
 
 <!-- TOOLS -->
@@ -259,6 +269,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
   <h2>The agent can only do what its tools allow</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Agent then 6 read tools then 1 draft tool then No send · price · pay · delete"><span>Agent</span><i>→</i><span>6 read tools</span><i>→</i><span>1 draft tool</span><i>→</i><span class="g">No send · price · pay · delete</span></div>
   <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
     <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
 </section>
@@ -267,7 +278,8 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <section class="sys" id="osint">
   <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
   <h2>Screens that check their own numbers</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Satellite · AIS · fire then Pre-war baseline then Anomaly screen then verify.py then Analyst"><span>Satellite · AIS · fire</span><i>→</i><span>Pre-war baseline</span><i>→</i><span>Anomaly screen</span><i>→</i><span class="g">verify.py</span><i>→</i><span class="h">Analyst</span></div></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Darfur fires vs pre-war baseline · real totals</span><span class="demo">DEMO</span></div>
       <div class="body">
@@ -299,6 +311,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
   <h2>A company memory that knows where every fact came from</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Recordings then Atomic facts + source then Hybrid search + rerank then Cite or abstain then Nightly regression"><span>Recordings</span><i>→</i><span>Atomic facts + source</span><i>→</i><span>Hybrid search + rerank</span><i>→</i><span class="g">Cite or abstain</span><i>→</i><span class="g">Nightly regression</span></div>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">2,490 facts by provenance</span></div>
       <svg class="chart" viewBox="0 0 360 120" role="img" aria-label="2,347 verbatim, 90 inferred, 53 need confirmation">
@@ -318,11 +331,42 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
 </section>
 
+<!-- REID -->
+<section class="sys" id="reid">
+  <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
+  <h2>Which giraffe is this?</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
+  </header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
+      <div class="body">
+        <div class="opts" id="rOpts"></div>
+        <div class="gallery" id="rGal"></div>
+        <div id="rVer"></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
+      <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
+        <text x="12" y="22" style="fill:var(--ink)">Found 74 of 77 animals</text>
+        <rect x="12" y="30" width="336" height="14" fill="var(--line)"/><rect x="12" y="30" width="323" height="14" fill="var(--green)"/>
+        <text x="12" y="72" style="fill:var(--ink)">Top-1 60% · 95% CI 46–72</text>
+        <rect x="12" y="80" width="336" height="10" fill="var(--line)"/><rect x="12" y="80" width="202" height="10" fill="var(--blue)"/>
+        <line x1="167" y1="76" x2="167" y2="94" stroke="var(--ink)"/><line x1="254" y1="76" x2="254" y2="94" stroke="var(--ink)"/><line x1="167" y1="85" x2="254" y2="85" stroke="var(--ink)"/>
+        <text x="12" y="120" style="fill:var(--ink)">Top-5 73%</text>
+        <rect x="12" y="128" width="336" height="10" fill="var(--line)"/><rect x="12" y="128" width="245" height="10" fill="var(--blue)"/>
+        <text x="12" y="166" style="fill:var(--ink)">Wrong automatic matches: 0 of 32</text>
+        <text x="12" y="186">14-animal test: right animal first, 20 of 21</text>
+      </svg></div>
+  </div>
+  <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
+</section>
+
 <!-- DRAFT -->
 <section class="sys" id="draft">
   <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
   <h2>A field recording becomes a draft quote in about a minute</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Field recording then Transcript then Agent · 6 reads then Draft quote · $0 then 12 read-back checks then Estimator prices + sends"><span>Field recording</span><i>→</i><span>Transcript</span><i>→</i><span>Agent · 6 reads</span><i>→</i><span>Draft quote · $0</span><i>→</i><span class="g">12 read-back checks</span><i>→</i><span class="h">Estimator prices + sends</span></div>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Try it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body">
@@ -349,42 +393,12 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
 </section>
 
-<!-- REID -->
-<section class="sys" id="reid">
-  <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
-  <h2>Which giraffe is this?</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
-  <figure class="panel" style="margin:0"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
-    <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
-    <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure></header>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
-      <div class="body">
-        <div class="opts" id="rOpts"></div>
-        <div class="gallery" id="rGal"></div>
-        <div id="rVer"></div>
-      </div></div>
-    <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
-      <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
-        <text x="12" y="22" style="fill:var(--ink)">Found 74 of 77 animals</text>
-        <rect x="12" y="30" width="336" height="14" fill="var(--line)"/><rect x="12" y="30" width="323" height="14" fill="var(--green)"/>
-        <text x="12" y="72" style="fill:var(--ink)">Top-1 60% · 95% CI 46–72</text>
-        <rect x="12" y="80" width="336" height="10" fill="var(--line)"/><rect x="12" y="80" width="202" height="10" fill="var(--blue)"/>
-        <line x1="167" y1="76" x2="167" y2="94" stroke="var(--ink)"/><line x1="254" y1="76" x2="254" y2="94" stroke="var(--ink)"/><line x1="167" y1="85" x2="254" y2="85" stroke="var(--ink)"/>
-        <text x="12" y="120" style="fill:var(--ink)">Top-5 73%</text>
-        <rect x="12" y="128" width="336" height="10" fill="var(--line)"/><rect x="12" y="128" width="245" height="10" fill="var(--blue)"/>
-        <text x="12" y="166" style="fill:var(--ink)">Wrong automatic matches: 0 of 32</text>
-        <text x="12" y="186">14-animal test: right animal first, 20 of 21</text>
-      </svg></div>
-  </div>
-  <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
-</section>
-
 <!-- BRIEFINGS -->
 <section class="sys" id="brief">
   <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
   <h2>Every stop briefed before the knock</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Schedule change then Watcher · 2 min then Call + history + price then Private page"><span>Schedule change</span><i>→</i><span>Watcher · 2 min</span><i>→</i><span>Call + history + price</span><i>→</i><span class="h">Private page</span></div>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Replay a real event · 4 Nov</span><span class="demo">REAL TIMESTAMPS</span></div>
       <div class="body">
@@ -406,6 +420,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <header><div class="pills"><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
   <h2>Utility locates: four views reconciled, never one field trusted</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Visits · jobs · tasks · email then Reconcile 4 views then Staged form then Person submits"><span>Visits · jobs · tasks · email</span><i>→</i><span class="g">Reconcile 4 views</span><i>→</i><span>Staged form</span><i>→</i><span class="h">Person submits</span></div>
   <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
     <svg class="chart" viewBox="0 0 360 160" role="img" aria-label="Locate reconciliation counts">
       <g style="font-size:11px">
@@ -436,7 +451,8 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <section class="sys" id="report">
   <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
   <h2>The model routes, code does the math</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Question then Model picks tool then Code computes then Source rows then Release gate"><span>Question</span><i>→</i><span>Model picks tool</span><i>→</i><span>Code computes</span><i>→</i><span class="g">Source rows</span><i>→</i><span class="h">Release gate</span></div></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body"><div class="opts" id="pOpts"></div><div class="ans" id="pAns"><span class="hint">Pick a question.</span></div></div></div>
@@ -455,7 +471,8 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <section class="sys" id="forecast">
   <header><div class="pills"><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
   <h2>Forecasts, logged and scored</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Base rate then Indicators then Dated updates then Brier score"><span>Base rate</span><i>→</i><span>Indicators</span><i>→</i><span>Dated updates</span><i>→</i><span class="g">Brier score</span></div></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Step through an update</span><span class="demo">REAL LOG</span></div>
       <div class="body">
