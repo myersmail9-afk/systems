@@ -272,9 +272,9 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <h2>Which giraffe is this?</h2>
   <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div><div><dt>System</dt><dd class="sysline">Detector vote → coat-pattern match → calibration → review queue → hash-chained log</dd></div></dl>
   <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [8] Pre-registered eval files on public datasets (GZGC Nairobi, CDLA-Permissive-1.0; Snapshot Serengeti). Not yet tested on partner animals.</p>
-  <figure class="panel" style="margin:0"><div class="ph"><span class="k">The review screen · numbered circles mark coat spots that line up</span><span class="demo">REAL APP · REAL PHOTOS</span></div>
-    <img src="../img/reid-real.jpg" alt="Review screen on real Nairobi giraffe photos: matching coat spots circled and numbered on a new photo and a suggested giraffe, with Same / Not this one / New / Can't tell buttons" style="display:block;width:100%;height:auto" loading="lazy" width="1000" height="667">
-    <figcaption class="hint" style="padding:8px 12px">Real Masai giraffe photos from the public Nairobi National Park dataset (NNP GZC, CDLA-Permissive-1.0). Each colored pair is a spot the matcher verified on both photos. The person decides: Same giraffe, Not this one, New giraffe, or Can't tell. Keys 1–4.</figcaption></figure></header>
+  <figure class="panel" style="margin:0"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
+    <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
+    <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
       <div class="body">
