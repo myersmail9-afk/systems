@@ -273,6 +273,20 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 .qline:last-child{border-bottom:0}
 .big1{font:600 26px var(--mono);color:var(--ink)}
 @media (max-width:860px){.ba{grid-template-columns:1fr}.ba>i{transform:rotate(90deg);justify-self:center}}
+.rm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:10px;align-items:start}
+.rq,.rev{margin:0;display:grid;gap:4px;min-width:0}
+.rq img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:3px;background:var(--rail)}
+.rev{position:relative}
+.rev img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:contain;background:#16181a;border-radius:3px}
+.rnone{aspect-ratio:2/1;display:flex;align-items:center;justify-content:center;background:#16181a;border-radius:3px;color:var(--muted);font-size:13px;text-align:center;padding:12px}
+#rGal{grid-template-columns:repeat(3,minmax(0,1fr));min-height:0}
+.cand img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:2px}
+.cand b{font:600 11px var(--mono);word-break:break-all}
+.cand .pc{font:600 15px var(--mono)}
+.cand.top .pc{color:var(--green)}
+.rg{grid-template-columns:minmax(0,1fr)}
+#rVer{min-height:58px}
+@media (max-width:860px){.rm{grid-template-columns:1fr}}
 </style>
 
 <div class="top"><b>Joseph Myers</b><span class="tag">Applied AI · systems I've built</span>
@@ -329,13 +343,16 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <figure class="panel" style="margin:0 0 14px"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
     <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
     <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
-      <div class="body">
-        <div class="opts" id="rOpts"></div>
-        <div class="gallery" id="rGal"></div>
-        <div id="rVer"></div>
-      </div></div>
+  <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">REAL PHOTOS · REAL MATCHER OUTPUT</span></div>
+    <div class="body">
+      <div class="opts" id="rOpts"></div>
+      <div class="rm"><figure class="rq"><img id="rQ" alt="New giraffe sighting" width="520" height="390"><figcaption class="hint" id="rQc"></figcaption></figure>
+        <div class="gallery" id="rGal"></div></div>
+      <figure class="rev"><img id="rEv" alt="Coat points the matcher verified between the sighting and its top candidate" width="1200" height="600"><div class="rnone" id="rNone" hidden>No coat points verified against any candidate.</div><figcaption class="hint" id="rEc"></figcaption></figure>
+      <div id="rVer"></div>
+      <span class="hint">Recorded output of the frozen matcher on its test set, not re-run in your browser. Public photos: Nairobi National Park, GZGC, CDLA-Permissive-1.0.</span>
+    </div></div>
+  <div class="grid2 rg">
     <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
       <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
         <text x="12" y="22" style="fill:var(--ink)">Found 74 of 77 animals</text>
@@ -646,9 +663,17 @@ const TQ=[{label:"Read the client's past quotes",ok:1,t:"read_quotes(client) →
 opts($('tOpts'),TQ,it=>{$('tLog').innerHTML=`agent@connector $ ${esc(it.label.toLowerCase())}<br>${it.ok?'<span class="y">✓ ALLOWED</span>':'<span class="n">✕ BLOCKED</span>'} · ${esc(it.t)}`});
 /* re-id: drawn coat patterns */
 function coat(seed,color){let s=seed,r=()=>(s=(s*9301+49297)%233280)/233280;let p='';for(let i=0;i<14;i++){const x=8+r()*74,y=6+r()*58,w=9+r()*12,h=8+r()*11;p+=`<path d="M${x} ${y}l${w*.6} ${-h*.2}l${w*.4} ${h*.5}l${-w*.2} ${h*.6}l${-w*.7} ${h*.1}z" fill="${color}"/>`}return `<svg viewBox="0 0 90 70" aria-hidden="true"><rect width="90" height="70" fill="var(--amber-soft)"/>${p}</svg>`}
-const SIGHT=[{label:"Sighting A · clear flank",cands:[[11,92,"GIR-07"],[23,41,"GIR-02"],[37,18,"GIR-11"]]},{label:"Sighting B · bad angle",cands:[[5,58,"GIR-04"],[19,54,"GIR-09"],[31,22,"GIR-01"]]}];
-opts($('rOpts'),SIGHT,it=>{$('rGal').innerHTML=it.cands.map(([sd,c,id],i)=>`<div class="cand ${i===0&&c>=80?'top':''}">${coat(sd,'var(--amber)')}<b>${id}</b><span>${c}%</span><div class="bar"><i style="width:${c}%"></i></div></div>`).join('');
- const t=it.cands[0][1];$('rVer').innerHTML=t>=80?`<div class="verdict go fadein">${t}% ≥ threshold → suggested match ${it.cands[0][2]}. A person confirms before it's saved.</div>`:`<div class="verdict q fadein">Top two too close (${it.cands[0][1]}% vs ${it.cands[1][1]}%) → sent to the review queue. No automatic match.</div>`});
+const RBASE=document.querySelector('img[src*="reid-pair"]').getAttribute('src').replace('reid-pair.jpg','reid/');
+const pct=p=>p>=.9995?'>99.9%':p>=.99?(p*100).toFixed(1)+'%':p<.01?'<1%':Math.round(p*100)+'%';
+const SIGHT=[
+ {label:"Clear match · 36 min apart",n:"clear",qc:"New sighting · same giraffe, 36 minutes earlier in the catalog",cands:[["NNP_GIRM_0097",1,71],["NNP_GIRM_0037",.003,5],["NNP_GIRM_0034",.001,5]],ev:"71 coat points verified · 10 shown",go:1,v:"Right animal. Both checks agree and 71 points clear the 58 needed → automatic match."},
+ {label:"Hard · 3 days apart",n:"days",qc:"New sighting · same giraffe, 3 days from its catalog photo",cands:[["NNP_GIRM_0090",.875,46],["NNP_GIRM_0055",.001,0],["NNP_GIRM_0123",.001,0]],ev:"46 coat points verified · 10 shown · different light",v:"Right animal ranked first, but 46 points is under the 58 needed and 88% is under 90% → sent to a person. No automatic match."},
+ {label:"Confident and wrong",n:"lookalike",qc:"New sighting · per the dataset, this animal isn't in the catalog",cands:[["NNP_GIRM_0051",.998,69],["NNP_GIRM_0042",.001,5],["NNP_GIRM_0044",.001,5]],ev:"69 coat points verified, on the wrong animal per the dataset's label",v:"Top guess 99.8%, and wrong per the dataset's label. The two checks disagreed on the top animal → sent to a person. No automatic match."},
+ {label:"Not in the catalog",n:"newanimal",qc:"New sighting · this animal isn't in the catalog",cands:[["NNP_GIRM_0019",.001,0],["NNP_GIRM_0130",.001,0],["NNP_GIRM_0055",.001,4]],ev:"",none:1,nw:1,v:"Best score under 1%, nothing lines up → proposed as a new animal. A person confirms before it joins the catalog."}];
+opts($('rOpts'),SIGHT,it=>{$('rQ').src=RBASE+it.n+'-q.jpg';$('rQc').textContent=it.qc;
+ $('rGal').innerHTML=it.cands.map(([id,p,pts],i)=>`<div class="cand ${i===0&&!it.nw?'top':''}"><img src="${RBASE+it.n}-c${i+1}.jpg" alt="Candidate ${id}" width="360" height="270"><b>${id}</b><span class="pc">${pct(p)}</span><span>${pts} point${pts===1?'':'s'}</span><div class="bar"><i style="width:${Math.max(p*100,1)}%"></i></div></div>`).join('');
+ $('rEv').hidden=!!it.none;$('rNone').hidden=!it.none;if(!it.none)$('rEv').src=RBASE+it.n+'-ev.jpg';$('rEc').textContent=it.ev;
+ $('rVer').innerHTML=`<div class="verdict ${it.go?'go':'q'} fadein">${it.v}</div>`});
 
 /* osint */
 const OD={all:{label:"All detections",w:112416,b:90282},near:{label:"Within 1 km of a settlement",w:3086,b:1869}};
