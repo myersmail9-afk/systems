@@ -328,7 +328,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
     <div class="fact"><span class="v">20</span><span class="l">AI systems built · 13 live and doing real work</span></div>
     <div class="fact"><span class="v">151</span><span class="l">production agent runs, failures kept on the record</span></div>
     <div class="fact"><span class="v">2,490</span><span class="l">sourced facts in a company memory</span></div>
-    <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, pre-registered re-ID test</span></div>
+    <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches on an earlier split · not a clean test</span></div>
   </div>
 </section>
 
@@ -420,7 +420,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <section class="sys" id="reid" data-st="pilot">
   <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
   <h2>Which giraffe is this?</h2>
-  <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches, pre-registered test on public photos · most had a near-duplicate photo</span></div>
+  <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches on an earlier split · 29 of 32 had a near-duplicate photo, so not a clean test</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person decides almost every case.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
   </header>
@@ -465,7 +465,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
   <h2>A field recording becomes a draft quote in about a minute</h2>
   <div class="hl"><span class="v">151</span><span class="l">recorded production runs · 119 succeeded, 22 stopped, 10 failed</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div></dl>
+  <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then reads it back. A person prices and sends.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Field recording then Transcript then Agent · 6 reads then Draft quote · $0 then 12 read-back checks then Estimator prices + sends"><span>Field recording</span><i>→</i><span>Transcript</span><i>→</i><span>Agent · 6 reads</span><i>→</i><span>Draft quote · $0</span><i>→</i><span class="g">12 read-back checks</span><i>→</i><span class="h">Estimator prices + sends</span></div>
   <div class="ba">
     <div class="panel"><div class="ph"><span class="k">Before · what the estimator said</span><span class="demo">SAMPLE · 3 MIN WALK</span></div><div class="body">
