@@ -168,6 +168,9 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 .fyhead h2{font-size:22px}
 .rel{color:var(--blue);border-color:var(--blue)}
 @media (max-width:860px){.fy{grid-template-columns:1fr}}
+
+.mapwrap{position:relative;height:clamp(380px,62vh,620px);border-top:1px solid var(--line);background:var(--rail)}
+.mapwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 /* theme toggle */
 .skins{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 10px;color:var(--muted)}
@@ -339,7 +342,11 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
         <div class="metric"><span class="v">S1 vs AIS</span><span class="l">radar detections vs ship broadcasts, Red Sea</span></div>
       </div>
       <p class="hint" style="margin:0"><a href="https://myersmail9-afk.github.io/client-demos/eez-watch/" target="_blank" rel="noopener">Namibia EEZ edge watch ↗</a></p>
-      <ul class="limits"><li>Concept demos, not operational products. A signal is a lead, never a conclusion.</li></ul>
+      
+  <div class="panel"><div class="ph"><span class="k">Live map · interact with it</span><div class="opts" id="mTabs" role="tablist"></div></div>
+    <div class="mapwrap"><iframe id="mFrame" title="Live OSINT map" loading="lazy" src="about:blank"></iframe></div>
+    <p class="hint" style="margin:0;padding:8px 12px">The real pages, running live on public data. Pan, zoom, hover cells for numbers. <a id="mOpen" href="#" target="_blank" rel="noopener">Open full page ↗</a></p></div>
+  <ul class="limits"><li>Concept demos, not operational products. A signal is a lead, never a conclusion.</li></ul>
     </div>
   </div>
 </section>
@@ -554,6 +561,16 @@ const SK=document.querySelectorAll('.skins button');
 function skin(v){if(v)document.documentElement.setAttribute('data-skin',v);else document.documentElement.removeAttribute('data-skin');SK.forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===v?'true':'false'));try{localStorage.setItem('skin',v)}catch(_){}}
 SK.forEach(b=>b.onclick=()=>skin(b.dataset.s));
 let sv='';try{sv=localStorage.getItem('skin')||''}catch(_){}if(sv!=='light')sv='';skin(sv);
+
+/* live maps (same-origin on the published site: scroll each page to its map) */
+const MAPS=[{label:"Namibia EEZ · fishing grid",url:"https://myersmail9-afk.github.io/client-demos/eez-watch/",h:"Where the fishing is"},{label:"Darfur · fire grid vs baseline",url:"https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/",h:"Where: detections"}];
+function mShow(it){const f=$('mFrame');$('mOpen').href=it.url;f.onload=()=>{try{const d=f.contentDocument;const h=[...d.querySelectorAll('h2')].find(x=>x.textContent.trim().startsWith(it.h));if(h)f.contentWindow.scrollTo(0,h.getBoundingClientRect().top+f.contentWindow.scrollY-8)}catch(_){}};f.src=it.url}
+opts($('mTabs'),MAPS,mShow);
+const mio=new IntersectionObserver(es=>{if(es[0].isIntersecting){$('mTabs').children[0].click();mio.disconnect()}},{rootMargin:'200px'});mio.observe($('mFrame'));
+/* autoplay demos once when they scroll into view */
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function onView(el,fn){if(RM||!el)return;const o=new IntersectionObserver(es=>{if(es[0].isIntersecting){fn();o.disconnect()}},{threshold:.45});o.observe(el)}
+onView($('dTx'),()=>$('dPlay').click());onView($('bTl'),()=>$('bPlay').click());onView($('oChecks'),()=>$('oVerify').click());
 /* copy + nav */
 $('copy').onclick=async e=>{const t=$('email').textContent;try{await navigator.clipboard.writeText(t);e.target.textContent='Copied'}catch(_){const r=document.createRange();r.selectNodeContents($('email'));const s=getSelection();s.removeAllRanges();s.addRange(r);e.target.textContent='Selected'}};
 const links=[...document.querySelectorAll('.nav a')];
