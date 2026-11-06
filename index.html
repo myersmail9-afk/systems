@@ -420,7 +420,7 @@ $('oVerify').onclick=()=>{const L=["re-download NASA FIRMS archive","recount det
 
 /* report */
 const PQ=[{label:"Area released last quarter?",a:'<div class="q">Area released last quarter?</div><div><span class="src">tool: sum_area(quarter)</span></div><div><b class="v">▇▇▇,▇▇▇ m²</b> <span class="hint">(computed by code)</span></div><div class="row"><span class="src">rows 412–437 · public Monthly Summary</span></div>'},
- {label:"Which village is safest to farm?",a:'<div class="q">Which village is safest to farm?</div><div class="refuse"><b>Refused.</b> Safety calls belong to the clearance operator, not a chatbot. Here's the survey status data instead.</div>'},
+ {label:"Which village is safest to farm?",a:'<div class="q">Which village is safest to farm?</div><div class="refuse"><b>Refused.</b> Safety calls belong to the clearance operator, not a chatbot. Here is the survey status data instead.</div>'},
  {label:"Mines found per month, trend?",a:'<div class="q">Mines found per month, trend?</div><div><span class="src">tool: monthly_series(item="AP mines")</span></div><div><b class="v">chart + table</b> <span class="hint">(every point links to its rows)</span></div>'}];
 opts($('pOpts'),PQ,it=>{$('pAns').innerHTML=it.a});
 
