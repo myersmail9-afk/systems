@@ -332,53 +332,9 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
 </section>
 
-<!-- REID -->
-<section class="sys" id="reid" data-st="pilot">
-  <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
-  <h2>Which giraffe is this?</h2>
-  <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches on another team's photos</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
-  </header>
-  <figure class="panel" style="margin:0 0 14px"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
-    <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
-    <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure>
-  <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">REAL PHOTOS · REAL MATCHER OUTPUT</span></div>
-    <div class="body">
-      <div class="opts" id="rOpts"></div>
-      <div class="rm"><figure class="rq"><img id="rQ" alt="New giraffe sighting" width="520" height="390"><figcaption class="hint" id="rQc"></figcaption></figure>
-        <div class="gallery" id="rGal"></div></div>
-      <figure class="rev"><img id="rEv" alt="Coat points the matcher verified between the sighting and its top candidate" width="1200" height="600"><div class="rnone" id="rNone" hidden>No candidate has enough matching coat points.</div><figcaption class="hint" id="rEc"></figcaption></figure>
-      <div id="rVer"></div>
-      <span class="hint">Recorded output of the frozen matcher on its test set, not re-run in your browser. Public photos: Nairobi National Park, GZGC, CDLA-Permissive-1.0.</span>
-    </div></div>
-  <div class="grid2 rg">
-    <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
-      <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
-        <text x="12" y="22" style="fill:var(--ink)">Found 74 of 77 animals</text>
-        <rect x="12" y="30" width="336" height="14" fill="var(--line)"/><rect x="12" y="30" width="323" height="14" fill="var(--green)"/>
-        <text x="12" y="72" style="fill:var(--ink)">Top-1 60% · 95% CI 46–72</text>
-        <rect x="12" y="80" width="336" height="10" fill="var(--line)"/><rect x="12" y="80" width="202" height="10" fill="var(--blue)"/>
-        <line x1="167" y1="76" x2="167" y2="94" stroke="var(--ink)"/><line x1="254" y1="76" x2="254" y2="94" stroke="var(--ink)"/><line x1="167" y1="85" x2="254" y2="85" stroke="var(--ink)"/>
-        <text x="12" y="120" style="fill:var(--ink)">Top-5 73%</text>
-        <rect x="12" y="128" width="336" height="10" fill="var(--line)"/><rect x="12" y="128" width="245" height="10" fill="var(--blue)"/>
-        <text x="12" y="166" style="fill:var(--ink)">Wrong automatic matches: 0 of 32</text>
-        <text x="12" y="186">14-animal test: right animal first, 20 of 21</text>
-      </svg></div>
-  </div>
-  <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
-</section>
-
-<section class="sys" id="work">
-  <header><div class="pills"><span class="pill live">Real builds</span><span class="pill">Public data · tap to enlarge</span></div>
-  <h2>Built work</h2></header>
-  <div class="gallery2"><button type="button" class="tile" data-full="img/gallery/report-answer.jpg"><img src="../img/gallery/report-answer.jpg" alt="Reporting assistant: Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded." loading="lazy"><span class="tt">Reporting assistant</span><span class="td">Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded.</span><span class="tm">Concept on a demining NGO's public monthly data</span></button><button type="button" class="tile" data-full="img/gallery/darfur-grid.jpg"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid: 112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements." loading="lazy"><span class="tt">Darfur fire grid</span><span class="td">112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements.</span><span class="tm">Public data · fires are not attacks</span></button><button type="button" class="tile" data-full="img/gallery/map-namibia-fire.jpg"><img src="../img/gallery/map-namibia-fire.jpg" alt="Omaheke, Namibia · fire history: Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once." loading="lazy"><span class="tt">Omaheke, Namibia · fire history</span><span class="td">Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once.</span><span class="tm">Public data · Leaflet + OSM</span></button><button type="button" class="tile" data-full="img/gallery/map-kunene-rain.jpg"><img src="../img/gallery/map-kunene-rain.jpg" alt="Kunene, Namibia · rainfall: 2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more." loading="lazy"><span class="tt">Kunene, Namibia · rainfall</span><span class="td">2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more.</span><span class="tm">Public data · slider by season</span></button><button type="button" class="tile" data-full="img/gallery/darfur-baseline.jpg"><img src="../img/gallery/darfur-baseline.jpg" alt="Month by month vs baseline: Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year." loading="lazy"><span class="tt">Month by month vs baseline</span><span class="td">Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year.</span><span class="tm">Public data</span></button><button type="button" class="tile" data-full="img/gallery/etosha-timeline.jpg"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread: each 1 km cell colored by first detection date, 22 Sep to 10 Oct 2025" loading="lazy"><span class="tt">Etosha · how the fire spread</span><span class="td">Each ~1 km cell colored by the day fire first reached it, 22 Sep – 10 Oct 2025. Dates checked against a published investigation, 73 of 73.</span><span class="tm">Public data · NASA, Copernicus, OSM</span></button></div>
-</section>
-<div class="lb" id="lb" hidden><button type="button" class="lbx" id="lbx" aria-label="Close">✕</button><img id="lbimg" alt=""></div>
-
 <!-- DRAFT -->
 <section class="sys" id="draft" data-st="live">
-  <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
   <h2>A field recording becomes a draft quote in about a minute</h2>
   <div class="hl"><span class="v">151</span><span class="l">recorded production runs · 119 succeeded, 22 stopped on purpose</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div></dl>
@@ -425,9 +381,20 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
 </section>
 
+<!-- TOOLS -->
+<section class="sys" id="tools" data-st="live">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
+  <h2>The agent can only do what its tools allow</h2>
+  <div class="hl"><span class="v">1 of 7</span><span class="l">tools can write, and it only creates drafts</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Agent then 6 read tools then 1 draft tool then No send · price · pay · delete"><span>Agent</span><i>→</i><span>6 read tools</span><i>→</i><span>1 draft tool</span><i>→</i><span class="g">No send · price · pay · delete</span></div>
+  <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
+    <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
+</section>
+
 <!-- KB -->
 <section class="sys" id="brain" data-st="live">
-  <header><div class="pills"><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
   <h2>A company memory that knows where every fact came from</h2>
   <div class="hl"><span class="v">2,490</span><span class="l">facts, each tied to its source · right fact in top 12, 95.7%</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div></dl>
@@ -450,6 +417,50 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
   <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
 </section>
+
+<!-- REID -->
+<section class="sys" id="reid" data-st="pilot">
+  <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
+  <h2>Which giraffe is this?</h2>
+  <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches on another team's photos</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
+  </header>
+  <figure class="panel" style="margin:0 0 14px"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
+    <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
+    <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure>
+  <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">REAL PHOTOS · REAL MATCHER OUTPUT</span></div>
+    <div class="body">
+      <div class="opts" id="rOpts"></div>
+      <div class="rm"><figure class="rq"><img id="rQ" alt="New giraffe sighting" width="520" height="390"><figcaption class="hint" id="rQc"></figcaption></figure>
+        <div class="gallery" id="rGal"></div></div>
+      <figure class="rev"><img id="rEv" alt="Coat points the matcher verified between the sighting and its top candidate" width="1200" height="600"><div class="rnone" id="rNone" hidden>No candidate has enough matching coat points.</div><figcaption class="hint" id="rEc"></figcaption></figure>
+      <div id="rVer"></div>
+      <span class="hint">Recorded output of the frozen matcher on its test set, not re-run in your browser. Public photos: Nairobi National Park, GZGC, CDLA-Permissive-1.0.</span>
+    </div></div>
+  <div class="grid2 rg">
+    <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
+      <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
+        <text x="12" y="22" style="fill:var(--ink)">Found 74 of 77 animals</text>
+        <rect x="12" y="30" width="336" height="14" fill="var(--line)"/><rect x="12" y="30" width="323" height="14" fill="var(--green)"/>
+        <text x="12" y="72" style="fill:var(--ink)">Top-1 60% · 95% CI 46–72</text>
+        <rect x="12" y="80" width="336" height="10" fill="var(--line)"/><rect x="12" y="80" width="202" height="10" fill="var(--blue)"/>
+        <line x1="167" y1="76" x2="167" y2="94" stroke="var(--ink)"/><line x1="254" y1="76" x2="254" y2="94" stroke="var(--ink)"/><line x1="167" y1="85" x2="254" y2="85" stroke="var(--ink)"/>
+        <text x="12" y="120" style="fill:var(--ink)">Top-5 73%</text>
+        <rect x="12" y="128" width="336" height="10" fill="var(--line)"/><rect x="12" y="128" width="245" height="10" fill="var(--blue)"/>
+        <text x="12" y="166" style="fill:var(--ink)">Wrong automatic matches: 0 of 32</text>
+        <text x="12" y="186">14-animal test: right animal first, 20 of 21</text>
+      </svg></div>
+  </div>
+  <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
+</section>
+
+<section class="sys" id="work">
+  <header><div class="pills"><span class="pill live">Real builds</span><span class="pill">Public data · tap to enlarge</span></div>
+  <h2>Built work</h2></header>
+  <div class="gallery2"><button type="button" class="tile" data-full="img/gallery/report-answer.jpg"><img src="../img/gallery/report-answer.jpg" alt="Reporting assistant: Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded." loading="lazy"><span class="tt">Reporting assistant</span><span class="td">Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded.</span><span class="tm">Concept on a demining NGO's public monthly data</span></button><button type="button" class="tile" data-full="img/gallery/darfur-grid.jpg"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid: 112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements." loading="lazy"><span class="tt">Darfur fire grid</span><span class="td">112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements.</span><span class="tm">Public data · fires are not attacks</span></button><button type="button" class="tile" data-full="img/gallery/map-namibia-fire.jpg"><img src="../img/gallery/map-namibia-fire.jpg" alt="Omaheke, Namibia · fire history: Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once." loading="lazy"><span class="tt">Omaheke, Namibia · fire history</span><span class="td">Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once.</span><span class="tm">Public data · Leaflet + OSM</span></button><button type="button" class="tile" data-full="img/gallery/map-kunene-rain.jpg"><img src="../img/gallery/map-kunene-rain.jpg" alt="Kunene, Namibia · rainfall: 2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more." loading="lazy"><span class="tt">Kunene, Namibia · rainfall</span><span class="td">2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more.</span><span class="tm">Public data · slider by season</span></button><button type="button" class="tile" data-full="img/gallery/darfur-baseline.jpg"><img src="../img/gallery/darfur-baseline.jpg" alt="Month by month vs baseline: Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year." loading="lazy"><span class="tt">Month by month vs baseline</span><span class="td">Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year.</span><span class="tm">Public data</span></button><button type="button" class="tile" data-full="img/gallery/etosha-timeline.jpg"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread: each 1 km cell colored by first detection date, 22 Sep to 10 Oct 2025" loading="lazy"><span class="tt">Etosha · how the fire spread</span><span class="td">Each ~1 km cell colored by the day fire first reached it, 22 Sep – 10 Oct 2025. Dates checked against a published investigation, 73 of 73.</span><span class="tm">Public data · NASA, Copernicus, OSM</span></button></div>
+</section>
+<div class="lb" id="lb" hidden><button type="button" class="lbx" id="lbx" aria-label="Close">✕</button><img id="lbimg" alt=""></div>
 
 <!-- OSINT -->
 <section class="sys" id="osint" data-st="concept">
@@ -522,17 +533,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <ul class="limits"><li>Supports compliance work; doesn't guarantee it. A person is legally responsible and submits every form.</li></ul>
 </section>
 
-
-<!-- TOOLS -->
-<section class="sys" id="tools" data-st="live">
-  <header><div class="pills"><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
-  <h2>The agent can only do what its tools allow</h2>
-  <div class="hl"><span class="v">1 of 7</span><span class="l">tools can write, and it only creates drafts</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Agent then 6 read tools then 1 draft tool then No send · price · pay · delete"><span>Agent</span><i>→</i><span>6 read tools</span><i>→</i><span>1 draft tool</span><i>→</i><span class="g">No send · price · pay · delete</span></div>
-  <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
-    <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
-</section>
 
 <section class="sys" id="map">
   <header><h2>System map · 20 systems, labelled by what's actually true</h2></header>

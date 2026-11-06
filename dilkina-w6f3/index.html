@@ -333,9 +333,36 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
 </section>
 
+<!-- OSINT -->
+<section class="sys" id="osint" data-st="concept">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
+  <h2>Screens that check their own numbers</h2>
+  <div class="hl"><span class="v">73 / 73</span><span class="l">fire dates matched a published investigation</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Satellite · AIS · fire then Pre-war baseline then Anomaly screen then verify.py then Analyst"><span>Satellite · AIS · fire</span><i>→</i><span>Pre-war baseline</span><i>→</i><span>Anomaly screen</span><i>→</i><span class="g">verify.py</span><i>→</i><span class="h">Analyst</span></div></header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Darfur fires vs pre-war baseline · real totals</span><span class="demo">DEMO</span></div>
+      <div class="body">
+        <div class="opts" id="oOpts"></div>
+        <svg class="chart" viewBox="0 0 360 150" id="oChart" role="img" aria-label="Fire detections versus baseline"></svg>
+        <div class="row"><button class="btn ghost" id="oVerify" type="button">Run verify.py</button><a href="https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/" target="_blank" rel="noopener">Open the full page ↗</a></div>
+        <div class="checks" id="oChecks"></div>
+      </div></div>
+    <div style="display:grid;gap:12px;align-content:start">
+      <div class="metrics">
+        <div class="metric"><span class="v">73/73</span><span class="l">fire dates matched a published investigation</span></div>
+        <div class="metric"><span class="v">S1 vs AIS</span><span class="l">radar detections vs ship broadcasts, Red Sea</span></div>
+      </div>
+      
+
+  <ul class="limits"><li>Concept demos, not operational products. A signal is a lead, never a conclusion.</li></ul>
+    </div>
+  </div>
+</section>
+
 <!-- REID -->
 <section class="sys" id="reid" data-st="pilot">
-  <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
   <h2>Which giraffe is this?</h2>
   <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches on another team's photos</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
@@ -368,6 +395,32 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
       </svg></div>
   </div>
   <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
+</section>
+
+<!-- FORECAST -->
+<section class="sys" id="forecast" data-st="live">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
+  <h2>Forecasts, logged and scored</h2>
+  <div class="hl"><span class="v">0.14</span><span class="l">mean Brier score, 10 resolved forecasts · lower is better</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Base rate then Indicators then Dated updates then Brier score"><span>Base rate</span><i>→</i><span>Indicators</span><i>→</i><span>Dated updates</span><i>→</i><span class="g">Brier score</span></div></header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Step through an update</span><span class="demo">REAL LOG</span></div>
+      <div class="body">
+        <svg class="chart" viewBox="0 0 360 150" id="fChart" role="img" aria-label="Forecast updates"></svg>
+        <div class="row"><button class="btn ghost" id="fPrev" type="button">◀</button><button class="btn" id="fNext" type="button">Next update ▶</button></div>
+        <div class="ans" id="fWhy" style="min-height:60px"></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">10 resolved forecasts · final probability</span></div>
+      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Resolved forecasts">
+        <text x="16" y="24" style="fill:var(--ink)" id="brier"></text>
+        <line x1="20" y1="80" x2="340" y2="80" stroke="var(--line)"/>
+        <text x="20" y="104">0%</text><text x="340" y="104" text-anchor="end">100%</text>
+        <g id="dots"></g>
+        <circle cx="26" cy="132" r="5" fill="var(--green)"/><text x="36" y="136">happened</text>
+        <circle cx="116" cy="132" r="5" fill="none" stroke="var(--muted)" stroke-width="1.5"/><text x="126" y="136">didn't</text>
+      </svg></div>
+  </div>
 </section>
 
 <section class="sys" id="work">
@@ -450,33 +503,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
     <div class="metric"><span class="v">17 → 7</span><span class="l">photographed lab reports → reviewed facts + 1 supersession</span></div>
   </div>
   <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
-</section>
-
-<!-- OSINT -->
-<section class="sys" id="osint" data-st="concept">
-  <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
-  <h2>Screens that check their own numbers</h2>
-  <div class="hl"><span class="v">73 / 73</span><span class="l">fire dates matched a published investigation</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Satellite · AIS · fire then Pre-war baseline then Anomaly screen then verify.py then Analyst"><span>Satellite · AIS · fire</span><i>→</i><span>Pre-war baseline</span><i>→</i><span>Anomaly screen</span><i>→</i><span class="g">verify.py</span><i>→</i><span class="h">Analyst</span></div></header>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Darfur fires vs pre-war baseline · real totals</span><span class="demo">DEMO</span></div>
-      <div class="body">
-        <div class="opts" id="oOpts"></div>
-        <svg class="chart" viewBox="0 0 360 150" id="oChart" role="img" aria-label="Fire detections versus baseline"></svg>
-        <div class="row"><button class="btn ghost" id="oVerify" type="button">Run verify.py</button><a href="https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/" target="_blank" rel="noopener">Open the full page ↗</a></div>
-        <div class="checks" id="oChecks"></div>
-      </div></div>
-    <div style="display:grid;gap:12px;align-content:start">
-      <div class="metrics">
-        <div class="metric"><span class="v">73/73</span><span class="l">fire dates matched a published investigation</span></div>
-        <div class="metric"><span class="v">S1 vs AIS</span><span class="l">radar detections vs ship broadcasts, Red Sea</span></div>
-      </div>
-      
-
-  <ul class="limits"><li>Concept demos, not operational products. A signal is a lead, never a conclusion.</li></ul>
-    </div>
-  </div>
 </section>
 
 <!-- BRIEFINGS -->
@@ -574,32 +600,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
         <text x="12" y="84" style="fill:var(--ink)">Stress test · safe</text><rect x="196" y="74" width="154" height="12" fill="var(--line)"/><rect x="196" y="74" width="153" height="12" fill="var(--green)"/><text x="190" y="84" text-anchor="end">253/255</text>
         <text x="12" y="116" style="fill:var(--ink)">Stress test · helpful</text><rect x="196" y="106" width="154" height="12" fill="var(--line)"/><rect x="196" y="106" width="90" height="12" fill="var(--amber)"/><text x="190" y="116" text-anchor="end">43/74</text>
         <text x="12" y="142">Weakest: typos, other languages. Next fix.</text>
-      </svg></div>
-  </div>
-</section>
-
-<!-- FORECAST -->
-<section class="sys" id="forecast" data-st="live">
-  <header><div class="pills"><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
-  <h2>Forecasts, logged and scored</h2>
-  <div class="hl"><span class="v">0.14</span><span class="l">mean Brier score, 10 resolved forecasts · lower is better</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Base rate then Indicators then Dated updates then Brier score"><span>Base rate</span><i>→</i><span>Indicators</span><i>→</i><span>Dated updates</span><i>→</i><span class="g">Brier score</span></div></header>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Step through an update</span><span class="demo">REAL LOG</span></div>
-      <div class="body">
-        <svg class="chart" viewBox="0 0 360 150" id="fChart" role="img" aria-label="Forecast updates"></svg>
-        <div class="row"><button class="btn ghost" id="fPrev" type="button">◀</button><button class="btn" id="fNext" type="button">Next update ▶</button></div>
-        <div class="ans" id="fWhy" style="min-height:60px"></div>
-      </div></div>
-    <div class="panel"><div class="ph"><span class="k">10 resolved forecasts · final probability</span></div>
-      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Resolved forecasts">
-        <text x="16" y="24" style="fill:var(--ink)" id="brier"></text>
-        <line x1="20" y1="80" x2="340" y2="80" stroke="var(--line)"/>
-        <text x="20" y="104">0%</text><text x="340" y="104" text-anchor="end">100%</text>
-        <g id="dots"></g>
-        <circle cx="26" cy="132" r="5" fill="var(--green)"/><text x="36" y="136">happened</text>
-        <circle cx="116" cy="132" r="5" fill="none" stroke="var(--muted)" stroke-width="1.5"/><text x="126" y="136">didn't</text>
       </svg></div>
   </div>
 </section>

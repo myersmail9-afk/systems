@@ -333,9 +333,20 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
 </section>
 
+<!-- TOOLS -->
+<section class="sys" id="tools" data-st="live">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
+  <h2>The agent can only do what its tools allow</h2>
+  <div class="hl"><span class="v">1 of 7</span><span class="l">tools can write, and it only creates drafts</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Agent then 6 read tools then 1 draft tool then No send · price · pay · delete"><span>Agent</span><i>→</i><span>6 read tools</span><i>→</i><span>1 draft tool</span><i>→</i><span class="g">No send · price · pay · delete</span></div>
+  <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
+    <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
+</section>
+
 <!-- REID -->
 <section class="sys" id="reid" data-st="pilot">
-  <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
   <h2>Which giraffe is this?</h2>
   <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches on another team's photos</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
@@ -368,6 +379,38 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
       </svg></div>
   </div>
   <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
+</section>
+
+<!-- REPORT -->
+<section class="sys" id="report" data-st="concept">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
+  <h2>The model routes, code does the math</h2>
+  <div class="hl"><span class="v">19 / 19</span><span class="l">questions it had to refuse, refused</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Question then Model picks tool then Code computes then Source rows then Release gate"><span>Question</span><i>→</i><span>Model picks tool</span><i>→</i><span>Code computes</span><i>→</i><span class="g">Source rows</span><i>→</i><span class="h">Release gate</span></div></header>
+  <div class="ba">
+    <div class="panel"><div class="ph"><span class="k">Before · the public monthly table</span><span class="demo">REAL ROWS · CAMBODIA Q3 2026</span></div><div class="body">
+      <div class="tw"><table class="mini"><thead><tr><th>ID</th><th>Month</th><th>Type</th><th>Activity</th><th>Status</th><th class="n">Area m²</th></tr></thead><tbody><tr><td>1093</td><td>2026-07</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">345,037</td></tr><tr class=pick><td>1094</td><td>2026-07</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">495,571</td></tr><tr><td>1095</td><td>2026-07</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">492,100</td></tr><tr><td>1096</td><td>2026-07</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr><td>1101</td><td>2026-08</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">258,778</td></tr><tr class=pick><td>1102</td><td>2026-08</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">428,918</td></tr><tr><td>1103</td><td>2026-08</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">452,500</td></tr><tr><td>1104</td><td>2026-08</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr class=pick><td>1111</td><td>2026-09</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">455,723</td></tr></tbody></table></div>
+      <span class="hint">25 Cambodia rows this quarter, out of 1,310. Three activities, areas and items mixed.</span></div></div>
+    <i aria-hidden="true">→</i>
+    <div class="panel"><div class="ph"><span class="k">After · one checked answer</span><span class="demo">COMPUTED BY CODE</span></div><div class="body">
+      <div class="q" style="font-weight:600">Area processed by mine detection rats, Q3?</div>
+      <div class="big1">1,380,212 m²</div>
+      <div><span class="src">sum_area · rows 1094 + 1102 + 1111</span></div>
+      <span class="hint">495,571 + 428,918 + 455,723, re-added in the browser ✓. Activity measure, not land released.</span></div></div>
+  </div>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
+      <div class="body"><div class="opts" id="pOpts"></div><div class="ans" id="pAns"><span class="hint">Pick a question.</span></div></div></div>
+    <div class="panel"><div class="ph"><span class="k">Evaluation · real results</span></div>
+      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Evaluation results">
+        <text x="12" y="20" style="fill:var(--ink)">Right tool · 82 Qs</text><rect x="196" y="10" width="154" height="12" fill="var(--line)"/><rect x="196" y="10" width="149" height="12" fill="var(--green)"/><text x="190" y="20" text-anchor="end">96.5%</text>
+        <text x="12" y="52" style="fill:var(--ink)">Refused when it must</text><rect x="196" y="42" width="154" height="12" fill="var(--green)"/><text x="190" y="52" text-anchor="end">19/19</text>
+        <text x="12" y="84" style="fill:var(--ink)">Stress test · safe</text><rect x="196" y="74" width="154" height="12" fill="var(--line)"/><rect x="196" y="74" width="153" height="12" fill="var(--green)"/><text x="190" y="84" text-anchor="end">253/255</text>
+        <text x="12" y="116" style="fill:var(--ink)">Stress test · helpful</text><rect x="196" y="106" width="154" height="12" fill="var(--line)"/><rect x="196" y="106" width="90" height="12" fill="var(--amber)"/><text x="190" y="116" text-anchor="end">43/74</text>
+        <text x="12" y="142">Weakest: typos, other languages. Next fix.</text>
+      </svg></div>
+  </div>
 </section>
 
 <section class="sys" id="work">
@@ -524,17 +567,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 </section>
 
 
-<!-- TOOLS -->
-<section class="sys" id="tools" data-st="live">
-  <header><div class="pills"><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
-  <h2>The agent can only do what its tools allow</h2>
-  <div class="hl"><span class="v">1 of 7</span><span class="l">tools can write, and it only creates drafts</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Agent then 6 read tools then 1 draft tool then No send · price · pay · delete"><span>Agent</span><i>→</i><span>6 read tools</span><i>→</i><span>1 draft tool</span><i>→</i><span class="g">No send · price · pay · delete</span></div>
-  <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
-    <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
-</section>
-
 <section class="sys" id="map">
   <header><h2>System map · 20 systems, labelled by what's actually true</h2></header>
   <div class="mapgrid">
@@ -544,38 +576,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
     <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
   </div>
   <p class="hint" style="margin:0">Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
-</section>
-
-<!-- REPORT -->
-<section class="sys" id="report" data-st="concept">
-  <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
-  <h2>The model routes, code does the math</h2>
-  <div class="hl"><span class="v">19 / 19</span><span class="l">questions it had to refuse, refused</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Question then Model picks tool then Code computes then Source rows then Release gate"><span>Question</span><i>→</i><span>Model picks tool</span><i>→</i><span>Code computes</span><i>→</i><span class="g">Source rows</span><i>→</i><span class="h">Release gate</span></div></header>
-  <div class="ba">
-    <div class="panel"><div class="ph"><span class="k">Before · the public monthly table</span><span class="demo">REAL ROWS · CAMBODIA Q3 2026</span></div><div class="body">
-      <div class="tw"><table class="mini"><thead><tr><th>ID</th><th>Month</th><th>Type</th><th>Activity</th><th>Status</th><th class="n">Area m²</th></tr></thead><tbody><tr><td>1093</td><td>2026-07</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">345,037</td></tr><tr class=pick><td>1094</td><td>2026-07</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">495,571</td></tr><tr><td>1095</td><td>2026-07</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">492,100</td></tr><tr><td>1096</td><td>2026-07</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr><td>1101</td><td>2026-08</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">258,778</td></tr><tr class=pick><td>1102</td><td>2026-08</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">428,918</td></tr><tr><td>1103</td><td>2026-08</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">452,500</td></tr><tr><td>1104</td><td>2026-08</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr class=pick><td>1111</td><td>2026-09</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">455,723</td></tr></tbody></table></div>
-      <span class="hint">25 Cambodia rows this quarter, out of 1,310. Three activities, areas and items mixed.</span></div></div>
-    <i aria-hidden="true">→</i>
-    <div class="panel"><div class="ph"><span class="k">After · one checked answer</span><span class="demo">COMPUTED BY CODE</span></div><div class="body">
-      <div class="q" style="font-weight:600">Area processed by mine detection rats, Q3?</div>
-      <div class="big1">1,380,212 m²</div>
-      <div><span class="src">sum_area · rows 1094 + 1102 + 1111</span></div>
-      <span class="hint">495,571 + 428,918 + 455,723, re-added in the browser ✓. Activity measure, not land released.</span></div></div>
-  </div>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
-      <div class="body"><div class="opts" id="pOpts"></div><div class="ans" id="pAns"><span class="hint">Pick a question.</span></div></div></div>
-    <div class="panel"><div class="ph"><span class="k">Evaluation · real results</span></div>
-      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Evaluation results">
-        <text x="12" y="20" style="fill:var(--ink)">Right tool · 82 Qs</text><rect x="196" y="10" width="154" height="12" fill="var(--line)"/><rect x="196" y="10" width="149" height="12" fill="var(--green)"/><text x="190" y="20" text-anchor="end">96.5%</text>
-        <text x="12" y="52" style="fill:var(--ink)">Refused when it must</text><rect x="196" y="42" width="154" height="12" fill="var(--green)"/><text x="190" y="52" text-anchor="end">19/19</text>
-        <text x="12" y="84" style="fill:var(--ink)">Stress test · safe</text><rect x="196" y="74" width="154" height="12" fill="var(--line)"/><rect x="196" y="74" width="153" height="12" fill="var(--green)"/><text x="190" y="84" text-anchor="end">253/255</text>
-        <text x="12" y="116" style="fill:var(--ink)">Stress test · helpful</text><rect x="196" y="106" width="154" height="12" fill="var(--line)"/><rect x="196" y="106" width="90" height="12" fill="var(--amber)"/><text x="190" y="116" text-anchor="end">43/74</text>
-        <text x="12" y="142">Weakest: typos, other languages. Next fix.</text>
-      </svg></div>
-  </div>
 </section>
 
 <!-- FORECAST -->

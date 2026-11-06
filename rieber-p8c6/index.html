@@ -332,6 +332,90 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
 </section>
 
+<!-- KB -->
+<section class="sys" id="brain" data-st="live">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
+  <h2>A company memory that knows where every fact came from</h2>
+  <div class="hl"><span class="v">2,490</span><span class="l">facts, each tied to its source · right fact in top 12, 95.7%</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Recordings then Atomic facts + source then Hybrid search + rerank then Cite or abstain then Nightly regression"><span>Recordings</span><i>→</i><span>Atomic facts + source</span><i>→</i><span>Hybrid search + rerank</span><i>→</i><span class="g">Cite or abstain</span><i>→</i><span class="g">Nightly regression</span></div>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">2,490 facts by provenance</span></div>
+      <svg class="chart" viewBox="0 0 360 120" role="img" aria-label="2,347 verbatim, 90 inferred, 53 need confirmation">
+        <rect x="10" y="14" width="318" height="24" fill="var(--green)"/><rect x="328" y="14" width="12" height="24" fill="var(--amber)"/><rect x="340" y="14" width="8" height="24" fill="var(--red)"/>
+        <text x="12" y="58" style="fill:var(--ink)">2,347 verbatim from the expert</text><text x="12" y="76" style="fill:var(--amber)">90 inferred</text><text x="12" y="94" style="fill:var(--red)">53 waiting for confirmation</text>
+        <text x="12" y="114">418 entities · 33 supersession chains</text>
+      </svg></div>
+    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE</span></div>
+      <div class="body"><div class="opts" id="kOpts"></div><div class="ans" id="kAns"><span class="hint">Pick a question.</span></div></div></div>
+  </div>
+  <div class="metrics">
+    <div class="metric"><span class="v">62</span><span class="l">contradictions it surfaced for review, not hid</span></div>
+    <div class="metric"><span class="v">95.7%</span><span class="l">right fact in top 12 · 352-question golden set</span></div>
+    <div class="metric"><span class="v">3 nights</span><span class="l">a bad index blocked by the gate</span></div>
+    <div class="metric"><span class="v">17 → 7</span><span class="l">photographed lab reports → reviewed facts + 1 supersession</span></div>
+  </div>
+  <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
+</section>
+
+<!-- REPORT -->
+<section class="sys" id="report" data-st="concept">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
+  <h2>The model routes, code does the math</h2>
+  <div class="hl"><span class="v">19 / 19</span><span class="l">questions it had to refuse, refused</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Question then Model picks tool then Code computes then Source rows then Release gate"><span>Question</span><i>→</i><span>Model picks tool</span><i>→</i><span>Code computes</span><i>→</i><span class="g">Source rows</span><i>→</i><span class="h">Release gate</span></div></header>
+  <div class="ba">
+    <div class="panel"><div class="ph"><span class="k">Before · the public monthly table</span><span class="demo">REAL ROWS · CAMBODIA Q3 2026</span></div><div class="body">
+      <div class="tw"><table class="mini"><thead><tr><th>ID</th><th>Month</th><th>Type</th><th>Activity</th><th>Status</th><th class="n">Area m²</th></tr></thead><tbody><tr><td>1093</td><td>2026-07</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">345,037</td></tr><tr class=pick><td>1094</td><td>2026-07</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">495,571</td></tr><tr><td>1095</td><td>2026-07</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">492,100</td></tr><tr><td>1096</td><td>2026-07</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr><td>1101</td><td>2026-08</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">258,778</td></tr><tr class=pick><td>1102</td><td>2026-08</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">428,918</td></tr><tr><td>1103</td><td>2026-08</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">452,500</td></tr><tr><td>1104</td><td>2026-08</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr class=pick><td>1111</td><td>2026-09</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">455,723</td></tr></tbody></table></div>
+      <span class="hint">25 Cambodia rows this quarter, out of 1,310. Three activities, areas and items mixed.</span></div></div>
+    <i aria-hidden="true">→</i>
+    <div class="panel"><div class="ph"><span class="k">After · one checked answer</span><span class="demo">COMPUTED BY CODE</span></div><div class="body">
+      <div class="q" style="font-weight:600">Area processed by mine detection rats, Q3?</div>
+      <div class="big1">1,380,212 m²</div>
+      <div><span class="src">sum_area · rows 1094 + 1102 + 1111</span></div>
+      <span class="hint">495,571 + 428,918 + 455,723, re-added in the browser ✓. Activity measure, not land released.</span></div></div>
+  </div>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
+      <div class="body"><div class="opts" id="pOpts"></div><div class="ans" id="pAns"><span class="hint">Pick a question.</span></div></div></div>
+    <div class="panel"><div class="ph"><span class="k">Evaluation · real results</span></div>
+      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Evaluation results">
+        <text x="12" y="20" style="fill:var(--ink)">Right tool · 82 Qs</text><rect x="196" y="10" width="154" height="12" fill="var(--line)"/><rect x="196" y="10" width="149" height="12" fill="var(--green)"/><text x="190" y="20" text-anchor="end">96.5%</text>
+        <text x="12" y="52" style="fill:var(--ink)">Refused when it must</text><rect x="196" y="42" width="154" height="12" fill="var(--green)"/><text x="190" y="52" text-anchor="end">19/19</text>
+        <text x="12" y="84" style="fill:var(--ink)">Stress test · safe</text><rect x="196" y="74" width="154" height="12" fill="var(--line)"/><rect x="196" y="74" width="153" height="12" fill="var(--green)"/><text x="190" y="84" text-anchor="end">253/255</text>
+        <text x="12" y="116" style="fill:var(--ink)">Stress test · helpful</text><rect x="196" y="106" width="154" height="12" fill="var(--line)"/><rect x="196" y="106" width="90" height="12" fill="var(--amber)"/><text x="190" y="116" text-anchor="end">43/74</text>
+        <text x="12" y="142">Weakest: typos, other languages. Next fix.</text>
+      </svg></div>
+  </div>
+</section>
+
+<!-- FORECAST -->
+<section class="sys" id="forecast" data-st="live">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
+  <h2>Forecasts, logged and scored</h2>
+  <div class="hl"><span class="v">0.14</span><span class="l">mean Brier score, 10 resolved forecasts · lower is better</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Base rate then Indicators then Dated updates then Brier score"><span>Base rate</span><i>→</i><span>Indicators</span><i>→</i><span>Dated updates</span><i>→</i><span class="g">Brier score</span></div></header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Step through an update</span><span class="demo">REAL LOG</span></div>
+      <div class="body">
+        <svg class="chart" viewBox="0 0 360 150" id="fChart" role="img" aria-label="Forecast updates"></svg>
+        <div class="row"><button class="btn ghost" id="fPrev" type="button">◀</button><button class="btn" id="fNext" type="button">Next update ▶</button></div>
+        <div class="ans" id="fWhy" style="min-height:60px"></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">10 resolved forecasts · final probability</span></div>
+      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Resolved forecasts">
+        <text x="16" y="24" style="fill:var(--ink)" id="brier"></text>
+        <line x1="20" y1="80" x2="340" y2="80" stroke="var(--line)"/>
+        <text x="20" y="104">0%</text><text x="340" y="104" text-anchor="end">100%</text>
+        <g id="dots"></g>
+        <circle cx="26" cy="132" r="5" fill="var(--green)"/><text x="36" y="136">happened</text>
+        <circle cx="116" cy="132" r="5" fill="none" stroke="var(--muted)" stroke-width="1.5"/><text x="126" y="136">didn't</text>
+      </svg></div>
+  </div>
+</section>
+
 <!-- REID -->
 <section class="sys" id="reid" data-st="pilot">
   <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
@@ -423,32 +507,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
       <ul class="limits"><li>Execution metrics, not an ROI study.</li><li>The agent never prices or sends; that is by design.</li></ul>
     </div>
   </div>
-</section>
-
-<!-- KB -->
-<section class="sys" id="brain" data-st="live">
-  <header><div class="pills"><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
-  <h2>A company memory that knows where every fact came from</h2>
-  <div class="hl"><span class="v">2,490</span><span class="l">facts, each tied to its source · right fact in top 12, 95.7%</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Recordings then Atomic facts + source then Hybrid search + rerank then Cite or abstain then Nightly regression"><span>Recordings</span><i>→</i><span>Atomic facts + source</span><i>→</i><span>Hybrid search + rerank</span><i>→</i><span class="g">Cite or abstain</span><i>→</i><span class="g">Nightly regression</span></div>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">2,490 facts by provenance</span></div>
-      <svg class="chart" viewBox="0 0 360 120" role="img" aria-label="2,347 verbatim, 90 inferred, 53 need confirmation">
-        <rect x="10" y="14" width="318" height="24" fill="var(--green)"/><rect x="328" y="14" width="12" height="24" fill="var(--amber)"/><rect x="340" y="14" width="8" height="24" fill="var(--red)"/>
-        <text x="12" y="58" style="fill:var(--ink)">2,347 verbatim from the expert</text><text x="12" y="76" style="fill:var(--amber)">90 inferred</text><text x="12" y="94" style="fill:var(--red)">53 waiting for confirmation</text>
-        <text x="12" y="114">418 entities · 33 supersession chains</text>
-      </svg></div>
-    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE</span></div>
-      <div class="body"><div class="opts" id="kOpts"></div><div class="ans" id="kAns"><span class="hint">Pick a question.</span></div></div></div>
-  </div>
-  <div class="metrics">
-    <div class="metric"><span class="v">62</span><span class="l">contradictions it surfaced for review, not hid</span></div>
-    <div class="metric"><span class="v">95.7%</span><span class="l">right fact in top 12 · 352-question golden set</span></div>
-    <div class="metric"><span class="v">3 nights</span><span class="l">a bad index blocked by the gate</span></div>
-    <div class="metric"><span class="v">17 → 7</span><span class="l">photographed lab reports → reviewed facts + 1 supersession</span></div>
-  </div>
-  <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
 </section>
 
 <!-- OSINT -->
@@ -543,64 +601,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
     <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
   </div>
   <p class="hint" style="margin:0">Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
-</section>
-
-<!-- REPORT -->
-<section class="sys" id="report" data-st="concept">
-  <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
-  <h2>The model routes, code does the math</h2>
-  <div class="hl"><span class="v">19 / 19</span><span class="l">questions it had to refuse, refused</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Question then Model picks tool then Code computes then Source rows then Release gate"><span>Question</span><i>→</i><span>Model picks tool</span><i>→</i><span>Code computes</span><i>→</i><span class="g">Source rows</span><i>→</i><span class="h">Release gate</span></div></header>
-  <div class="ba">
-    <div class="panel"><div class="ph"><span class="k">Before · the public monthly table</span><span class="demo">REAL ROWS · CAMBODIA Q3 2026</span></div><div class="body">
-      <div class="tw"><table class="mini"><thead><tr><th>ID</th><th>Month</th><th>Type</th><th>Activity</th><th>Status</th><th class="n">Area m²</th></tr></thead><tbody><tr><td>1093</td><td>2026-07</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">345,037</td></tr><tr class=pick><td>1094</td><td>2026-07</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">495,571</td></tr><tr><td>1095</td><td>2026-07</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">492,100</td></tr><tr><td>1096</td><td>2026-07</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr><td>1101</td><td>2026-08</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">258,778</td></tr><tr class=pick><td>1102</td><td>2026-08</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">428,918</td></tr><tr><td>1103</td><td>2026-08</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">452,500</td></tr><tr><td>1104</td><td>2026-08</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr class=pick><td>1111</td><td>2026-09</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">455,723</td></tr></tbody></table></div>
-      <span class="hint">25 Cambodia rows this quarter, out of 1,310. Three activities, areas and items mixed.</span></div></div>
-    <i aria-hidden="true">→</i>
-    <div class="panel"><div class="ph"><span class="k">After · one checked answer</span><span class="demo">COMPUTED BY CODE</span></div><div class="body">
-      <div class="q" style="font-weight:600">Area processed by mine detection rats, Q3?</div>
-      <div class="big1">1,380,212 m²</div>
-      <div><span class="src">sum_area · rows 1094 + 1102 + 1111</span></div>
-      <span class="hint">495,571 + 428,918 + 455,723, re-added in the browser ✓. Activity measure, not land released.</span></div></div>
-  </div>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
-      <div class="body"><div class="opts" id="pOpts"></div><div class="ans" id="pAns"><span class="hint">Pick a question.</span></div></div></div>
-    <div class="panel"><div class="ph"><span class="k">Evaluation · real results</span></div>
-      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Evaluation results">
-        <text x="12" y="20" style="fill:var(--ink)">Right tool · 82 Qs</text><rect x="196" y="10" width="154" height="12" fill="var(--line)"/><rect x="196" y="10" width="149" height="12" fill="var(--green)"/><text x="190" y="20" text-anchor="end">96.5%</text>
-        <text x="12" y="52" style="fill:var(--ink)">Refused when it must</text><rect x="196" y="42" width="154" height="12" fill="var(--green)"/><text x="190" y="52" text-anchor="end">19/19</text>
-        <text x="12" y="84" style="fill:var(--ink)">Stress test · safe</text><rect x="196" y="74" width="154" height="12" fill="var(--line)"/><rect x="196" y="74" width="153" height="12" fill="var(--green)"/><text x="190" y="84" text-anchor="end">253/255</text>
-        <text x="12" y="116" style="fill:var(--ink)">Stress test · helpful</text><rect x="196" y="106" width="154" height="12" fill="var(--line)"/><rect x="196" y="106" width="90" height="12" fill="var(--amber)"/><text x="190" y="116" text-anchor="end">43/74</text>
-        <text x="12" y="142">Weakest: typos, other languages. Next fix.</text>
-      </svg></div>
-  </div>
-</section>
-
-<!-- FORECAST -->
-<section class="sys" id="forecast" data-st="live">
-  <header><div class="pills"><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
-  <h2>Forecasts, logged and scored</h2>
-  <div class="hl"><span class="v">0.14</span><span class="l">mean Brier score, 10 resolved forecasts · lower is better</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Base rate then Indicators then Dated updates then Brier score"><span>Base rate</span><i>→</i><span>Indicators</span><i>→</i><span>Dated updates</span><i>→</i><span class="g">Brier score</span></div></header>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Step through an update</span><span class="demo">REAL LOG</span></div>
-      <div class="body">
-        <svg class="chart" viewBox="0 0 360 150" id="fChart" role="img" aria-label="Forecast updates"></svg>
-        <div class="row"><button class="btn ghost" id="fPrev" type="button">◀</button><button class="btn" id="fNext" type="button">Next update ▶</button></div>
-        <div class="ans" id="fWhy" style="min-height:60px"></div>
-      </div></div>
-    <div class="panel"><div class="ph"><span class="k">10 resolved forecasts · final probability</span></div>
-      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Resolved forecasts">
-        <text x="16" y="24" style="fill:var(--ink)" id="brier"></text>
-        <line x1="20" y1="80" x2="340" y2="80" stroke="var(--line)"/>
-        <text x="20" y="104">0%</text><text x="340" y="104" text-anchor="end">100%</text>
-        <g id="dots"></g>
-        <circle cx="26" cy="132" r="5" fill="var(--green)"/><text x="36" y="136">happened</text>
-        <circle cx="116" cy="132" r="5" fill="none" stroke="var(--muted)" stroke-width="1.5"/><text x="126" y="136">didn't</text>
-      </svg></div>
-  </div>
 </section>
 
 <!-- ABOUT -->
