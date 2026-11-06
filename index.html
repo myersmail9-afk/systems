@@ -47,7 +47,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .nav a span{font:400 11.5px var(--mono);color:var(--muted)}
 .nav a:hover{background:var(--hover)}
 .nav a.on{border-left-color:var(--blue);background:var(--pane)}
-main{padding-block:22px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:44px;min-width:0}
+main{padding-block:28px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:64px;min-width:0}
 @media (min-width:861px){main{padding-left:28px;padding-right:max(28px,env(safe-area-inset-right,0px))}}
 
 .hero{display:grid;gap:14px}
@@ -132,7 +132,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 .foot{color:var(--muted);font-size:12px;margin:0}
 
 
-.pss{margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.pss{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .pss div{background:var(--pane);padding:10px 12px;display:grid;gap:3px;align-content:start}
 .pss dt{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
 .pss div:first-child dt{color:var(--red)} .pss div:nth-child(2) dt{color:var(--green)}
@@ -222,11 +222,9 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <p class="sig">Production AI agents, evaluation, computer vision, geospatial.</p>
   <p class="bluf"><b>BLUF</b>AI that does real work, checks itself, and leaves the big decisions to people.</p>
   <div class="facts">
-    <div class="fact"><span class="v">800+</span><span class="l">hours hands-on with AI since Aug 2026</span></div>
     <div class="fact"><span class="v">20</span><span class="l">AI systems built · 13 live and doing real work</span></div>
     <div class="fact"><span class="v">151</span><span class="l">production agent runs, failures kept on the record</span></div>
     <div class="fact"><span class="v">2,490</span><span class="l">sourced facts in a company memory</span></div>
-    <div class="fact"><span class="v">12</span><span class="l">read-back checks after every agent write</span></div>
     <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, vision re-ID test</span></div>
   </div>
 </section>
@@ -235,8 +233,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="draft">
   <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
   <h2>A field recording becomes a draft quote in about a minute</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div><div><dt>System</dt><dd class="sysline">Recording → transcript watcher → agent (6 read tools, 1 draft tool) → 12 read-back checks → estimator</dd></div></dl>
-  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [1] Production run log, 151 runs, 23 Sep – 4 Nov 2026; [2] live test battery record, 26 Oct</p>
+  <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div></dl>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Try it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body">
@@ -256,7 +253,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
         <div class="metric"><span class="v">~1.2 min</span><span class="l">typical run · 14 agent steps</span></div>
         <div class="metric"><span class="v">$0.63–0.84</span><span class="l">model cost per draft</span></div>
         <div class="metric"><span class="v">90 s</span><span class="l">4 trees, 2 approaches, 3 optional items</span></div>
-        <div class="metric"><span class="v">8/8</span><span class="l">live test battery passed, 26 Oct</span></div>
+        
       </div>
       <ul class="limits"><li>Execution metrics, not an ROI study.</li><li>The agent never prices or sends; that is by design.</li></ul>
     </div>
@@ -267,8 +264,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="reid">
   <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
   <h2>Which giraffe is this?</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div><div><dt>System</dt><dd class="sysline">Detector vote → coat-pattern match → calibration → review queue → hash-chained log</dd></div></dl>
-  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [8] Pre-registered eval files on public datasets (GZGC Nairobi, CDLA-Permissive-1.0; Snapshot Serengeti). Not yet tested on partner animals.</p>
+  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
   <figure class="panel" style="margin:0"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
     <img src="img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
     <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure></header>
@@ -299,8 +295,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="brain">
   <header><div class="pills"><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
   <h2>A company memory that knows where every fact came from</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div><div><dt>System</dt><dd class="sysline">Recordings + documents → atomic facts → hybrid search, reranked → cite or abstain → nightly regression gate → health report</dd></div></dl>
-  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [4] Knowledge-base state report, 5 Nov 2026; [5] golden-set eval files, Sep–Oct 2026. Adoption evidence is weak.</p>
+  <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div></dl>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">2,490 facts by provenance</span></div>
       <svg class="chart" viewBox="0 0 360 120" role="img" aria-label="2,347 verbatim, 90 inferred, 53 need confirmation">
@@ -324,8 +319,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="osint">
   <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
   <h2>Screens that check their own numbers</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div><div><dt>System</dt><dd class="sysline">NASA FIRMS · Sentinel-1 · AIS → baseline → anomaly screen → verify.py → analyst</dd></div></dl>
-  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [9] verify.py outputs against NASA FIRMS, Global Fishing Watch, Sentinel-1 public archives</p></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Darfur fires vs pre-war baseline · real totals</span><span class="demo">DEMO</span></div>
       <div class="body">
@@ -356,8 +350,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="brief">
   <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
   <h2>Every stop briefed before the knock</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div><div><dt>System</dt><dd class="sysline">Schedule watcher → call transcript + request + past work + past price + cited expert facts → signed-in page → usage tracking</dd></div></dl>
-  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [3] Watcher event log, 4 Nov 2026 (single event; short production history)</p>
+  <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div></dl>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Replay a real event · 4 Nov</span><span class="demo">REAL TIMESTAMPS</span></div>
       <div class="body">
@@ -378,8 +371,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="locates">
   <header><div class="pills"><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
   <h2>Utility locates: four views reconciled, never one field trusted</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div><div><dt>System</dt><dd class="sysline">Visits + job status + digging line items + tasks + email → covered / opening window / no date → staged form → human submit → ticket written to job, future visits, pinned note</dd></div></dl>
-  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [7] Locate scan log, 5 Nov 2026 (one morning)</p>
+  <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div></dl>
   <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
     <svg class="chart" viewBox="0 0 360 160" role="img" aria-label="Locate reconciliation counts">
       <g style="font-size:11px">
@@ -399,8 +391,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="tools">
   <header><div class="pills"><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
   <h2>The agent can only do what its tools allow</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div><div><dt>System</dt><dd class="sysline">Custom MCP server · read clients, requests, quotes, jobs, visits, catalog · create_draft_quote · nothing else</dd></div></dl>
-  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [6] MCP connector source and tool manifest</p>
+  <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div></dl>
   <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
     <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
 </section>
@@ -420,8 +411,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="report">
   <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
   <h2>The model routes, code does the math</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div><div><dt>System</dt><dd class="sysline">Question → tool choice → code → source rows → named human release gate</dd></div></dl>
-  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [10] 82-question eval and 255-question stress test files</p></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body"><div class="opts" id="pOpts"></div><div class="ans" id="pAns"><span class="hint">Pick a question.</span></div></div></div>
@@ -440,8 +430,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <section class="sys" id="forecast">
   <header><div class="pills"><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
   <h2>Forecasts, logged and scored</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div><div><dt>System</dt><dd class="sysline">Base rate → indicators and signposts → dated updates → Brier score</dd></div></dl>
-  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [11] Forecast casebook, 28 logged / 10 resolved. Small sample.</p></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl></header>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Step through an update</span><span class="demo">REAL LOG</span></div>
       <div class="body">
@@ -476,6 +465,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 
   <div class="panel"><div class="ph"><span class="k">How this page is built</span></div><div class="prose" style="font-size:13px">
     <p><b>Analytic standards:</b> claims follow ODNI ICD 203. Facts are separated from assessments, uncertainty is stated, and each section carries a confidence level with its source. Confidence: <b>High</b> = direct system logs or eval files; <b>Moderate</b> = real data with small samples or known gaps.</p>
+    <ul style="margin:0;padding-left:18px;display:grid;gap:3px;font-size:12.5px"><li>[1] Production run log, 151 runs, 23 Sep – 4 Nov 2026; [2] live test battery record, 26 Oct <span class="hint">· High confidence</span></li><li>[8] Pre-registered eval files on public datasets (GZGC Nairobi, CDLA-Permissive-1.0; Snapshot Serengeti). Not yet tested on partner animals. <span class="hint">· Moderate confidence</span></li><li>[4] Knowledge-base state report, 5 Nov 2026; [5] golden-set eval files, Sep–Oct 2026. Adoption evidence is weak. <span class="hint">· Moderate confidence</span></li><li>[9] verify.py outputs against NASA FIRMS, Global Fishing Watch, Sentinel-1 public archives <span class="hint">· High confidence</span></li><li>[3] Watcher event log, 4 Nov 2026 (single event; short production history) <span class="hint">· High confidence</span></li><li>[7] Locate scan log, 5 Nov 2026 (one morning) <span class="hint">· High confidence</span></li><li>[6] MCP connector source and tool manifest <span class="hint">· High confidence</span></li><li>[10] 82-question eval and 255-question stress test files <span class="hint">· High confidence</span></li><li>[11] Forecast casebook, 28 logged / 10 resolved. Small sample. <span class="hint">· Moderate confidence</span></li></ul>
     <p><b>Sourcing:</b> numbered source descriptors in the style of ICD 206. Raw logs stay private; the descriptors say what kind of record each number came from.</p>
     <p><b>Design:</b> U.S. Web Design System color tokens and Public Sans. Built to Section 508 / WCAG 2.1 AA: text contrast, keyboard access, alt text.</p></div></div>
   <p class="foot">Numbers come from my own logs and evaluation files. Demos marked “sample content” use invented examples; employer and partner data stays private.</p>
