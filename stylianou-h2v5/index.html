@@ -235,6 +235,41 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   html{scroll-padding-top:56px}
 }
 @media (prefers-reduced-motion:no-preference){.fadein{animation:f .25s ease-out both}@keyframes f{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}}
+
+/* v5: headline result, status rail, lighter P/S, highlights, before→after */
+.hl{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:2px 0}
+.hl .v{font-size:clamp(30px,5vw,40px);font-weight:600;line-height:1;color:var(--green)}
+.hl .l{font-size:13px;color:var(--muted);max-width:40ch;line-height:1.35}
+.sys[data-st]{border-left:3px solid var(--line);padding-left:16px}
+.sys[data-st="live"]{border-left-color:var(--green)}
+.sys[data-st="pilot"]{border-left-color:var(--blue)}
+.sys[data-st="concept"]{border-left-color:var(--muted)}
+.sys[data-st="pilot"] .hl .v{color:var(--blue)} .sys[data-st="concept"] .hl .v{color:var(--ink)}
+@media (max-width:860px){.sys[data-st]{padding-left:12px}}
+.pss{background:none;border:0;border-radius:0;gap:6px 28px}
+.pss div{background:none;padding:0}
+.hi3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.hi3 a{display:grid;gap:5px;text-decoration:none;color:var(--ink);min-width:0}
+.hi3 img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px;border:1px solid var(--line);background:#fff}
+.hi3 b{font-size:13px;line-height:1.25}
+.hi3 span{font:11px/1.3 var(--mono);color:var(--muted)}
+@media (max-width:520px){.hi3 b{font-size:12px}.hi3 span{display:none}}
+.ba{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:stretch}
+.ba>i{align-self:center;font-style:normal;color:var(--muted);font-size:20px}
+.ba .panel .body{gap:6px}
+.raw{font:12px/1.6 var(--mono);color:var(--muted);margin:0;white-space:pre-wrap}
+.raw b{color:var(--ink);font-weight:500}
+.mini{width:100%;border-collapse:collapse;font:11.5px var(--mono)}
+.mini th,.mini td{padding:3px 5px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.mini th{color:var(--muted);font-weight:500}
+.mini td.n{text-align:right}
+.mini tr.pick td{background:var(--blue-soft);color:var(--ink)}
+.mini tr:not(.pick) td{color:var(--muted)}
+.tw{overflow-x:auto}
+.qline{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:5px 0;border-bottom:1px solid var(--line)}
+.qline:last-child{border-bottom:0}
+.big1{font:600 26px var(--mono);color:var(--ink)}
+@media (max-width:860px){.ba{grid-template-columns:1fr}.ba>i{transform:rotate(90deg);justify-self:center}}
 </style>
 
 <div class="top"><b>Joseph Myers</b><span class="tag">Applied AI · systems I've built</span>
@@ -266,6 +301,11 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <div><h3>Where my systems map</h3><ul><li><a href="#reid">Re-identification</a>: Ranked candidates, calibrated confidence, 0 of 32 wrong automatic matches; a person decides.</li><li><a href="#osint">OSINT screens</a>: Public-data screens that lead with caveats: a signal is a lead, never a conclusion.</li></ul></div><div><h3>My assessment</h3><p>Text and video queries will likely merge with image search, and explainable rankings will become the standard courts and NGOs accept.</p><p class="hint" style="font-size:12px">Sources: <a href="https://spectrum.ieee.org/traffickcam-human-trafficking-hotel-ai" target="_blank" rel="noopener">IEEE Spectrum on TraffickCam</a> · <a href="https://cs.slu.edu/~stylianou/" target="_blank" rel="noopener">Lab page, SLU</a></p></div></div>
 <div class="ph" style="border-top:1px solid var(--line);border-bottom:0"><span>I'd love 15 minutes to pick your brain on how someone like me gets into this work.</span><code>myersmail9@gmail.com</code></div></section>
 <section class="hero" id="overview">
+  <div class="hi3">
+    <a href="#reid"><img src="../img/reid-pair.jpg" alt="Same giraffe matched across two photos" loading="eager"><b>Same giraffe, two photos</b><span>165 coat points matched</span></a>
+    <a href="#osint"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid" loading="eager"><b>Darfur fire grid</b><span>112,416 detections vs baseline</span></a>
+    <a href="#work"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread map" loading="eager"><b>Etosha fire spread</b><span>73 of 73 dates matched</span></a>
+  </div>
   <p class="sig">Production AI agents, evaluation, computer vision, geospatial.</p>
   <p class="bluf"><b>BLUF</b>AI that does real work, checks itself, and leaves the big decisions to people.</p>
   <div class="facts">
@@ -277,9 +317,10 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 </section>
 
 <!-- REID -->
-<section class="sys" id="reid">
-  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
+<section class="sys" id="reid" data-st="pilot">
+  <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
   <h2>Which giraffe is this?</h2>
+  <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches on another team's photos</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
   </header>
@@ -309,32 +350,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
 </section>
 
-<!-- OSINT -->
-<section class="sys" id="osint">
-  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
-  <h2>Screens that check their own numbers</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Satellite · AIS · fire then Pre-war baseline then Anomaly screen then verify.py then Analyst"><span>Satellite · AIS · fire</span><i>→</i><span>Pre-war baseline</span><i>→</i><span>Anomaly screen</span><i>→</i><span class="g">verify.py</span><i>→</i><span class="h">Analyst</span></div></header>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Darfur fires vs pre-war baseline · real totals</span><span class="demo">DEMO</span></div>
-      <div class="body">
-        <div class="opts" id="oOpts"></div>
-        <svg class="chart" viewBox="0 0 360 150" id="oChart" role="img" aria-label="Fire detections versus baseline"></svg>
-        <div class="row"><button class="btn ghost" id="oVerify" type="button">Run verify.py</button><a href="https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/" target="_blank" rel="noopener">Open the full page ↗</a></div>
-        <div class="checks" id="oChecks"></div>
-      </div></div>
-    <div style="display:grid;gap:12px;align-content:start">
-      <div class="metrics">
-        <div class="metric"><span class="v">73/73</span><span class="l">fire dates matched a published investigation</span></div>
-        <div class="metric"><span class="v">S1 vs AIS</span><span class="l">radar detections vs ship broadcasts, Red Sea</span></div>
-      </div>
-      
-
-  <ul class="limits"><li>Concept demos, not operational products. A signal is a lead, never a conclusion.</li></ul>
-    </div>
-  </div>
-</section>
-
 <section class="sys" id="work">
   <header><div class="pills"><span class="pill live">Real builds</span><span class="pill">Public data · tap to enlarge</span></div>
   <h2>Built work</h2></header>
@@ -343,11 +358,28 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 <div class="lb" id="lb" hidden><button type="button" class="lbx" id="lbx" aria-label="Close">✕</button><img id="lbimg" alt=""></div>
 
 <!-- DRAFT -->
-<section class="sys" id="draft">
+<section class="sys" id="draft" data-st="live">
   <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
   <h2>A field recording becomes a draft quote in about a minute</h2>
+  <div class="hl"><span class="v">151</span><span class="l">recorded production runs · 119 succeeded, 22 stopped on purpose</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Field recording then Transcript then Agent · 6 reads then Draft quote · $0 then 12 read-back checks then Estimator prices + sends"><span>Field recording</span><i>→</i><span>Transcript</span><i>→</i><span>Agent · 6 reads</span><i>→</i><span>Draft quote · $0</span><i>→</i><span class="g">12 read-back checks</span><i>→</i><span class="h">Estimator prices + sends</span></div>
+  <div class="ba">
+    <div class="panel"><div class="ph"><span class="k">Before · what the estimator said</span><span class="demo">SAMPLE · 3 MIN WALK</span></div><div class="body">
+      <p class="raw">00:41 ok so uh, <b>big silver maple out front</b>, I'd say <b>thirty inch</b> maybe…
+01:12 she's worried about the, <b>two dead leaders over the garage</b>, yeah those come out
+02:05 <b>bucket truck fits</b> in the driveway so no climb
+02:40 and <b>grind that stump by the fence</b>, eighteen inch-ish
+03:05 <b>chips</b>, she hasn't decided, ask her later</p></div></div>
+    <i aria-hidden="true">→</i>
+    <div class="panel"><div class="ph"><span class="k">After · draft quote, ~1.2 min later</span><span class="demo">PRICES HELD AT $0</span></div><div class="body">
+      <div class="qline"><span>Silver maple, 30" DBH · front yard</span><span class="src">00:41</span></div>
+      <div class="qline"><span>Remove 2 dead leaders over garage roof</span><span class="src">01:12</span></div>
+      <div class="qline"><span>Bucket truck access, no climb</span><span class="src">02:05</span></div>
+      <div class="qline"><span>Stump grinding · 1 stump, ~18" · <b>locate note added</b></span><span class="src">02:40</span></div>
+      <div class="qline"><span>Optional · chip removal</span><span class="src">03:05</span></div>
+      <span class="hint">✓ 8 read-back checks passed · an estimator prices and sends</span></div></div>
+  </div>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Try it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body">
@@ -375,9 +407,10 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 </section>
 
 <!-- KB -->
-<section class="sys" id="brain">
+<section class="sys" id="brain" data-st="live">
   <header><div class="pills"><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
   <h2>A company memory that knows where every fact came from</h2>
+  <div class="hl"><span class="v">2,490</span><span class="l">facts, each tied to its source · right fact in top 12, 95.7%</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div></dl>
   <div class="flowd" role="img" aria-label="Recordings then Atomic facts + source then Hybrid search + rerank then Cite or abstain then Nightly regression"><span>Recordings</span><i>→</i><span>Atomic facts + source</span><i>→</i><span>Hybrid search + rerank</span><i>→</i><span class="g">Cite or abstain</span><i>→</i><span class="g">Nightly regression</span></div>
   <div class="grid2">
@@ -399,10 +432,38 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
 </section>
 
+<!-- OSINT -->
+<section class="sys" id="osint" data-st="concept">
+  <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
+  <h2>Screens that check their own numbers</h2>
+  <div class="hl"><span class="v">73 / 73</span><span class="l">fire dates matched a published investigation</span></div>
+  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl>
+  <div class="flowd" role="img" aria-label="Satellite · AIS · fire then Pre-war baseline then Anomaly screen then verify.py then Analyst"><span>Satellite · AIS · fire</span><i>→</i><span>Pre-war baseline</span><i>→</i><span>Anomaly screen</span><i>→</i><span class="g">verify.py</span><i>→</i><span class="h">Analyst</span></div></header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Darfur fires vs pre-war baseline · real totals</span><span class="demo">DEMO</span></div>
+      <div class="body">
+        <div class="opts" id="oOpts"></div>
+        <svg class="chart" viewBox="0 0 360 150" id="oChart" role="img" aria-label="Fire detections versus baseline"></svg>
+        <div class="row"><button class="btn ghost" id="oVerify" type="button">Run verify.py</button><a href="https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/" target="_blank" rel="noopener">Open the full page ↗</a></div>
+        <div class="checks" id="oChecks"></div>
+      </div></div>
+    <div style="display:grid;gap:12px;align-content:start">
+      <div class="metrics">
+        <div class="metric"><span class="v">73/73</span><span class="l">fire dates matched a published investigation</span></div>
+        <div class="metric"><span class="v">S1 vs AIS</span><span class="l">radar detections vs ship broadcasts, Red Sea</span></div>
+      </div>
+      
+
+  <ul class="limits"><li>Concept demos, not operational products. A signal is a lead, never a conclusion.</li></ul>
+    </div>
+  </div>
+</section>
+
 <!-- BRIEFINGS -->
-<section class="sys" id="brief">
+<section class="sys" id="brief" data-st="live">
   <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
   <h2>Every stop briefed before the knock</h2>
+  <div class="hl"><span class="v">5 min</span><span class="l">schedule moved → page republished, no one touched it</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Schedule change then Watcher · 2 min then Call + history + price then Private page"><span>Schedule change</span><i>→</i><span>Watcher · 2 min</span><i>→</i><span>Call + history + price</span><i>→</i><span class="h">Private page</span></div>
   <div class="grid2">
@@ -422,9 +483,10 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 </section>
 
 <!-- LOCATES -->
-<section class="sys" id="locates">
+<section class="sys" id="locates" data-st="live">
   <header><div class="pills"><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
   <h2>Utility locates: four views reconciled, never one field trusted</h2>
+  <div class="hl"><span class="v">174</span><span class="l">active jobs reconciled in one morning scan · 0 unexplained gaps</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Visits · jobs · tasks · email then Reconcile 4 views then Staged form then Person submits"><span>Visits · jobs · tasks · email</span><i>→</i><span class="g">Reconcile 4 views</span><i>→</i><span>Staged form</span><i>→</i><span class="h">Person submits</span></div>
   <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
@@ -443,9 +505,10 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 
 
 <!-- TOOLS -->
-<section class="sys" id="tools">
+<section class="sys" id="tools" data-st="live">
   <header><div class="pills"><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
   <h2>The agent can only do what its tools allow</h2>
+  <div class="hl"><span class="v">1 of 7</span><span class="l">tools can write, and it only creates drafts</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Agent then 6 read tools then 1 draft tool then No send · price · pay · delete"><span>Agent</span><i>→</i><span>6 read tools</span><i>→</i><span>1 draft tool</span><i>→</i><span class="g">No send · price · pay · delete</span></div>
   <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
@@ -464,11 +527,23 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 </section>
 
 <!-- REPORT -->
-<section class="sys" id="report">
+<section class="sys" id="report" data-st="concept">
   <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
   <h2>The model routes, code does the math</h2>
+  <div class="hl"><span class="v">19 / 19</span><span class="l">questions it had to refuse, refused</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Question then Model picks tool then Code computes then Source rows then Release gate"><span>Question</span><i>→</i><span>Model picks tool</span><i>→</i><span>Code computes</span><i>→</i><span class="g">Source rows</span><i>→</i><span class="h">Release gate</span></div></header>
+  <div class="ba">
+    <div class="panel"><div class="ph"><span class="k">Before · the public monthly table</span><span class="demo">REAL ROWS · CAMBODIA Q3 2026</span></div><div class="body">
+      <div class="tw"><table class="mini"><thead><tr><th>ID</th><th>Month</th><th>Type</th><th>Activity</th><th>Status</th><th class="n">Area m²</th></tr></thead><tbody><tr><td>1093</td><td>2026-07</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">345,037</td></tr><tr class=pick><td>1094</td><td>2026-07</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">495,571</td></tr><tr><td>1095</td><td>2026-07</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">492,100</td></tr><tr><td>1096</td><td>2026-07</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr><td>1101</td><td>2026-08</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">258,778</td></tr><tr class=pick><td>1102</td><td>2026-08</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">428,918</td></tr><tr><td>1103</td><td>2026-08</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">452,500</td></tr><tr><td>1104</td><td>2026-08</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr class=pick><td>1111</td><td>2026-09</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">455,723</td></tr></tbody></table></div>
+      <span class="hint">25 Cambodia rows this quarter, out of 1,310. Three activities, areas and items mixed.</span></div></div>
+    <i aria-hidden="true">→</i>
+    <div class="panel"><div class="ph"><span class="k">After · one checked answer</span><span class="demo">COMPUTED BY CODE</span></div><div class="body">
+      <div class="q" style="font-weight:600">Area processed by mine detection rats, Q3?</div>
+      <div class="big1">1,380,212 m²</div>
+      <div><span class="src">sum_area · rows 1094 + 1102 + 1111</span></div>
+      <span class="hint">495,571 + 428,918 + 455,723, re-added in the browser ✓. Activity measure, not land released.</span></div></div>
+  </div>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body"><div class="opts" id="pOpts"></div><div class="ans" id="pAns"><span class="hint">Pick a question.</span></div></div></div>
@@ -484,9 +559,10 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 </section>
 
 <!-- FORECAST -->
-<section class="sys" id="forecast">
+<section class="sys" id="forecast" data-st="live">
   <header><div class="pills"><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
   <h2>Forecasts, logged and scored</h2>
+  <div class="hl"><span class="v">0.14</span><span class="l">mean Brier score, 10 resolved forecasts · lower is better</span></div>
   <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Base rate then Indicators then Dated updates then Brier score"><span>Base rate</span><i>→</i><span>Indicators</span><i>→</i><span>Dated updates</span><i>→</i><span class="g">Brier score</span></div></header>
   <div class="grid2">
