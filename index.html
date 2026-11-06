@@ -155,6 +155,19 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 .door{grid-template-columns:1fr 1fr}
 .door p{margin:2px 0 0;font-size:13px}
 @media (max-width:860px){.mapgrid{grid-template-columns:1fr}.lane:first-child ul{grid-template-columns:1fr}.door{grid-template-columns:1fr}}
+
+.foryou{border:1px solid var(--blue);border-radius:3px;background:var(--pane);display:grid;gap:0}
+.foryou .ph{border-bottom:1px solid var(--line)}
+.fy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line)}
+.fy>div{background:var(--pane);padding:12px;display:grid;gap:6px;align-content:start;min-width:0}
+.fy h3{margin:0;font-size:12px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:600}
+.fy p{margin:0;font-size:14px}
+.fy ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.fy a{font-weight:600}
+.fyhead{padding:14px 14px 4px;display:grid;gap:4px}
+.fyhead h2{font-size:22px}
+.rel{color:var(--blue);border-color:var(--blue)}
+@media (max-width:860px){.fy{grid-template-columns:1fr}}
 /* theme toggle */
 .skins{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 10px;color:var(--muted)}
@@ -201,6 +214,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 </nav>
 
 <main>
+
 <section class="hero" id="overview">
   <p class="sig">I didn't come up through computer science. I came up through systems thinking, and I taught myself to build what I see.</p>
   <p class="bluf"><b>BLUF</b>I built a supervised AI operating layer for a working service company: agents that read real records, write drafts, check their own work, and stop when they should. People keep prices, sends, payments and legal filings.</p>
@@ -543,7 +557,11 @@ let sv='';try{sv=localStorage.getItem('skin')||''}catch(_){}if(sv!=='light')sv='
 /* copy + nav */
 $('copy').onclick=async e=>{const t=$('email').textContent;try{await navigator.clipboard.writeText(t);e.target.textContent='Copied'}catch(_){const r=document.createRange();r.selectNodeContents($('email'));const s=getSelection();s.removeAllRanges();s.addRange(r);e.target.textContent='Selected'}};
 const links=[...document.querySelectorAll('.nav a')];
-const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+en.target.id))}),{rootMargin:'-30% 0px -60% 0px'});
-links.forEach(a=>{const s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+let lock=0;
+function mark(id){links.forEach(l=>{const on=l.getAttribute('href')==='#'+id;l.classList.toggle('on',on);if(on){l.setAttribute('aria-current','true');if(l.parentElement.scrollWidth>l.parentElement.clientWidth)l.scrollIntoView({block:'nearest',inline:'nearest'})}else l.removeAttribute('aria-current')})}
+function spy(){if(Date.now()<lock)return;const off=(document.querySelector('.nav').getBoundingClientRect().bottom>0&&innerWidth<=860?document.querySelector('.nav').offsetHeight:0)+80;let cur=secs[0].id;for(const s of secs){if(s.getBoundingClientRect().top-off<=0)cur=s.id}if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)cur=secs[secs.length-1].id;mark(cur)}
+links.forEach(a=>a.addEventListener('click',()=>{lock=Date.now()+900;mark(a.getAttribute('href').slice(1))}));
+addEventListener('scroll',spy,{passive:true});spy();
 </script>
 </html>

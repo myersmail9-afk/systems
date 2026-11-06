@@ -1,0 +1,570 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex"><style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}img{max-width:100%}[hidden]{display:none!important}</style><title>Systems by Joseph Myers · for Dr. Reuven Meth</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="AI systems Joseph Myers has built: clickable demos, the evidence they work, and their limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: analyst workstation — sticky top bar, left index, one scrolling case file. Each system = BLUF line + clickable demo + numbers + limits. */
+/* Tokens from the U.S. Web Design System (USWDS) system palette: gray-cool, blue-v, green-cool-v, gold-v, red-v. Dark is the default; Light is a toggle. */
+:root{
+  --bg:#1c1d1f; --pane:#252629; --rail:#202124; --ink:#f0f0f0; --muted:#a9aeb1; --line:#3d4551; --hover:#2d2e2f;
+  --blue:#58b4ff; --blue-soft:#11263b; --green:#00ce9c; --green-soft:#0d2a24; --amber:#ffbe2e; --amber-soft:#332a10; --red:#fb5a47; --red-soft:#3b1a16;
+  --sans:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono:"Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme:dark;
+}
+:root[data-skin="light"]{
+  --bg:#f0f0f0; --pane:#ffffff; --rail:#f7f7f7; --ink:#1b1b1b; --muted:#565c65; --line:#dfe1e2; --hover:#eef0f1;
+  --blue:#005ea2; --blue-soft:#e7f2f5; --green:#00796b; --green-soft:#e3f5f1; --amber:#8a5c00; --amber-soft:#faf3d1; --red:#b50909; --red-soft:#fde0db;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);margin:0}
+button{font:inherit;color:inherit}
+.v{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.k{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+a{color:var(--blue)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--pane);border-bottom:1px solid var(--line);padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--pane)}
+.top b{font-size:15px}
+.top .tag{color:var(--muted);font-size:12.5px}
+.top .mail{margin-left:auto;display:flex;gap:8px;align-items:center}
+.top code{font:500 12.5px var(--mono);user-select:all}
+.btn{border:1px solid var(--blue);background:var(--blue);color:var(--pane);border-radius:3px;padding:6px 11px;font:600 12px var(--sans);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn.ok{border-color:var(--green);background:var(--green)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:focus-visible,.nav a:focus-visible,.opt:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+
+.shell{display:grid;grid-template-columns:210px minmax(0,1fr);max-width:1200px;margin:0 auto}
+.nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 50px);align-self:start;height:calc(100vh - 50px);overflow:auto;border-right:1px solid var(--line);padding:16px 0;display:flex;flex-direction:column;gap:1px}
+.nav .k{padding:4px 16px 8px}
+.nav a{display:grid;gap:1px;padding:8px 16px;border-left:3px solid transparent;color:var(--ink);text-decoration:none;font-weight:600;font-size:13px}
+.nav a span{font:400 11.5px var(--mono);color:var(--muted)}
+.nav a:hover{background:var(--hover)}
+.nav a.on{border-left-color:var(--blue);background:var(--pane)}
+main{padding-block:22px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:44px;min-width:0}
+@media (min-width:861px){main{padding-left:28px;padding-right:max(28px,env(safe-area-inset-right,0px))}}
+
+.hero{display:grid;gap:14px}
+.sig{font-size:clamp(19px,2.4vw,24px);line-height:1.35;font-weight:500;margin:0;max-width:44ch;text-wrap:balance}
+.bluf{margin:0;max-width:70ch;font-size:15px}
+.bluf b{font:600 11px var(--mono);letter-spacing:.1em;color:var(--blue);margin-right:6px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.fact{background:var(--pane);padding:12px;display:grid;gap:3px;align-content:start}
+.fact .v{font-size:22px;font-weight:600;line-height:1.1}
+.fact .l{font-size:12px;color:var(--muted);line-height:1.3}
+
+.sys{display:grid;gap:12px}
+.sys header{display:grid;gap:6px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border-radius:2px;border:1px solid var(--line);color:var(--muted)}
+.pill.live{color:var(--green);border-color:var(--green);background:var(--green-soft)}
+.pill.concept{color:var(--amber);border-color:var(--amber);background:var(--amber-soft)}
+h2{margin:0;font-size:21px;line-height:1.25;font-weight:600;text-wrap:balance}
+.one{margin:0;color:var(--muted);max-width:72ch}
+.panel{background:var(--pane);border:1px solid var(--line);border-radius:3px;min-width:0}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid var(--line)}
+.demo{font:600 10px var(--mono);letter-spacing:.06em;color:var(--blue);border:1px solid var(--blue);padding:3px 6px;border-radius:2px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.metric{background:var(--pane);padding:10px 12px;display:grid;gap:2px;align-content:start}
+.metric .v{font-size:19px;font-weight:600}
+.metric .l{font-size:11.5px;color:var(--muted);line-height:1.3}
+.limits{margin:0;padding:9px 12px 11px 28px;display:grid;gap:3px;font-size:12.5px;border:1px solid var(--line);border-top:2px solid var(--amber);background:var(--pane);border-radius:3px;color:var(--muted)}
+.limits li::marker{color:var(--amber)}
+.body{padding:12px;display:grid;gap:10px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{all:unset;cursor:pointer;font-size:12.5px;padding:6px 9px;border:1px solid var(--line);border-radius:3px;background:var(--rail)}
+.opt[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
+.opt:hover{border-color:var(--blue)}
+
+/* draft demo */
+.tx{font:12.5px/1.6 var(--mono);background:var(--rail);border:1px solid var(--line);border-radius:3px;padding:10px;display:grid;gap:3px;min-height:92px}
+.tx .ts{color:var(--muted)}
+.tx mark{background:var(--blue-soft);color:var(--ink);padding:0 2px;border-radius:2px}
+.quote{border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.qhead{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:7px 10px;background:var(--rail);border-bottom:1px solid var(--line);font:600 12px var(--mono)}
+.st{color:var(--amber)} .st.sent{color:var(--green)}
+.qrow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;padding:7px 10px;border-bottom:1px solid var(--line);font-size:13px;align-items:center}
+.qrow:last-child{border-bottom:0}
+.qempty{padding:10px;color:var(--muted);font-size:12.5px}
+.src{font:500 10.5px var(--mono);color:var(--blue);background:var(--blue-soft);padding:2px 5px;border-radius:2px;white-space:nowrap}
+.red{font:500 12px var(--mono);color:var(--muted)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hint{font-size:12px;color:var(--muted)}
+
+/* answer demo */
+.ans{border:1px solid var(--line);border-radius:3px;padding:10px;display:grid;gap:8px;min-height:96px}
+.ans .q{font-weight:600}
+.abst{border-left:3px solid var(--amber);padding:6px 10px;background:var(--amber-soft);font-size:13px}
+.refuse{border-left:3px solid var(--red);padding:6px 10px;background:var(--red-soft);font-size:13px}
+
+/* tool demo */
+.log{font:12px/1.6 var(--mono);background:var(--rail);border:1px solid var(--line);border-radius:3px;padding:8px 10px;min-height:66px}
+.log .y{color:var(--green)} .log .n{color:var(--red)}
+
+/* reid demo */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
+.cand{border:1px solid var(--line);border-radius:3px;padding:6px;display:grid;gap:4px;justify-items:center;font-size:11.5px;text-align:center}
+.cand.top{border-color:var(--green)}
+.cand svg{width:100%;height:auto;max-width:90px}
+.bar{height:5px;background:var(--line);border-radius:2px;width:100%;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue)}
+.verdict{font-size:13px;padding:7px 10px;border-radius:3px}
+.verdict.go{background:var(--green-soft);color:var(--green)} .verdict.q{background:var(--amber-soft);color:var(--amber)}
+
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{fill:var(--muted);font:11px var(--mono)}
+.checks{font:12px/1.7 var(--mono);min-height:20px}
+.checks .y{color:var(--green)}
+
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.trust div{background:var(--pane);padding:12px;display:grid;gap:4px;align-content:start}
+.trust b{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.trust p{margin:0;font-size:13px}
+.prose{padding:12px;display:grid;gap:8px;max-width:72ch}
+.prose p{margin:0}
+.foot{color:var(--muted);font-size:12px;margin:0}
+
+
+.pss{margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.pss div{background:var(--pane);padding:10px 12px;display:grid;gap:3px;align-content:start}
+.pss dt{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.pss div:first-child dt{color:var(--red)} .pss div:nth-child(2) dt{color:var(--green)}
+.pss dd{margin:0;font-size:13.5px;line-height:1.45}
+.pss dd.sysline{font:12px/1.55 var(--mono);color:var(--muted)}
+@media (max-width:860px){.pss{grid-template-columns:1fr}}
+
+.mapgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.lane{background:var(--pane);padding:10px 12px;display:grid;gap:6px;align-content:start;min-width:0}
+.lane ul{margin:0;padding-left:16px;display:grid;gap:2px;font-size:12.5px}
+.lane:first-child ul{grid-template-columns:1fr 1fr;column-gap:14px}
+.lh{font:600 10.5px var(--mono);letter-spacing:.06em;padding:4px 6px;border-radius:2px;justify-self:start}
+.lh.live{color:var(--green);background:var(--green-soft)} .lh.avail{color:var(--amber);background:var(--amber-soft)} .lh.built{color:var(--blue);background:var(--blue-soft)} .lh.test{color:var(--muted);border:1px solid var(--line)} .lh.ret{color:var(--muted);border:1px dashed var(--line)}
+.tl{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.tl div{position:relative;padding:6px 0 10px 16px;font-size:13px;opacity:.35;transition:opacity .25s}
+.tl div.on{opacity:1}
+.tl div::before{content:"";position:absolute;left:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--pane);border:2px solid var(--muted)}
+.tl div.on::before{border-color:var(--blue);background:var(--blue)}
+.tl b{font:600 12px var(--mono);margin-right:8px}
+.door{grid-template-columns:1fr 1fr}
+.door p{margin:2px 0 0;font-size:13px}
+@media (max-width:860px){.mapgrid{grid-template-columns:1fr}.lane:first-child ul{grid-template-columns:1fr}.door{grid-template-columns:1fr}}
+
+.foryou{border:1px solid var(--blue);border-radius:3px;background:var(--pane);display:grid;gap:0}
+.foryou .ph{border-bottom:1px solid var(--line)}
+.fy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line)}
+.fy>div{background:var(--pane);padding:12px;display:grid;gap:6px;align-content:start;min-width:0}
+.fy h3{margin:0;font-size:12px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:600}
+.fy p{margin:0;font-size:14px}
+.fy ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.fy a{font-weight:600}
+.fyhead{padding:14px 14px 4px;display:grid;gap:4px}
+.fyhead h2{font-size:22px}
+.rel{color:var(--blue);border-color:var(--blue)}
+@media (max-width:860px){.fy{grid-template-columns:1fr}}
+/* theme toggle */
+.skins{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 10px;color:var(--muted)}
+.skins button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.skins button:focus-visible{outline:2px solid var(--blue)}
+.src-line{font:12px/1.5 var(--mono);color:var(--muted);margin:0}
+.src-line b{color:var(--ink);font-weight:500}
+.conf{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border-radius:2px;border:1px solid var(--blue);color:var(--blue)}
+
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 50px);height:auto;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);background:var(--rail);padding:0;z-index:4}
+  .nav .k{display:none}
+  .nav a{border-left:0;border-bottom:3px solid transparent;white-space:nowrap}
+  .nav a span{display:none}
+  .nav a.on{border-bottom-color:var(--blue)}
+  .grid2,.trust{grid-template-columns:1fr}
+  .top .mail{margin-left:0}
+  .top{position:static}
+  .nav{top:env(safe-area-inset-top,0px)}
+  html{scroll-padding-top:56px}
+}
+@media (prefers-reduced-motion:no-preference){.fadein{animation:f .25s ease-out both}@keyframes f{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}}
+</style>
+
+<div class="top"><b>Joseph Myers</b><span class="tag">Applied AI · systems I've built</span>
+  <div class="skins" role="group" aria-label="Theme"><button type="button" data-s="">Dark</button><button type="button" data-s="light">Light</button></div><div class="mail"><code id="email">myersmail9@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></div></div>
+
+<div class="shell">
+<nav class="nav" aria-label="Sections">
+  <span class="k">Case file</span>
+  <a href="#foryou">For you<span>how this relates</span></a>
+  <a href="#overview">Overview<span>at a glance</span></a>
+  <a href="#map">System map<span>20 systems</span></a>
+  <a href="#reid">Re-identification<span>computer vision</span></a>
+  <a href="#locates">Locates<span>4-view check</span></a>
+  <a href="#draft">Draft agent<span>recording → quote</span></a>
+  <a href="#brief">Briefings<span>event-driven</span></a>
+  <a href="#brain">Company memory<span>2,490 facts</span></a>
+  <a href="#tools">Permissions<span>default-deny</span></a>
+  <a href="#osint">OSINT screens<span>public data</span></a>
+  <a href="#report">Reporting<span>code does math</span></a>
+  <a href="#forecast">Forecasts<span>logged, scored</span></a>
+  <a href="#about">About<span>background</span></a>
+</nav>
+
+<main>
+<section class="foryou" id="foryou"><div class="fyhead"><span class="k">Prepared for Dr. Reuven Meth · Program Manager, IARPA · Video LINCS and HAYSTAC</span><h2>How this relates to your work</h2></div>
+<div class="fy"><div><h3>Your mission</h3><p>Video LINCS links the same subject across different videos; HAYSTAC models normal movement to find what isn&#x27;t.</p></div><div><h3>What stood out</h3><p>Linking an individual across different sources is exactly the problem my giraffe re-ID work lives in. The hard part is knowing when a match is actually right.</p></div>
+<div><h3>Where my systems map</h3><ul><li><a href="#reid">Re-identification</a>: Held-out test on another team&#x27;s real photos: 74 of 77 found, 0 of 32 wrong automatic matches, calibrated confidence, a person confirms.</li><li><a href="#locates">Locates</a>: Reconciliation across four independent record views before trusting any single field.</li></ul></div><div><h3>My assessment</h3><p>Calibrated abstention (refusing to link when unsure) will likely matter as much to analysts as raw top-1 accuracy.</p><h3 style="margin-top:8px">Sources</h3><ul><li><a href="https://www.iarpa.gov/who-we-are/program-managers" target="_blank" rel="noopener">IARPA program managers</a></li></ul></div></div>
+<div class="ph" style="border-top:1px solid var(--line);border-bottom:0"><span>I'd love 15 minutes to pick your brain on how someone like me gets into this work.</span><code>myersmail9@gmail.com</code></div></section>
+<section class="hero" id="overview">
+  <p class="sig">I didn't come up through computer science. I came up through systems thinking, and I taught myself to build what I see.</p>
+  <p class="bluf"><b>BLUF</b>I built a supervised AI operating layer for a working service company: agents that read real records, write drafts, check their own work, and stop when they should. People keep prices, sends, payments and legal filings.</p>
+  <div class="facts">
+    <div class="fact"><span class="v">800+</span><span class="l">hours hands-on with AI since Aug 2026</span></div>
+    <div class="fact"><span class="v">20</span><span class="l">AI systems built · 13 live and doing real work</span></div>
+    <div class="fact"><span class="v">151</span><span class="l">production agent runs, failures kept on the record</span></div>
+    <div class="fact"><span class="v">2,490</span><span class="l">sourced facts in a company memory</span></div>
+    <div class="fact"><span class="v">12</span><span class="l">read-back checks after every agent write</span></div>
+    <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, vision re-ID test</span></div>
+  </div>
+</section>
+
+<section class="sys" id="map">
+  <header><h2>System map · 20 systems, labelled by what's actually true</h2></header>
+  <div class="mapgrid">
+    <div class="lane"><span class="lh live">LIVE · USED</span><ul><li>Walkthrough → draft quote agent</li><li>Daily estimator briefings</li><li>Structured phone intake</li><li>Online request triage</li><li>Multi-channel ops inbox</li><li>Customer dossiers + grounded replies</li><li>Visit confirmation + safe reschedule</li><li>Utility-locate surveillance</li><li>Locate form staging + recording</li><li>Bounced-email recovery (narrow)</li><li>Review analysis + crew credit</li><li>Crew mobile app (51 tools)</li><li>Field logistics app</li></ul></div>
+    <div class="lane"><span class="lh avail">LIVE · ADOPTION UNPROVEN</span><ul><li>Ask-the-expert knowledge base</li><li>Supervisor decision board</li><li>Calculators and training pages</li></ul></div>
+    <div class="lane"><span class="lh built">BUILT · PREVIEW</span><ul><li>Guarded self-improvement</li><li>Office connector for a chat assistant</li><li>Route-aware bid scheduling</li><li>Next-gen logistics app</li></ul></div>
+    <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
+  </div>
+  <p class="hint" style="margin:0">Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
+</section>
+
+<!-- REID -->
+<section class="sys" id="reid">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
+  <h2>Which giraffe is this?</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div><div><dt>System</dt><dd class="sysline">Detector vote → coat-pattern match → calibration → review queue → hash-chained log</dd></div></dl>
+  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [8] Pre-registered eval files on public datasets (GZGC Nairobi, CDLA-Permissive-1.0; Snapshot Serengeti). Not yet tested on partner animals.</p>
+  <figure class="panel" style="margin:0"><div class="ph"><span class="k">The review screen · numbered circles mark coat spots that line up</span><span class="demo">REAL APP · REAL PHOTOS</span></div>
+    <img src="../img/reid-real.jpg" alt="Review screen on real Nairobi giraffe photos: matching coat spots circled and numbered on a new photo and a suggested giraffe, with Same / Not this one / New / Can't tell buttons" style="display:block;width:100%;height:auto" loading="lazy" width="1000" height="667">
+    <figcaption class="hint" style="padding:8px 12px">Real Masai giraffe photos from the public Nairobi National Park dataset (NNP GZC, CDLA-Permissive-1.0). Each colored pair is a spot the matcher verified on both photos. The person decides: Same giraffe, Not this one, New giraffe, or Can't tell. Keys 1–4.</figcaption></figure></header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
+      <div class="body">
+        <div class="opts" id="rOpts"></div>
+        <div class="gallery" id="rGal"></div>
+        <div id="rVer"></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
+      <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
+        <text x="12" y="22" style="fill:var(--ink)">Found 74 of 77 animals</text>
+        <rect x="12" y="30" width="336" height="14" fill="var(--line)"/><rect x="12" y="30" width="323" height="14" fill="var(--green)"/>
+        <text x="12" y="72" style="fill:var(--ink)">Top-1 60% · 95% CI 46–72</text>
+        <rect x="12" y="80" width="336" height="10" fill="var(--line)"/><rect x="12" y="80" width="202" height="10" fill="var(--blue)"/>
+        <line x1="167" y1="76" x2="167" y2="94" stroke="var(--ink)"/><line x1="254" y1="76" x2="254" y2="94" stroke="var(--ink)"/><line x1="167" y1="85" x2="254" y2="85" stroke="var(--ink)"/>
+        <text x="12" y="120" style="fill:var(--ink)">Top-5 73%</text>
+        <rect x="12" y="128" width="336" height="10" fill="var(--line)"/><rect x="12" y="128" width="245" height="10" fill="var(--blue)"/>
+        <text x="12" y="166" style="fill:var(--ink)">Wrong automatic matches: 0 of 32</text>
+        <text x="12" y="186">14-animal test: right animal first, 20 of 21</text>
+      </svg></div>
+  </div>
+  <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
+</section>
+
+<!-- LOCATES -->
+<section class="sys" id="locates">
+  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
+  <h2>Utility locates: four views reconciled, never one field trusted</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div><div><dt>System</dt><dd class="sysline">Visits + job status + digging line items + tasks + email → covered / opening window / no date → staged form → human submit → ticket written to job, future visits, pinned note</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [7] Locate scan log, 5 Nov 2026 (one morning)</p>
+  <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
+    <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Locate reconciliation counts">
+      <g style="font-size:11px">
+      <rect x="10" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="48" y="30" text-anchor="middle" style="fill:var(--ink)">26</text><text x="48" y="46" text-anchor="middle">visits</text>
+      <rect x="96" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="134" y="30" text-anchor="middle" style="fill:var(--ink)">174</text><text x="134" y="46" text-anchor="middle">active jobs</text>
+      <rect x="182" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="220" y="30" text-anchor="middle" style="fill:var(--ink)">14</text><text x="220" y="46" text-anchor="middle">digging jobs</text>
+      <rect x="268" y="10" width="82" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="309" y="30" text-anchor="middle" style="fill:var(--ink)">38</text><text x="309" y="46" text-anchor="middle">tasks</text>
+      <path d="M48 54L180 92M134 54L180 92M220 54L180 92M309 54L180 92" stroke="var(--muted)" fill="none"/>
+      <rect x="110" y="92" width="140" height="28" rx="3" fill="var(--green-soft)" stroke="var(--green)"/><text x="180" y="110" text-anchor="middle" style="fill:var(--green)">0 unexplained gaps</text>
+      <text x="180" y="142" text-anchor="middle">Surfaced a filing-date disagreement instead of picking the convenient answer</text></g>
+    </svg></div>
+  <ul class="limits"><li>Supports compliance work; doesn't guarantee it. A person is legally responsible and submits every form.</li></ul>
+</section>
+
+
+<!-- DRAFT -->
+<section class="sys" id="draft">
+  <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
+  <h2>A field recording becomes a draft quote in about a minute</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div><div><dt>System</dt><dd class="sysline">Recording → transcript watcher → agent (6 read tools, 1 draft tool) → 12 read-back checks → estimator</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [1] Production run log, 151 runs, 23 Sep – 4 Nov 2026; [2] live test battery record, 26 Oct</p>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Try it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
+      <div class="body">
+        <div class="opts" id="dCase"></div>
+        <div class="tx" id="dTx"><span class="ts">walkthrough.m4a · waiting</span></div>
+        <div class="quote"><div class="qhead"><span>DRAFT QUOTE · prices held at $0</span><span class="st" id="dSt">○ empty</span></div><div id="dRows"><div class="qempty">Line items appear as the agent works.</div></div></div>
+        <div class="checks" id="dChecks"></div>
+        <div class="row"><button class="btn" id="dPlay" type="button">▶ Run agent</button><button class="btn ok" id="dOk" type="button" disabled>Estimator prices + sends</button></div>
+      </div></div>
+    <div style="display:grid;gap:12px;align-content:start">
+      <div class="panel"><div class="ph"><span class="k">151 recorded runs · 23 Sep – 4 Nov</span></div>
+        <svg class="chart" viewBox="0 0 360 96" role="img" aria-label="119 succeeded, 22 stopped, 10 failed">
+          <rect x="10" y="14" width="269" height="26" fill="var(--green)"/><rect x="279" y="14" width="50" height="26" fill="var(--amber)"/><rect x="329" y="14" width="22" height="26" fill="var(--red)"/>
+          <text x="12" y="62" style="fill:var(--ink)">119 succeeded</text><text x="190" y="62" style="fill:var(--amber)">22 stopped on purpose</text><text x="290" y="82" style="fill:var(--red)">10 failed</text>
+        </svg></div>
+      <div class="metrics">
+        <div class="metric"><span class="v">~1.2 min</span><span class="l">typical run · 14 agent steps</span></div>
+        <div class="metric"><span class="v">$0.63–0.84</span><span class="l">model cost per draft</span></div>
+        <div class="metric"><span class="v">90 s</span><span class="l">4 trees, 2 approaches, 3 optional items</span></div>
+        <div class="metric"><span class="v">8/8</span><span class="l">live test battery passed, 26 Oct</span></div>
+      </div>
+      <ul class="limits"><li>Execution metrics, not an ROI study.</li><li>The agent never prices or sends; that is by design.</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- BRIEFINGS -->
+<section class="sys" id="brief">
+  <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
+  <h2>Every stop briefed before the knock</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div><div><dt>System</dt><dd class="sysline">Schedule watcher → call transcript + request + past work + past price + cited expert facts → signed-in page → usage tracking</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [3] Watcher event log, 4 Nov 2026 (single event; short production history)</p>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Replay a real event · 4 Nov</span><span class="demo">REAL TIMESTAMPS</span></div>
+      <div class="body">
+        <div class="tl" id="bTl"></div>
+        <div class="row"><button class="btn" id="bPlay" type="button">▶ Replay</button><span class="hint">Schedule moved → page republished in 5 minutes, no one touched it.</span></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">At the door · one stop</span><span class="demo">SAMPLE</span></div>
+      <div class="body door">
+        <div><span class="k">Wants</span><p>Two maples thinned, worried about the roofline.</p></div>
+        <div><span class="k">Remember</span><p>Called twice. Prefers text. Dog in back yard.</p></div>
+        <div><span class="k">Last time</span><p>2024 · crown clean, 2 trees · <span class="red">$▇▇▇</span></p></div>
+        <div><span class="k">Expert note</span><p>Cited company fact <span class="src">F-1187</span></p></div>
+      </div></div>
+  </div>
+</section>
+
+<!-- KB -->
+<section class="sys" id="brain">
+  <header><div class="pills"><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
+  <h2>A company memory that knows where every fact came from</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div><div><dt>System</dt><dd class="sysline">Recordings + documents → atomic facts → hybrid search, reranked → cite or abstain → nightly regression gate → health report</dd></div></dl>
+  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [4] Knowledge-base state report, 5 Nov 2026; [5] golden-set eval files, Sep–Oct 2026. Adoption evidence is weak.</p>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">2,490 facts by provenance</span></div>
+      <svg class="chart" viewBox="0 0 360 120" role="img" aria-label="2,347 verbatim, 90 inferred, 53 need confirmation">
+        <rect x="10" y="14" width="318" height="24" fill="var(--green)"/><rect x="328" y="14" width="12" height="24" fill="var(--amber)"/><rect x="340" y="14" width="8" height="24" fill="var(--red)"/>
+        <text x="12" y="58" style="fill:var(--ink)">2,347 verbatim from the expert</text><text x="12" y="76" style="fill:var(--amber)">90 inferred</text><text x="12" y="94" style="fill:var(--red)">53 waiting for confirmation</text>
+        <text x="12" y="114">418 entities · 33 supersession chains for rules that changed</text>
+      </svg></div>
+    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE</span></div>
+      <div class="body"><div class="opts" id="kOpts"></div><div class="ans" id="kAns"><span class="hint">Pick a question.</span></div></div></div>
+  </div>
+  <div class="metrics">
+    <div class="metric"><span class="v">62</span><span class="l">contradictions it surfaced for review, not hid</span></div>
+    <div class="metric"><span class="v">95.7%</span><span class="l">right fact in top 12 · 352-question golden set</span></div>
+    <div class="metric"><span class="v">3 nights</span><span class="l">a bad index blocked by the gate</span></div>
+    <div class="metric"><span class="v">17 → 7</span><span class="l">photographed lab reports → reviewed facts + 1 supersession</span></div>
+  </div>
+  <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
+</section>
+
+<!-- TOOLS -->
+<section class="sys" id="tools">
+  <header><div class="pills"><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
+  <h2>The agent can only do what its tools allow</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div><div><dt>System</dt><dd class="sysline">Custom MCP server · read clients, requests, quotes, jobs, visits, catalog · create_draft_quote · nothing else</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [6] MCP connector source and tool manifest</p>
+  <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
+    <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
+</section>
+
+<!-- OSINT -->
+<section class="sys" id="osint">
+  <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
+  <h2>Screens that check their own numbers</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div><div><dt>System</dt><dd class="sysline">NASA FIRMS · Sentinel-1 · AIS → baseline → anomaly screen → verify.py → analyst</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [9] verify.py outputs against NASA FIRMS, Global Fishing Watch, Sentinel-1 public archives</p></header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Darfur fires vs pre-war baseline · real totals</span><span class="demo">DEMO</span></div>
+      <div class="body">
+        <div class="opts" id="oOpts"></div>
+        <svg class="chart" viewBox="0 0 360 150" id="oChart" role="img" aria-label="Fire detections versus baseline"></svg>
+        <div class="row"><button class="btn ghost" id="oVerify" type="button">Run verify.py</button><a href="https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/" target="_blank" rel="noopener">Open the full page ↗</a></div>
+        <div class="checks" id="oChecks"></div>
+      </div></div>
+    <div style="display:grid;gap:12px;align-content:start">
+      <div class="metrics">
+        <div class="metric"><span class="v">73/73</span><span class="l">fire dates matched a published investigation</span></div>
+        <div class="metric"><span class="v">31/31</span><span class="l">EEZ fishing checks match source</span></div>
+        <div class="metric"><span class="v">49,282</span><span class="l">fishing hours just outside Namibia's EEZ, 2020–24</span></div>
+        <div class="metric"><span class="v">S1 vs AIS</span><span class="l">radar detections vs ship broadcasts, Red Sea</span></div>
+      </div>
+      <p class="hint" style="margin:0"><a href="https://myersmail9-afk.github.io/client-demos/eez-watch/" target="_blank" rel="noopener">Namibia EEZ edge watch ↗</a></p>
+      <ul class="limits"><li>Concept demos, not operational products. A signal is a lead, never a conclusion.</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- REPORT -->
+<section class="sys" id="report">
+  <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
+  <h2>The model routes, code does the math</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div><div><dt>System</dt><dd class="sysline">Question → tool choice → code → source rows → named human release gate</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [10] 82-question eval and 255-question stress test files</p></header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
+      <div class="body"><div class="opts" id="pOpts"></div><div class="ans" id="pAns"><span class="hint">Pick a question.</span></div></div></div>
+    <div class="panel"><div class="ph"><span class="k">Evaluation · real results</span></div>
+      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Evaluation results">
+        <text x="12" y="20" style="fill:var(--ink)">Right tool · 82 Qs</text><rect x="196" y="10" width="154" height="12" fill="var(--line)"/><rect x="196" y="10" width="149" height="12" fill="var(--green)"/><text x="190" y="20" text-anchor="end">96.5%</text>
+        <text x="12" y="52" style="fill:var(--ink)">Refused when it must</text><rect x="196" y="42" width="154" height="12" fill="var(--green)"/><text x="190" y="52" text-anchor="end">19/19</text>
+        <text x="12" y="84" style="fill:var(--ink)">Stress test · safe</text><rect x="196" y="74" width="154" height="12" fill="var(--line)"/><rect x="196" y="74" width="153" height="12" fill="var(--green)"/><text x="190" y="84" text-anchor="end">253/255</text>
+        <text x="12" y="116" style="fill:var(--ink)">Stress test · helpful</text><rect x="196" y="106" width="154" height="12" fill="var(--line)"/><rect x="196" y="106" width="90" height="12" fill="var(--amber)"/><text x="190" y="116" text-anchor="end">43/74</text>
+        <text x="12" y="142">Weakest: typos, other languages. Next fix.</text>
+      </svg></div>
+  </div>
+</section>
+
+<!-- FORECAST -->
+<section class="sys" id="forecast">
+  <header><div class="pills"><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
+  <h2>Forecasts, logged and scored</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div><div><dt>System</dt><dd class="sysline">Base rate → indicators and signposts → dated updates → Brier score</dd></div></dl>
+  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [11] Forecast casebook, 28 logged / 10 resolved. Small sample.</p></header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Step through an update</span><span class="demo">REAL LOG</span></div>
+      <div class="body">
+        <svg class="chart" viewBox="0 0 360 150" id="fChart" role="img" aria-label="Forecast updates"></svg>
+        <div class="row"><button class="btn ghost" id="fPrev" type="button">◀</button><button class="btn" id="fNext" type="button">Next update ▶</button></div>
+        <div class="ans" id="fWhy" style="min-height:60px"></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">10 resolved forecasts · final probability</span></div>
+      <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Resolved forecasts">
+        <text x="16" y="24" style="fill:var(--ink)" id="brier"></text>
+        <line x1="20" y1="80" x2="340" y2="80" stroke="var(--line)"/>
+        <text x="20" y="104">0%</text><text x="340" y="104" text-anchor="end">100%</text>
+        <g id="dots"></g>
+        <circle cx="26" cy="132" r="5" fill="var(--green)"/><text x="36" y="136">happened</text>
+        <circle cx="116" cy="132" r="5" fill="none" stroke="var(--muted)" stroke-width="1.5"/><text x="126" y="136">didn't</text>
+      </svg></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="sys" id="about">
+  <header><h2>How I build trust</h2></header>
+  <div class="panel"><div class="trust">
+    <div><b>Govern</b><p>A person owns every decision that matters.</p></div>
+    <div><b>Map</b><p>Each system has a written purpose, refusals and data limits.</p></div>
+    <div><b>Measure</b><p>Golden sets, held-out tests, pre-registered targets.</p></div>
+    <div><b>Manage</b><p>Nothing ships if it gets worse. Limits sit next to results.</p></div></div></div>
+  <div class="panel"><div class="ph"><span class="k">Background</span></div><div class="prose">
+    <p>During university I had a traumatic brain injury and had to relearn walking, talking, driving, even how to move my eyes together. I taught myself neuroscience to do it. That's where my problem-solving comes from: if something's broken, I figure out how the system works and rebuild it.</p>
+    <p>International Studies, Utah State · Global Peacebuilding certificate · Anticipatory Intelligence minor. CEO of a refugee NGO running a school for girls in Herat. Nearly two years in Botswana, Namibia and South Africa. Logan, Utah. US citizen.</p></div></div>
+
+  <div class="panel"><div class="ph"><span class="k">How this page is built</span></div><div class="prose" style="font-size:13px">
+    <p><b>Analytic standards:</b> claims follow ODNI ICD 203. Facts are separated from assessments, uncertainty is stated, and each section carries a confidence level with its source. Confidence: <b>High</b> = direct system logs or eval files; <b>Moderate</b> = real data with small samples or known gaps.</p>
+    <p><b>Sourcing:</b> numbered source descriptors in the style of ICD 206. Raw logs stay private; the descriptors say what kind of record each number came from.</p>
+    <p><b>Design:</b> U.S. Web Design System color tokens and Public Sans. Built to Section 508 / WCAG 2.1 AA: text contrast, keyboard access, alt text.</p></div></div>
+  <p class="foot">Numbers come from my own logs and evaluation files. Demos marked “sample content” use invented examples; employer and partner data stays private.</p>
+</section>
+</main>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function opts(el,items,on){items.forEach((it,i)=>{const b=document.createElement('button');b.className='opt';b.type='button';b.textContent=it.label;b.setAttribute('aria-pressed','false');b.onclick=()=>{[...el.children].forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');on(it,i)};el.appendChild(b)})}
+
+/* draft agent */
+const CASES=[{label:"Normal walkthrough",lines:[["01:12","…<mark>two dead limbs over the garage</mark>, six inch or so…","Remove 2 dead limbs over structure"],["02:40","…<mark>grind that stump</mark> by the fence…","Stump grinding, 1 stump"],["02:41","(rule) stump grinding implies",""],["03:05","…<mark>if she wants, haul the chips</mark>…","Optional · chip removal"]],stop:null},
+ {label:"Recording “1 of 2”",lines:[["00:00","file: walkthrough (1 of 2).m4a",""]],stop:"STOPPED · multipart recording. Waiting for the merged file instead of quoting half the job."},
+ {label:"Re-fired trigger",lines:[["00:00","request already converted to a quote",""]],stop:"STOPPED · request already converted. No duplicate quote created."}];
+const CHECKS=["quote exists and is still a DRAFT","all prices still $0","salesperson present","stump line → utility-locate note added","every stump line has optional chip-removal companion","quantities = 1, no accidental multiplication","optional work kept optional","no street address in note fields"];
+let dT=[],dCur=CASES[0];
+function dReset(){dT.forEach(clearTimeout);dT=[];$('dTx').innerHTML='<span class="ts">walkthrough.m4a · waiting</span>';$('dRows').innerHTML='<div class="qempty">Line items appear as the agent works.</div>';$('dSt').textContent='○ empty';$('dSt').className='st';$('dOk').disabled=true;$('dOk').textContent='Estimator prices + sends';$('dChecks').innerHTML='';$('dPlay').disabled=false}
+opts($('dCase'),CASES,it=>{dCur=it;dReset()});
+$('dPlay').onclick=()=>{dReset();$('dPlay').disabled=true;$('dRows').innerHTML='';$('dTx').innerHTML='<span class="ts">transcript · agent reading</span>';$('dSt').textContent='● working';
+ const L=dCur.lines;let t=0;
+ L.forEach(([ts,l,item])=>{t+=650;dT.push(setTimeout(()=>{const d=document.createElement('div');d.className='fadein';d.innerHTML=`<span class="ts">[${ts}]</span> ${l}`;$('dTx').appendChild(d);
+  if(item){const r=document.createElement('div');r.className='qrow fadein';r.innerHTML=`<span>${esc(item)}</span><span class="src">${ts}</span><span class="red">$0</span>`;$('dRows').appendChild(r)}
+  if(ts==="02:41"){const r=document.createElement('div');r.className='qrow fadein';r.innerHTML='<span>Note: utility locate required before grinding</span><span class="src">rule</span><span class="red">note</span>';$('dRows').appendChild(r)}},t))});
+ if(dCur.stop){dT.push(setTimeout(()=>{$('dSt').textContent='■ stopped';$('dSt').className='st';$('dRows').innerHTML=`<div class="refuse" style="margin:8px">${esc(dCur.stop)}</div>`},t+500));return}
+ CHECKS.forEach((c,i)=>{dT.push(setTimeout(()=>{$('dChecks').innerHTML+=`<div class="fadein"><span class="y">✓</span> read-back: ${esc(c)}</div>`;if(i===CHECKS.length-1){$('dSt').textContent='● draft ready for estimator';$('dOk').disabled=false;$('dPlay').disabled=false}},t+400+i*260))});
+};
+$('dOk').onclick=()=>{$('dSt').textContent='✓ priced and sent by a person';$('dSt').className='st sent';$('dOk').disabled=true};
+
+/* briefings replay */
+const BT=[["1:49 PM","A real appointment moves in the scheduling system."],["1:51 PM","Watcher detects the change (2 min)."],["1:52 PM","Pulls call notes, request, past work, past price, cited facts."],["1:54 PM","Estimator's private page republished. Nobody clicked refresh."]];
+$('bTl').innerHTML=BT.map(([t,x])=>`<div><b>${t}</b>${esc(x)}</div>`).join('');
+$('bPlay').onclick=()=>{const it=[...$('bTl').children];it.forEach(e=>e.classList.remove('on'));it.forEach((e,i)=>setTimeout(()=>e.classList.add('on'),450*(i+1)))};
+/* knowledge base */
+const KQ=[{label:"Minimum crew for a crane removal?",a:'<div class="q">Minimum crew for a crane removal?</div><div><span class="red">▇▇▇▇ ▇▇▇▇▇▇ ▇▇▇ ▇▇▇▇ ▇▇▇▇▇▇▇</span> <span class="hint">(answer private)</span></div><div class="row"><span class="src">F-0412</span><span class="src">walkthrough 2026-03-14 · 02:41</span><span class="src">verbatim quote</span></div>'},
+ {label:"When do we stop pruning oaks?",a:'<div class="q">When do we stop pruning oaks?</div><div><span class="red">▇▇▇▇▇ ▇▇▇▇▇▇▇ ▇▇▇▇</span> <span class="hint">(answer private)</span></div><div class="row"><span class="src">F-1187</span><span class="src">walkthrough 2026-05-02 · 11:08</span><span class="src">verbatim quote</span></div>'},
+ {label:"What did we charge the Smiths in 2019?",a:'<div class="q">What did we charge the Smiths in 2019?</div><div class="abst"><b>I don\'t have that.</b> No fact covers it, so it doesn\'t guess. Nearest facts: F-0090, F-0231.</div>'}];
+opts($('kOpts'),KQ,it=>{$('kAns').innerHTML=it.a});
+
+/* tools */
+const TQ=[{label:"Read the client's past quotes",ok:1,t:"read_quotes(client) → 2 prior quotes"},{label:"Create a draft quote",ok:1,t:"create_draft_quote(...) → DRAFT, prices $0"},{label:"Set the price",ok:0,t:"no pricing tool exists. The estimator prices."},{label:"Send the quote",ok:0,t:"no send tool exists. A person sends."},{label:"Take a payment",ok:0,t:"no payment tool exists"},{label:"Delete a record",ok:0,t:"no delete tool exists"},{label:"Run any query I want",ok:0,t:"no general query tool. Only the 6 named reads."}];
+opts($('tOpts'),TQ,it=>{$('tLog').innerHTML=`agent@connector $ ${esc(it.label.toLowerCase())}<br>${it.ok?'<span class="y">✓ ALLOWED</span>':'<span class="n">✕ BLOCKED</span>'} · ${esc(it.t)}`});
+/* re-id: drawn coat patterns */
+function coat(seed,color){let s=seed,r=()=>(s=(s*9301+49297)%233280)/233280;let p='';for(let i=0;i<14;i++){const x=8+r()*74,y=6+r()*58,w=9+r()*12,h=8+r()*11;p+=`<path d="M${x} ${y}l${w*.6} ${-h*.2}l${w*.4} ${h*.5}l${-w*.2} ${h*.6}l${-w*.7} ${h*.1}z" fill="${color}"/>`}return `<svg viewBox="0 0 90 70" aria-hidden="true"><rect width="90" height="70" fill="var(--amber-soft)"/>${p}</svg>`}
+const SIGHT=[{label:"Sighting A · clear flank",cands:[[11,92,"GIR-07"],[23,41,"GIR-02"],[37,18,"GIR-11"]]},{label:"Sighting B · bad angle",cands:[[5,58,"GIR-04"],[19,54,"GIR-09"],[31,22,"GIR-01"]]}];
+opts($('rOpts'),SIGHT,it=>{$('rGal').innerHTML=it.cands.map(([sd,c,id],i)=>`<div class="cand ${i===0&&c>=80?'top':''}">${coat(sd,'var(--amber)')}<b>${id}</b><span>${c}%</span><div class="bar"><i style="width:${c}%"></i></div></div>`).join('');
+ const t=it.cands[0][1];$('rVer').innerHTML=t>=80?`<div class="verdict go fadein">${t}% ≥ threshold → suggested match ${it.cands[0][2]}. A person confirms before it's saved.</div>`:`<div class="verdict q fadein">Top two too close (${it.cands[0][1]}% vs ${it.cands[1][1]}%) → sent to the review queue. No automatic match.</div>`});
+
+/* osint */
+const OD={all:{label:"All detections",w:112416,b:90282},near:{label:"Within 1 km of a settlement",w:3086,b:1869}};
+function oDraw(k){const d=OD[k],m=Math.max(d.w,d.b)*1.15,sc=v=>v/m*300;$('oChart').innerHTML=`
+ <text x="12" y="34" style="fill:var(--ink)">15 Apr 2023 – 31 Dec 2024</text><rect x="12" y="44" width="${sc(d.w)}" height="22" fill="var(--amber)"/><text x="${16+sc(d.w)}" y="60" style="fill:var(--ink)">${d.w.toLocaleString()}</text>
+ <text x="12" y="92">2018–22 mean, same days</text><rect x="12" y="102" width="${sc(d.b)}" height="22" fill="var(--line)"/><text x="${16+sc(d.b)}" y="118">${d.b.toLocaleString()}</text>
+ <text x="12" y="144" style="fill:var(--ink)">+${Math.round((d.w/d.b-1)*1000)/10}% vs baseline · a lead to check, not proof</text>`}
+opts($('oOpts'),Object.entries(OD).map(([k,v])=>({k,label:v.label})),it=>oDraw(it.k));
+$('oOpts').children[0].click();
+$('oVerify').onclick=()=>{const L=["re-download NASA FIRMS archive","recount detections per month","rebuild settlement buffer (1 km)","compare every figure on the page"];$('oChecks').innerHTML='';L.forEach((l,i)=>setTimeout(()=>{$('oChecks').innerHTML+=`<div class="fadein"><span class="y">✓</span> ${l}</div>`;if(i===L.length-1)$('oChecks').innerHTML+=`<div class="fadein"><b>ALL MATCH</b></div>`},350*(i+1)))};
+
+/* report */
+const PQ=[{label:"Area released last quarter?",a:'<div class="q">Area released last quarter?</div><div><span class="src">tool: sum_area(quarter)</span></div><div><b class="v">▇▇▇,▇▇▇ m²</b> <span class="hint">(computed by code)</span></div><div class="row"><span class="src">rows 412–437 · public Monthly Summary</span></div>'},
+ {label:"Which village is safest to farm?",a:'<div class="q">Which village is safest to farm?</div><div class="refuse"><b>Refused.</b> Safety calls belong to the clearance operator, not a chatbot. Here is the survey status data instead.</div>'},
+ {label:"Mines found per month, trend?",a:'<div class="q">Mines found per month, trend?</div><div><span class="src">tool: monthly_series(item="AP mines")</span></div><div><b class="v">chart + table</b> <span class="hint">(every point links to its rows)</span></div>'}];
+opts($('pOpts'),PQ,it=>{$('pAns').innerHTML=it.a});
+
+/* forecast stepper — real log F001 */
+const FU=[["19 Sep 2023",.28,"Opened: failure modes (not ready, no FAA, no FWS, early failure) + inside view."],["26 Sep",.26,"Musk says 'ready to launch' (+3), then time decay."],["3 Oct",.20,"Time decay (−5), SpaceX silence (−4)."],["10 Oct",.05,"Musk 'decent chance' halves the success share; time decay."],["15 Oct",.05,"Resolved NO. Brier 0.0025."]];
+let fi=0;
+function fDraw(){const pts=FU.slice(0,fi+1).map(([d,p],i)=>[40+i*72,130-p*360]);let s=`<line x1="30" y1="20" x2="30" y2="130" stroke="var(--line)"/><line x1="30" y1="130" x2="346" y2="130" stroke="var(--line)"/><text x="26" y="24" text-anchor="end">30%</text><text x="26" y="133" text-anchor="end">0</text>`;
+ s+=`<polyline fill="none" stroke="var(--blue)" stroke-width="2" points="${pts.map(p=>p.join(',')).join(' ')}"/>`;
+ pts.forEach(([x,y],i)=>{s+=`<circle cx="${x}" cy="${y}" r="4.5" fill="var(--blue)"/><text x="${x}" y="146" text-anchor="middle">${FU[i][0].replace(' 2023','')}</text>`});
+ const [x,y]=pts[pts.length-1];s+=`<text x="${x+8}" y="${y-6}" style="fill:var(--ink)">${Math.round(FU[fi][1]*100)}%</text>`;
+ $('fChart').innerHTML=s;$('fWhy').innerHTML=`<div class="q">Will Starship's orbital test launch before 15 Oct 2023?</div><div>${esc(FU[fi][2])}</div>`;$('fPrev').disabled=fi===0;$('fNext').disabled=fi===FU.length-1}
+$('fNext').onclick=()=>{if(fi<FU.length-1){fi++;fDraw()}};$('fPrev').onclick=()=>{if(fi>0){fi--;fDraw()}};fDraw();
+const F=[[.05,0],[.06,0],[.2,0],[.15,0],[.39,1],[.267,0],[.291,0],[.291,1],[.15,0],[.52,0]];let br=0;
+F.forEach(([p,o],i)=>{br+=(p-o)**2;const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',20+p*320);c.setAttribute('cy',80-((i%3)-1)*14);c.setAttribute('r',6);if(o){c.setAttribute('fill','var(--green)')}else{c.setAttribute('fill','none');c.setAttribute('stroke','var(--muted)');c.setAttribute('stroke-width','1.5')}$('dots').appendChild(c)});
+$('brier').textContent='Mean Brier '+(br/F.length).toFixed(2)+' · lower is better';
+
+/* defaults so every demo opens in a working state */
+$('dCase').children[0].click();$('kOpts').children[0].click();$('tOpts').children[3].click();$('rOpts').children[0].click();$('pOpts').children[0].click();
+
+
+/* design skins */
+const SK=document.querySelectorAll('.skins button');
+function skin(v){if(v)document.documentElement.setAttribute('data-skin',v);else document.documentElement.removeAttribute('data-skin');SK.forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===v?'true':'false'));try{localStorage.setItem('skin',v)}catch(_){}}
+SK.forEach(b=>b.onclick=()=>skin(b.dataset.s));
+let sv='';try{sv=localStorage.getItem('skin')||''}catch(_){}if(sv!=='light')sv='';skin(sv);
+/* copy + nav */
+$('copy').onclick=async e=>{const t=$('email').textContent;try{await navigator.clipboard.writeText(t);e.target.textContent='Copied'}catch(_){const r=document.createRange();r.selectNodeContents($('email'));const s=getSelection();s.removeAllRanges();s.addRange(r);e.target.textContent='Selected'}};
+const links=[...document.querySelectorAll('.nav a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+let lock=0;
+function mark(id){links.forEach(l=>{const on=l.getAttribute('href')==='#'+id;l.classList.toggle('on',on);if(on){l.setAttribute('aria-current','true');if(l.parentElement.scrollWidth>l.parentElement.clientWidth)l.scrollIntoView({block:'nearest',inline:'nearest'})}else l.removeAttribute('aria-current')})}
+function spy(){if(Date.now()<lock)return;const off=(document.querySelector('.nav').getBoundingClientRect().bottom>0&&innerWidth<=860?document.querySelector('.nav').offsetHeight:0)+80;let cur=secs[0].id;for(const s of secs){if(s.getBoundingClientRect().top-off<=0)cur=s.id}if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)cur=secs[secs.length-1].id;mark(cur)}
+links.forEach(a=>a.addEventListener('click',()=>{lock=Date.now()+900;mark(a.getAttribute('href').slice(1))}));
+addEventListener('scroll',spy,{passive:true});spy();
+</script>
+</html>
