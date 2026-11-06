@@ -181,8 +181,8 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 html{scroll-behavior:auto}
 nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
 
-#dTx{height:118px;overflow:hidden}
-#dRows{height:150px;overflow:hidden}
+#dTx{height:178px;overflow:hidden}
+#dRows{height:236px;overflow:hidden}
 #dChecks{height:190px;overflow:hidden}
 #oChecks{height:118px}
 #kAns,#pAns{min-height:120px}
@@ -516,9 +516,9 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 function opts(el,items,on){items.forEach((it,i)=>{const b=document.createElement('button');b.className='opt';b.type='button';b.textContent=it.label;b.setAttribute('aria-pressed','false');b.onclick=()=>{[...el.children].forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');on(it,i)};el.appendChild(b)})}
 
 /* draft agent */
-const CASES=[{label:"Normal walkthrough",lines:[["01:12","…<mark>two dead limbs over the garage</mark>, six inch or so…","Remove 2 dead limbs over structure"],["02:40","…<mark>grind that stump</mark> by the fence…","Stump grinding, 1 stump"],["02:41","(rule) stump grinding implies",""],["03:05","…<mark>if she wants, haul the chips</mark>…","Optional · chip removal"]],stop:null},
- {label:"Recording “1 of 2”",lines:[["00:00","file: walkthrough (1 of 2).m4a",""]],stop:"STOPPED · multipart recording. Waiting for the merged file instead of quoting half the job."},
- {label:"Re-fired trigger",lines:[["00:00","request already converted to a quote",""]],stop:"STOPPED · request already converted. No duplicate quote created."}];
+const CASES=[{label:"Front-yard removal + stump",lines:[["00:41","…big <mark>silver maple</mark> out front, roughly <mark>30-inch DBH</mark>…","Silver maple, 30\" DBH · front yard"],["01:12","…<mark>two dead leaders hanging over the garage roof</mark>, we'll want those out…","Remove 2 dead leaders over garage roof"],["02:05","…<mark>bucket truck</mark> fits in the driveway, no climb…","Bucket truck access, no climb"],["02:40","…and <mark>grind that stump by the fence</mark>, about eighteen inches…","Stump grinding · 1 stump, ~18\""],["02:41","(rule) stump grinding implies a locate",""],["03:05","…<mark>if she wants, haul the chips</mark>, she hasn't decided…","Optional · chip removal"]],stop:null},
+ {label:"Recording split “1 of 2”",lines:[["00:00","file: walkthrough_1of2.m4a · part 2 not uploaded yet",""]],stop:"STOPPED · multipart recording. Waiting for the merged file instead of quoting half the job."},
+ {label:"Trigger fired twice",lines:[["00:00","request already converted to a quote at 9:14 AM",""]],stop:"STOPPED · request already converted. No duplicate quote created."}];
 const CHECKS=["quote exists and is still a DRAFT","all prices still $0","salesperson present","stump line → utility-locate note added","every stump line has optional chip-removal companion","quantities = 1, no accidental multiplication","optional work kept optional","no street address in note fields"];
 let dT=[],dCur=CASES[0];
 function dReset(){dT.forEach(clearTimeout);dT=[];$('dTx').innerHTML='<span class="ts">walkthrough.m4a · waiting</span>';$('dRows').innerHTML='<div class="qempty">Line items appear as the agent works.</div>';$('dSt').textContent='○ empty';$('dSt').className='st';$('dOk').disabled=true;$('dOk').textContent='Estimator prices + sends';$('dChecks').innerHTML='';$('dPlay').disabled=false}
@@ -527,7 +527,7 @@ $('dPlay').onclick=()=>{dReset();$('dPlay').disabled=true;$('dRows').innerHTML='
  const L=dCur.lines;let t=0;
  L.forEach(([ts,l,item])=>{t+=650;dT.push(setTimeout(()=>{const d=document.createElement('div');d.className='fadein';d.innerHTML=`<span class="ts">[${ts}]</span> ${l}`;$('dTx').appendChild(d);
   if(item){const r=document.createElement('div');r.className='qrow fadein';r.innerHTML=`<span>${esc(item)}</span><span class="src">${ts}</span><span class="red">$0</span>`;$('dRows').appendChild(r)}
-  if(ts==="02:41"){const r=document.createElement('div');r.className='qrow fadein';r.innerHTML='<span>Note: utility locate required before grinding</span><span class="src">rule</span><span class="red">note</span>';$('dRows').appendChild(r)}},t))});
+  if(ts==="02:41"){const r=document.createElement('div');r.className='qrow fadein';r.innerHTML='<span>Internal note: utility locate (811) required before grinding</span><span class="src">rule</span><span class="red">note</span>';$('dRows').appendChild(r)}},t))});
  if(dCur.stop){dT.push(setTimeout(()=>{$('dSt').textContent='■ stopped';$('dSt').className='st';$('dRows').innerHTML=`<div class="refuse" style="margin:8px">${esc(dCur.stop)}</div>`},t+500));return}
  CHECKS.forEach((c,i)=>{dT.push(setTimeout(()=>{$('dChecks').innerHTML+=`<div class="fadein"><span class="y">✓</span> read-back: ${esc(c)}</div>`;if(i===CHECKS.length-1){$('dSt').textContent='● draft ready for estimator';$('dOk').disabled=false;$('dPlay').disabled=false}},t+400+i*260))});
 };
@@ -538,9 +538,9 @@ const BT=[["1:49 PM","A real appointment moves in the scheduling system."],["1:5
 $('bTl').innerHTML=BT.map(([t,x])=>`<div><b>${t}</b>${esc(x)}</div>`).join('');
 $('bPlay').onclick=()=>{const it=[...$('bTl').children];it.forEach(e=>e.classList.remove('on'));it.forEach((e,i)=>setTimeout(()=>e.classList.add('on'),450*(i+1)))};
 /* knowledge base */
-const KQ=[{label:"Minimum crew for a crane removal?",a:'<div class="q">Minimum crew for a crane removal?</div><div><span class="red">▇▇▇▇ ▇▇▇▇▇▇ ▇▇▇ ▇▇▇▇ ▇▇▇▇▇▇▇</span> <span class="hint">(answer private)</span></div><div class="row"><span class="src">F-0412</span><span class="src">walkthrough 2026-03-14 · 02:41</span><span class="src">verbatim quote</span></div>'},
- {label:"When do we stop pruning oaks?",a:'<div class="q">When do we stop pruning oaks?</div><div><span class="red">▇▇▇▇▇ ▇▇▇▇▇▇▇ ▇▇▇▇</span> <span class="hint">(answer private)</span></div><div class="row"><span class="src">F-1187</span><span class="src">walkthrough 2026-05-02 · 11:08</span><span class="src">verbatim quote</span></div>'},
- {label:"What did we charge the Smiths in 2019?",a:'<div class="q">What did we charge the Smiths in 2019?</div><div class="abst"><b>I don\'t have that.</b> No fact covers it, so it doesn\'t guess. Nearest facts: F-0090, F-0231.</div>'}];
+const KQ=[{label:"Can we prune oaks in June?",a:'<div class="q">Can we prune oaks in June?</div><div><span class="red">▇▇▇ ▇▇▇▇▇ ▇▇▇▇ ▇▇▇▇▇▇ ▇▇▇▇ ▇▇▇▇▇▇▇▇</span> <span class="hint">(answer private)</span></div><div class="row"><span class="src">F-1187 · timing</span><span class="src">owner walkthrough · 02 May 2026 · 11:08</span><span class="src">verbatim · high confidence</span></div>'},
+ {label:"Minimum crew for a crane removal?",a:'<div class="q">Minimum crew for a crane removal?</div><div><span class="red">▇▇▇▇ ▇▇▇▇▇▇ ▇▇▇ ▇▇▇▇ ▇▇▇▇▇▇▇</span> <span class="hint">(answer private)</span></div><div class="row"><span class="src">F-0412 · process</span><span class="src">walkthrough · 14 Mar 2026 · 02:41</span><span class="src">superseded F-0233 on 1 Apr</span></div>'},
+ {label:"What did we charge the Hendersons in 2019?",a:'<div class="q">What did we charge the Hendersons in 2019?</div><div class="abst"><b>I don\'t have that.</b> No fact covers 2019 pricing for that client, so it doesn\'t guess. Nearest facts: F-0090 (pricing), F-0231 (repeat clients).</div>'}];
 opts($('kOpts'),KQ,it=>{$('kAns').innerHTML=it.a});
 
 /* tools */
