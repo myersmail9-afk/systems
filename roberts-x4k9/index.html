@@ -200,14 +200,14 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <span class="k">Case file</span>
   <a href="#foryou">For you<span>how this relates</span></a>
   <a href="#overview">Overview<span>at a glance</span></a>
-  <a href="#map">System map<span>20 systems</span></a>
   <a href="#brain">Company memory<span>2,490 facts</span></a>
   <a href="#draft">Draft agent<span>recording → quote</span></a>
   <a href="#tools">Permissions<span>default-deny</span></a>
-  <a href="#brief">Briefings<span>event-driven</span></a>
-  <a href="#locates">Locates<span>4-view check</span></a>
   <a href="#reid">Re-identification<span>computer vision</span></a>
   <a href="#osint">OSINT screens<span>public data</span></a>
+  <a href="#brief">Briefings<span>event-driven</span></a>
+  <a href="#locates">Locates<span>4-view check</span></a>
+  <a href="#map">System map<span>20 systems</span></a>
   <a href="#report">Reporting<span>code does math</span></a>
   <a href="#forecast">Forecasts<span>logged, scored</span></a>
   <a href="#about">About<span>background</span></a>
@@ -229,17 +229,6 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
     <div class="fact"><span class="v">12</span><span class="l">read-back checks after every agent write</span></div>
     <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, vision re-ID test</span></div>
   </div>
-</section>
-
-<section class="sys" id="map">
-  <header><h2>System map · 20 systems, labelled by what's actually true</h2></header>
-  <div class="mapgrid">
-    <div class="lane"><span class="lh live">LIVE · USED</span><ul><li>Walkthrough → draft quote agent</li><li>Daily estimator briefings</li><li>Structured phone intake</li><li>Online request triage</li><li>Multi-channel ops inbox</li><li>Customer dossiers + grounded replies</li><li>Visit confirmation + safe reschedule</li><li>Utility-locate surveillance</li><li>Locate form staging + recording</li><li>Bounced-email recovery (narrow)</li><li>Review analysis + crew credit</li><li>Crew mobile app (51 tools)</li><li>Field logistics app</li></ul></div>
-    <div class="lane"><span class="lh avail">LIVE · ADOPTION UNPROVEN</span><ul><li>Ask-the-expert knowledge base</li><li>Supervisor decision board</li><li>Calculators and training pages</li></ul></div>
-    <div class="lane"><span class="lh built">BUILT · PREVIEW</span><ul><li>Guarded self-improvement</li><li>Office connector for a chat assistant</li><li>Route-aware bid scheduling</li><li>Next-gen logistics app</li></ul></div>
-    <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
-  </div>
-  <p class="hint" style="margin:0">Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
 </section>
 
 <!-- KB -->
@@ -309,49 +298,6 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
     <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
 </section>
 
-<!-- BRIEFINGS -->
-<section class="sys" id="brief">
-  <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
-  <h2>Every stop briefed before the knock</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div><div><dt>System</dt><dd class="sysline">Schedule watcher → call transcript + request + past work + past price + cited expert facts → signed-in page → usage tracking</dd></div></dl>
-  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [3] Watcher event log, 4 Nov 2026 (single event; short production history)</p>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Replay a real event · 4 Nov</span><span class="demo">REAL TIMESTAMPS</span></div>
-      <div class="body">
-        <div class="tl" id="bTl"></div>
-        <div class="row"><button class="btn" id="bPlay" type="button">▶ Replay</button><span class="hint">Schedule moved → page republished in 5 minutes, no one touched it.</span></div>
-      </div></div>
-    <div class="panel"><div class="ph"><span class="k">At the door · one stop</span><span class="demo">SAMPLE</span></div>
-      <div class="body door">
-        <div><span class="k">Wants</span><p>Two maples thinned, worried about the roofline.</p></div>
-        <div><span class="k">Remember</span><p>Called twice. Prefers text. Dog in back yard.</p></div>
-        <div><span class="k">Last time</span><p>2024 · crown clean, 2 trees · <span class="red">$▇▇▇</span></p></div>
-        <div><span class="k">Expert note</span><p>Cited company fact <span class="src">F-1187</span></p></div>
-      </div></div>
-  </div>
-</section>
-
-<!-- LOCATES -->
-<section class="sys" id="locates">
-  <header><div class="pills"><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
-  <h2>Utility locates: four views reconciled, never one field trusted</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div><div><dt>System</dt><dd class="sysline">Visits + job status + digging line items + tasks + email → covered / opening window / no date → staged form → human submit → ticket written to job, future visits, pinned note</dd></div></dl>
-  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [7] Locate scan log, 5 Nov 2026 (one morning)</p>
-  <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
-    <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Locate reconciliation counts">
-      <g style="font-size:11px">
-      <rect x="10" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="48" y="30" text-anchor="middle" style="fill:var(--ink)">26</text><text x="48" y="46" text-anchor="middle">visits</text>
-      <rect x="96" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="134" y="30" text-anchor="middle" style="fill:var(--ink)">174</text><text x="134" y="46" text-anchor="middle">active jobs</text>
-      <rect x="182" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="220" y="30" text-anchor="middle" style="fill:var(--ink)">14</text><text x="220" y="46" text-anchor="middle">digging jobs</text>
-      <rect x="268" y="10" width="82" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="309" y="30" text-anchor="middle" style="fill:var(--ink)">38</text><text x="309" y="46" text-anchor="middle">tasks</text>
-      <path d="M48 54L180 92M134 54L180 92M220 54L180 92M309 54L180 92" stroke="var(--muted)" fill="none"/>
-      <rect x="110" y="92" width="140" height="28" rx="3" fill="var(--green-soft)" stroke="var(--green)"/><text x="180" y="110" text-anchor="middle" style="fill:var(--green)">0 unexplained gaps</text>
-      <text x="180" y="142" text-anchor="middle">Surfaced a filing-date disagreement instead of picking the convenient answer</text></g>
-    </svg></div>
-  <ul class="limits"><li>Supports compliance work; doesn't guarantee it. A person is legally responsible and submits every form.</li></ul>
-</section>
-
-
 <!-- REID -->
 <section class="sys" id="reid">
   <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
@@ -409,6 +355,60 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
       <ul class="limits"><li>Concept demos, not operational products. A signal is a lead, never a conclusion.</li></ul>
     </div>
   </div>
+</section>
+
+<!-- BRIEFINGS -->
+<section class="sys" id="brief">
+  <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
+  <h2>Every stop briefed before the knock</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div><div><dt>System</dt><dd class="sysline">Schedule watcher → call transcript + request + past work + past price + cited expert facts → signed-in page → usage tracking</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [3] Watcher event log, 4 Nov 2026 (single event; short production history)</p>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Replay a real event · 4 Nov</span><span class="demo">REAL TIMESTAMPS</span></div>
+      <div class="body">
+        <div class="tl" id="bTl"></div>
+        <div class="row"><button class="btn" id="bPlay" type="button">▶ Replay</button><span class="hint">Schedule moved → page republished in 5 minutes, no one touched it.</span></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">At the door · one stop</span><span class="demo">SAMPLE</span></div>
+      <div class="body door">
+        <div><span class="k">Wants</span><p>Two maples thinned, worried about the roofline.</p></div>
+        <div><span class="k">Remember</span><p>Called twice. Prefers text. Dog in back yard.</p></div>
+        <div><span class="k">Last time</span><p>2024 · crown clean, 2 trees · <span class="red">$▇▇▇</span></p></div>
+        <div><span class="k">Expert note</span><p>Cited company fact <span class="src">F-1187</span></p></div>
+      </div></div>
+  </div>
+</section>
+
+<!-- LOCATES -->
+<section class="sys" id="locates">
+  <header><div class="pills"><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
+  <h2>Utility locates: four views reconciled, never one field trusted</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div><div><dt>System</dt><dd class="sysline">Visits + job status + digging line items + tasks + email → covered / opening window / no date → staged form → human submit → ticket written to job, future visits, pinned note</dd></div></dl>
+  <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [7] Locate scan log, 5 Nov 2026 (one morning)</p>
+  <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
+    <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Locate reconciliation counts">
+      <g style="font-size:11px">
+      <rect x="10" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="48" y="30" text-anchor="middle" style="fill:var(--ink)">26</text><text x="48" y="46" text-anchor="middle">visits</text>
+      <rect x="96" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="134" y="30" text-anchor="middle" style="fill:var(--ink)">174</text><text x="134" y="46" text-anchor="middle">active jobs</text>
+      <rect x="182" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="220" y="30" text-anchor="middle" style="fill:var(--ink)">14</text><text x="220" y="46" text-anchor="middle">digging jobs</text>
+      <rect x="268" y="10" width="82" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="309" y="30" text-anchor="middle" style="fill:var(--ink)">38</text><text x="309" y="46" text-anchor="middle">tasks</text>
+      <path d="M48 54L180 92M134 54L180 92M220 54L180 92M309 54L180 92" stroke="var(--muted)" fill="none"/>
+      <rect x="110" y="92" width="140" height="28" rx="3" fill="var(--green-soft)" stroke="var(--green)"/><text x="180" y="110" text-anchor="middle" style="fill:var(--green)">0 unexplained gaps</text>
+      <text x="180" y="142" text-anchor="middle">Surfaced a filing-date disagreement instead of picking the convenient answer</text></g>
+    </svg></div>
+  <ul class="limits"><li>Supports compliance work; doesn't guarantee it. A person is legally responsible and submits every form.</li></ul>
+</section>
+
+
+<section class="sys" id="map">
+  <header><h2>System map · 20 systems, labelled by what's actually true</h2></header>
+  <div class="mapgrid">
+    <div class="lane"><span class="lh live">LIVE · USED</span><ul><li>Walkthrough → draft quote agent</li><li>Daily estimator briefings</li><li>Structured phone intake</li><li>Online request triage</li><li>Multi-channel ops inbox</li><li>Customer dossiers + grounded replies</li><li>Visit confirmation + safe reschedule</li><li>Utility-locate surveillance</li><li>Locate form staging + recording</li><li>Bounced-email recovery (narrow)</li><li>Review analysis + crew credit</li><li>Crew mobile app (51 tools)</li><li>Field logistics app</li></ul></div>
+    <div class="lane"><span class="lh avail">LIVE · ADOPTION UNPROVEN</span><ul><li>Ask-the-expert knowledge base</li><li>Supervisor decision board</li><li>Calculators and training pages</li></ul></div>
+    <div class="lane"><span class="lh built">BUILT · PREVIEW</span><ul><li>Guarded self-improvement</li><li>Office connector for a chat assistant</li><li>Route-aware bid scheduling</li><li>Next-gen logistics app</li></ul></div>
+    <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
+  </div>
+  <p class="hint" style="margin:0">Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
 </section>
 
 <!-- REPORT -->

@@ -200,14 +200,14 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <span class="k">Case file</span>
   <a href="#foryou">For you<span>how this relates</span></a>
   <a href="#overview">Overview<span>at a glance</span></a>
-  <a href="#map">System map<span>20 systems</span></a>
   <a href="#tools">Permissions<span>default-deny</span></a>
   <a href="#osint">OSINT screens<span>public data</span></a>
   <a href="#brain">Company memory<span>2,490 facts</span></a>
   <a href="#draft">Draft agent<span>recording → quote</span></a>
+  <a href="#reid">Re-identification<span>computer vision</span></a>
   <a href="#brief">Briefings<span>event-driven</span></a>
   <a href="#locates">Locates<span>4-view check</span></a>
-  <a href="#reid">Re-identification<span>computer vision</span></a>
+  <a href="#map">System map<span>20 systems</span></a>
   <a href="#report">Reporting<span>code does math</span></a>
   <a href="#forecast">Forecasts<span>logged, scored</span></a>
   <a href="#about">About<span>background</span></a>
@@ -229,17 +229,6 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
     <div class="fact"><span class="v">12</span><span class="l">read-back checks after every agent write</span></div>
     <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, vision re-ID test</span></div>
   </div>
-</section>
-
-<section class="sys" id="map">
-  <header><h2>System map · 20 systems, labelled by what's actually true</h2></header>
-  <div class="mapgrid">
-    <div class="lane"><span class="lh live">LIVE · USED</span><ul><li>Walkthrough → draft quote agent</li><li>Daily estimator briefings</li><li>Structured phone intake</li><li>Online request triage</li><li>Multi-channel ops inbox</li><li>Customer dossiers + grounded replies</li><li>Visit confirmation + safe reschedule</li><li>Utility-locate surveillance</li><li>Locate form staging + recording</li><li>Bounced-email recovery (narrow)</li><li>Review analysis + crew credit</li><li>Crew mobile app (51 tools)</li><li>Field logistics app</li></ul></div>
-    <div class="lane"><span class="lh avail">LIVE · ADOPTION UNPROVEN</span><ul><li>Ask-the-expert knowledge base</li><li>Supervisor decision board</li><li>Calculators and training pages</li></ul></div>
-    <div class="lane"><span class="lh built">BUILT · PREVIEW</span><ul><li>Guarded self-improvement</li><li>Office connector for a chat assistant</li><li>Route-aware bid scheduling</li><li>Next-gen logistics app</li></ul></div>
-    <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
-  </div>
-  <p class="hint" style="margin:0">Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
 </section>
 
 <!-- TOOLS -->
@@ -336,6 +325,38 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   </div>
 </section>
 
+<!-- REID -->
+<section class="sys" id="reid">
+  <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
+  <h2>Which giraffe is this?</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div><div><dt>System</dt><dd class="sysline">Detector vote → coat-pattern match → calibration → review queue → hash-chained log</dd></div></dl>
+  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [8] Pre-registered eval files on public datasets (GZGC Nairobi, CDLA-Permissive-1.0; Snapshot Serengeti). Not yet tested on partner animals.</p>
+  <figure class="panel" style="margin:0"><div class="ph"><span class="k">The review screen · numbered circles mark coat spots that line up</span><span class="demo">REAL APP · REAL PHOTOS</span></div>
+    <img src="../img/reid-real.jpg" alt="Review screen on real Nairobi giraffe photos: matching coat spots circled and numbered on a new photo and a suggested giraffe, with Same / Not this one / New / Can't tell buttons" style="display:block;width:100%;height:auto" loading="lazy" width="1000" height="667">
+    <figcaption class="hint" style="padding:8px 12px">Real Masai giraffe photos from the public Nairobi National Park dataset (NNP GZC, CDLA-Permissive-1.0). Each colored pair is a spot the matcher verified on both photos. The person decides: Same giraffe, Not this one, New giraffe, or Can't tell. Keys 1–4.</figcaption></figure></header>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
+      <div class="body">
+        <div class="opts" id="rOpts"></div>
+        <div class="gallery" id="rGal"></div>
+        <div id="rVer"></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
+      <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
+        <text x="12" y="22" style="fill:var(--ink)">Found 74 of 77 animals</text>
+        <rect x="12" y="30" width="336" height="14" fill="var(--line)"/><rect x="12" y="30" width="323" height="14" fill="var(--green)"/>
+        <text x="12" y="72" style="fill:var(--ink)">Top-1 60% · 95% CI 46–72</text>
+        <rect x="12" y="80" width="336" height="10" fill="var(--line)"/><rect x="12" y="80" width="202" height="10" fill="var(--blue)"/>
+        <line x1="167" y1="76" x2="167" y2="94" stroke="var(--ink)"/><line x1="254" y1="76" x2="254" y2="94" stroke="var(--ink)"/><line x1="167" y1="85" x2="254" y2="85" stroke="var(--ink)"/>
+        <text x="12" y="120" style="fill:var(--ink)">Top-5 73%</text>
+        <rect x="12" y="128" width="336" height="10" fill="var(--line)"/><rect x="12" y="128" width="245" height="10" fill="var(--blue)"/>
+        <text x="12" y="166" style="fill:var(--ink)">Wrong automatic matches: 0 of 32</text>
+        <text x="12" y="186">14-animal test: right animal first, 20 of 21</text>
+      </svg></div>
+  </div>
+  <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
+</section>
+
 <!-- BRIEFINGS -->
 <section class="sys" id="brief">
   <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
@@ -379,36 +400,15 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 </section>
 
 
-<!-- REID -->
-<section class="sys" id="reid">
-  <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
-  <h2>Which giraffe is this?</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div><div><dt>System</dt><dd class="sysline">Detector vote → coat-pattern match → calibration → review queue → hash-chained log</dd></div></dl>
-  <p class="src-line"><span class="conf">Moderate confidence</span> &nbsp;<b>Source:</b> [8] Pre-registered eval files on public datasets (GZGC Nairobi, CDLA-Permissive-1.0; Snapshot Serengeti). Not yet tested on partner animals.</p>
-  <figure class="panel" style="margin:0"><div class="ph"><span class="k">The review screen · numbered circles mark coat spots that line up</span><span class="demo">REAL APP · REAL PHOTOS</span></div>
-    <img src="../img/reid-real.jpg" alt="Review screen on real Nairobi giraffe photos: matching coat spots circled and numbered on a new photo and a suggested giraffe, with Same / Not this one / New / Can't tell buttons" style="display:block;width:100%;height:auto" loading="lazy" width="1000" height="667">
-    <figcaption class="hint" style="padding:8px 12px">Real Masai giraffe photos from the public Nairobi National Park dataset (NNP GZC, CDLA-Permissive-1.0). Each colored pair is a spot the matcher verified on both photos. The person decides: Same giraffe, Not this one, New giraffe, or Can't tell. Keys 1–4.</figcaption></figure></header>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
-      <div class="body">
-        <div class="opts" id="rOpts"></div>
-        <div class="gallery" id="rGal"></div>
-        <div id="rVer"></div>
-      </div></div>
-    <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
-      <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
-        <text x="12" y="22" style="fill:var(--ink)">Found 74 of 77 animals</text>
-        <rect x="12" y="30" width="336" height="14" fill="var(--line)"/><rect x="12" y="30" width="323" height="14" fill="var(--green)"/>
-        <text x="12" y="72" style="fill:var(--ink)">Top-1 60% · 95% CI 46–72</text>
-        <rect x="12" y="80" width="336" height="10" fill="var(--line)"/><rect x="12" y="80" width="202" height="10" fill="var(--blue)"/>
-        <line x1="167" y1="76" x2="167" y2="94" stroke="var(--ink)"/><line x1="254" y1="76" x2="254" y2="94" stroke="var(--ink)"/><line x1="167" y1="85" x2="254" y2="85" stroke="var(--ink)"/>
-        <text x="12" y="120" style="fill:var(--ink)">Top-5 73%</text>
-        <rect x="12" y="128" width="336" height="10" fill="var(--line)"/><rect x="12" y="128" width="245" height="10" fill="var(--blue)"/>
-        <text x="12" y="166" style="fill:var(--ink)">Wrong automatic matches: 0 of 32</text>
-        <text x="12" y="186">14-animal test: right animal first, 20 of 21</text>
-      </svg></div>
+<section class="sys" id="map">
+  <header><h2>System map · 20 systems, labelled by what's actually true</h2></header>
+  <div class="mapgrid">
+    <div class="lane"><span class="lh live">LIVE · USED</span><ul><li>Walkthrough → draft quote agent</li><li>Daily estimator briefings</li><li>Structured phone intake</li><li>Online request triage</li><li>Multi-channel ops inbox</li><li>Customer dossiers + grounded replies</li><li>Visit confirmation + safe reschedule</li><li>Utility-locate surveillance</li><li>Locate form staging + recording</li><li>Bounced-email recovery (narrow)</li><li>Review analysis + crew credit</li><li>Crew mobile app (51 tools)</li><li>Field logistics app</li></ul></div>
+    <div class="lane"><span class="lh avail">LIVE · ADOPTION UNPROVEN</span><ul><li>Ask-the-expert knowledge base</li><li>Supervisor decision board</li><li>Calculators and training pages</li></ul></div>
+    <div class="lane"><span class="lh built">BUILT · PREVIEW</span><ul><li>Guarded self-improvement</li><li>Office connector for a chat assistant</li><li>Route-aware bid scheduling</li><li>Next-gen logistics app</li></ul></div>
+    <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
   </div>
-  <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
+  <p class="hint" style="margin:0">Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
 </section>
 
 <!-- REPORT -->
