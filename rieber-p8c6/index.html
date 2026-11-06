@@ -245,7 +245,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
       <svg class="chart" viewBox="0 0 360 120" role="img" aria-label="2,347 verbatim, 90 inferred, 53 need confirmation">
         <rect x="10" y="14" width="318" height="24" fill="var(--green)"/><rect x="328" y="14" width="12" height="24" fill="var(--amber)"/><rect x="340" y="14" width="8" height="24" fill="var(--red)"/>
         <text x="12" y="58" style="fill:var(--ink)">2,347 verbatim from the expert</text><text x="12" y="76" style="fill:var(--amber)">90 inferred</text><text x="12" y="94" style="fill:var(--red)">53 waiting for confirmation</text>
-        <text x="12" y="114">418 entities · 33 supersession chains for rules that changed</text>
+        <text x="12" y="114">418 entities · 33 supersession chains</text>
       </svg></div>
     <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE</span></div>
       <div class="body"><div class="opts" id="kOpts"></div><div class="ans" id="kAns"><span class="hint">Pick a question.</span></div></div></div>
@@ -429,7 +429,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div><div><dt>System</dt><dd class="sysline">Visits + job status + digging line items + tasks + email → covered / opening window / no date → staged form → human submit → ticket written to job, future visits, pinned note</dd></div></dl>
   <p class="src-line"><span class="conf">High confidence</span> &nbsp;<b>Source:</b> [7] Locate scan log, 5 Nov 2026 (one morning)</p>
   <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
-    <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Locate reconciliation counts">
+    <svg class="chart" viewBox="0 0 360 160" role="img" aria-label="Locate reconciliation counts">
       <g style="font-size:11px">
       <rect x="10" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="48" y="30" text-anchor="middle" style="fill:var(--ink)">26</text><text x="48" y="46" text-anchor="middle">visits</text>
       <rect x="96" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="134" y="30" text-anchor="middle" style="fill:var(--ink)">174</text><text x="134" y="46" text-anchor="middle">active jobs</text>
@@ -437,7 +437,7 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
       <rect x="268" y="10" width="82" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="309" y="30" text-anchor="middle" style="fill:var(--ink)">38</text><text x="309" y="46" text-anchor="middle">tasks</text>
       <path d="M48 54L180 92M134 54L180 92M220 54L180 92M309 54L180 92" stroke="var(--muted)" fill="none"/>
       <rect x="110" y="92" width="140" height="28" rx="3" fill="var(--green-soft)" stroke="var(--green)"/><text x="180" y="110" text-anchor="middle" style="fill:var(--green)">0 unexplained gaps</text>
-      <text x="180" y="142" text-anchor="middle">Surfaced a filing-date disagreement instead of picking the convenient answer</text></g>
+      <text x="180" y="138" text-anchor="middle">Flagged a filing-date disagreement</text><text x="180" y="152" text-anchor="middle">instead of picking the convenient answer</text></g>
     </svg></div>
   <ul class="limits"><li>Supports compliance work; doesn't guarantee it. A person is legally responsible and submits every form.</li></ul>
 </section>
@@ -532,7 +532,7 @@ const OD={all:{label:"All detections",w:112416,b:90282},near:{label:"Within 1 km
 function oDraw(k){const d=OD[k],m=Math.max(d.w,d.b)*1.15,sc=v=>v/m*300;$('oChart').innerHTML=`
  <text x="12" y="34" style="fill:var(--ink)">15 Apr 2023 – 31 Dec 2024</text><rect x="12" y="44" width="${sc(d.w)}" height="22" fill="var(--amber)"/><text x="${16+sc(d.w)}" y="60" style="fill:var(--ink)">${d.w.toLocaleString()}</text>
  <text x="12" y="92">2018–22 mean, same days</text><rect x="12" y="102" width="${sc(d.b)}" height="22" fill="var(--line)"/><text x="${16+sc(d.b)}" y="118">${d.b.toLocaleString()}</text>
- <text x="12" y="144" style="fill:var(--ink)">+${Math.round((d.w/d.b-1)*1000)/10}% vs baseline · a lead to check, not proof</text>`}
+ <text x="12" y="144" style="fill:var(--ink)">+${Math.round((d.w/d.b-1)*1000)/10}% vs baseline · a lead, not proof</text>`}
 opts($('oOpts'),Object.entries(OD).map(([k,v])=>({k,label:v.label})),it=>oDraw(it.k));
 $('oOpts').children[0].click();
 $('oVerify').onclick=()=>{const L=["re-download NASA FIRMS archive","recount detections per month","rebuild settlement buffer (1 km)","compare every figure on the page"];$('oChecks').innerHTML='';L.forEach((l,i)=>setTimeout(()=>{$('oChecks').innerHTML+=`<div class="fadein"><span class="y">✓</span> ${l}</div>`;if(i===L.length-1)$('oChecks').innerHTML+=`<div class="fadein"><b>ALL MATCH</b></div>`},350*(i+1)))};
