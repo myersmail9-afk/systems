@@ -159,6 +159,9 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
   .nav a.on{border-bottom-color:var(--blue)}
   .grid2,.trust{grid-template-columns:1fr}
   .top .mail{margin-left:0}
+  .top{position:static}
+  .nav{top:env(safe-area-inset-top,0px)}
+  html{scroll-padding-top:56px}
 }
 @media (prefers-reduced-motion:no-preference){.fadein{animation:f .25s ease-out both}@keyframes f{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}}
 </style>
