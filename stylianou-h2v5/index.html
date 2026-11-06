@@ -278,10 +278,10 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 .rq img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:3px;background:var(--rail)}
 .rev{position:relative}
 .rev img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:contain;background:#16181a;border-radius:3px}
-.rnone{aspect-ratio:2/1;display:flex;align-items:center;justify-content:center;background:#16181a;border-radius:3px;color:var(--muted);font-size:13px;text-align:center;padding:12px}
+.rnone{padding:28px 12px!important;display:flex;align-items:center;justify-content:center;background:#16181a;border-radius:3px;color:var(--muted);font-size:13px;text-align:center;padding:12px}
 #rGal{grid-template-columns:repeat(3,minmax(0,1fr));min-height:0}
 .cand img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:2px}
-.cand b{font:600 11px var(--mono);word-break:break-all}
+.cand b{font:600 11px var(--mono)}
 .cand .pc{font:600 15px var(--mono)}
 .cand.top .pc{color:var(--green)}
 .rg{grid-template-columns:minmax(0,1fr)}
@@ -349,7 +349,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
       <div class="opts" id="rOpts"></div>
       <div class="rm"><figure class="rq"><img id="rQ" alt="New giraffe sighting" width="520" height="390"><figcaption class="hint" id="rQc"></figcaption></figure>
         <div class="gallery" id="rGal"></div></div>
-      <figure class="rev"><img id="rEv" alt="Coat points the matcher verified between the sighting and its top candidate" width="1200" height="600"><div class="rnone" id="rNone" hidden>No coat points verified against any candidate.</div><figcaption class="hint" id="rEc"></figcaption></figure>
+      <figure class="rev"><img id="rEv" alt="Coat points the matcher verified between the sighting and its top candidate" width="1200" height="600"><div class="rnone" id="rNone" hidden>No candidate has enough matching coat points.</div><figcaption class="hint" id="rEc"></figcaption></figure>
       <div id="rVer"></div>
       <span class="hint">Recorded output of the frozen matcher on its test set, not re-run in your browser. Public photos: Nairobi National Park, GZGC, CDLA-Permissive-1.0.</span>
     </div></div>
@@ -672,7 +672,7 @@ const SIGHT=[
  {label:"Confident and wrong",n:"lookalike",qc:"New sighting · per the dataset, this animal isn't in the catalog",cands:[["NNP_GIRM_0051",.998,69],["NNP_GIRM_0042",.001,5],["NNP_GIRM_0044",.001,5]],ev:"69 coat points verified, on the wrong animal per the dataset's label",v:"Top guess 99.8%, and wrong per the dataset's label. The two checks disagreed on the top animal → sent to a person. No automatic match."},
  {label:"Not in the catalog",n:"newanimal",qc:"New sighting · this animal isn't in the catalog",cands:[["NNP_GIRM_0019",.001,0],["NNP_GIRM_0130",.001,0],["NNP_GIRM_0055",.001,4]],ev:"",none:1,nw:1,v:"Best score under 1%, nothing lines up → proposed as a new animal. A person confirms before it joins the catalog."}];
 opts($('rOpts'),SIGHT,it=>{$('rQ').src=RBASE+it.n+'-q.jpg';$('rQc').textContent=it.qc;
- $('rGal').innerHTML=it.cands.map(([id,p,pts],i)=>`<div class="cand ${i===0&&!it.nw?'top':''}"><img src="${RBASE+it.n}-c${i+1}.jpg" alt="Candidate ${id}" width="360" height="270"><b>${id}</b><span class="pc">${pct(p)}</span><span>${pts} point${pts===1?'':'s'}</span><div class="bar"><i style="width:${Math.max(p*100,1)}%"></i></div></div>`).join('');
+ $('rGal').innerHTML=it.cands.map(([id,p,pts],i)=>`<div class="cand ${i===0&&!it.nw?'top':''}"><img src="${RBASE+it.n}-c${i+1}.jpg" alt="Candidate ${id}" width="360" height="270"><b>${id.replace("NNP_","")}</b><span class="pc">${pct(p)}</span><span>${pts} point${pts===1?'':'s'}</span><div class="bar"><i style="width:${Math.max(p*100,1)}%"></i></div></div>`).join('');
  $('rEv').hidden=!!it.none;$('rNone').hidden=!it.none;if(!it.none)$('rEv').src=RBASE+it.n+'-ev.jpg';$('rEc').textContent=it.ev;
  $('rVer').innerHTML=`<div class="verdict ${it.go?'go':'q'} fadein">${it.v}</div>`});
 
