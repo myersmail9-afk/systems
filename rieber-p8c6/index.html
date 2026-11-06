@@ -248,8 +248,8 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <a href="#brain">Company memory<span>2,490 facts</span></a>
   <a href="#report">Reporting<span>code does math</span></a>
   <a href="#forecast">Forecasts<span>logged, scored</span></a>
-  <a href="#work">Built work<span>real examples</span></a>
   <a href="#reid">Re-identification<span>computer vision</span></a>
+  <a href="#work">Built work<span>real examples</span></a>
   <a href="#draft">Draft agent<span>recording → quote</span></a>
   <a href="#osint">OSINT screens<span>public data</span></a>
   <a href="#brief">Briefings<span>event-driven</span></a>
@@ -273,9 +273,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
     <div class="fact"><span class="v">2,490</span><span class="l">sourced facts in a company memory</span></div>
     <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, vision re-ID test</span></div>
   </div>
-  <figure class="panel" style="margin:0"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
-    <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
-    <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure>
 </section>
 
 <!-- KB -->
@@ -348,12 +345,6 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
 </section>
 
-<section class="sys" id="work">
-  <header><div class="pills"><span class="pill live">Real builds</span><span class="pill">Public data · tap to enlarge</span></div>
-  <h2>Built work</h2></header>
-  <div class="gallery2"><button type="button" class="tile" data-full="img/gallery/report-answer.jpg"><img src="../img/gallery/report-answer.jpg" alt="Reporting assistant: Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded." loading="lazy"><span class="tt">Reporting assistant</span><span class="td">Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded.</span><span class="tm">Concept on a demining NGO's public monthly data</span></button><button type="button" class="tile" data-full="img/gallery/darfur-grid.jpg"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid: 112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements." loading="lazy"><span class="tt">Darfur fire grid</span><span class="td">112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements.</span><span class="tm">Public data · fires are not attacks</span></button><button type="button" class="tile" data-full="img/gallery/map-namibia-fire.jpg"><img src="../img/gallery/map-namibia-fire.jpg" alt="Omaheke, Namibia · fire history: Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once." loading="lazy"><span class="tt">Omaheke, Namibia · fire history</span><span class="td">Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once.</span><span class="tm">Public data · Leaflet + OSM</span></button><button type="button" class="tile" data-full="img/gallery/map-kunene-rain.jpg"><img src="../img/gallery/map-kunene-rain.jpg" alt="Kunene, Namibia · rainfall: 2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more." loading="lazy"><span class="tt">Kunene, Namibia · rainfall</span><span class="td">2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more.</span><span class="tm">Public data · slider by season</span></button><button type="button" class="tile" data-full="img/gallery/darfur-baseline.jpg"><img src="../img/gallery/darfur-baseline.jpg" alt="Month by month vs baseline: Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year." loading="lazy"><span class="tt">Month by month vs baseline</span><span class="td">Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year.</span><span class="tm">Public data</span></button><button type="button" class="tile" data-full="img/gallery/etosha-timeline.jpg"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread: each 1 km cell colored by first detection date, 22 Sep to 10 Oct 2025" loading="lazy"><span class="tt">Etosha · how the fire spread</span><span class="td">Each ~1 km cell colored by the day fire first reached it, 22 Sep – 10 Oct 2025. Dates checked against a published investigation, 73 of 73.</span><span class="tm">Public data · NASA, Copernicus, OSM</span></button></div>
-</section>
-<div class="lb" id="lb" hidden><button type="button" class="lbx" id="lbx" aria-label="Close">✕</button><img id="lbimg" alt=""></div>
 <!-- REID -->
 <section class="sys" id="reid">
   <header><div class="pills"><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
@@ -361,6 +352,9 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person confirms every new individual.</dd></div></dl>
   <div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
   </header>
+  <figure class="panel" style="margin:0 0 14px"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
+    <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
+    <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">DEMO · DRAWN PATTERNS</span></div>
       <div class="body">
@@ -383,6 +377,13 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
   <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
 </section>
+
+<section class="sys" id="work">
+  <header><div class="pills"><span class="pill live">Real builds</span><span class="pill">Public data · tap to enlarge</span></div>
+  <h2>Built work</h2></header>
+  <div class="gallery2"><button type="button" class="tile" data-full="img/gallery/report-answer.jpg"><img src="../img/gallery/report-answer.jpg" alt="Reporting assistant: Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded." loading="lazy"><span class="tt">Reporting assistant</span><span class="td">Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded.</span><span class="tm">Concept on a demining NGO's public monthly data</span></button><button type="button" class="tile" data-full="img/gallery/darfur-grid.jpg"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid: 112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements." loading="lazy"><span class="tt">Darfur fire grid</span><span class="td">112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements.</span><span class="tm">Public data · fires are not attacks</span></button><button type="button" class="tile" data-full="img/gallery/map-namibia-fire.jpg"><img src="../img/gallery/map-namibia-fire.jpg" alt="Omaheke, Namibia · fire history: Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once." loading="lazy"><span class="tt">Omaheke, Namibia · fire history</span><span class="td">Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once.</span><span class="tm">Public data · Leaflet + OSM</span></button><button type="button" class="tile" data-full="img/gallery/map-kunene-rain.jpg"><img src="../img/gallery/map-kunene-rain.jpg" alt="Kunene, Namibia · rainfall: 2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more." loading="lazy"><span class="tt">Kunene, Namibia · rainfall</span><span class="td">2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more.</span><span class="tm">Public data · slider by season</span></button><button type="button" class="tile" data-full="img/gallery/darfur-baseline.jpg"><img src="../img/gallery/darfur-baseline.jpg" alt="Month by month vs baseline: Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year." loading="lazy"><span class="tt">Month by month vs baseline</span><span class="td">Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year.</span><span class="tm">Public data</span></button><button type="button" class="tile" data-full="img/gallery/etosha-timeline.jpg"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread: each 1 km cell colored by first detection date, 22 Sep to 10 Oct 2025" loading="lazy"><span class="tt">Etosha · how the fire spread</span><span class="td">Each ~1 km cell colored by the day fire first reached it, 22 Sep – 10 Oct 2025. Dates checked against a published investigation, 73 of 73.</span><span class="tm">Public data · NASA, Copernicus, OSM</span></button></div>
+</section>
+<div class="lb" id="lb" hidden><button type="button" class="lbx" id="lbx" aria-label="Close">✕</button><img id="lbimg" alt=""></div>
 
 <!-- DRAFT -->
 <section class="sys" id="draft">
@@ -578,7 +579,7 @@ function oDraw(k){const d=OD[k],m=Math.max(d.w,d.b)*1.15,sc=v=>v/m*300;$('oChart
  <text x="12" y="144" style="fill:var(--ink)">+${Math.round((d.w/d.b-1)*1000)/10}% vs baseline · a lead, not proof</text>`}
 opts($('oOpts'),Object.entries(OD).map(([k,v])=>({k,label:v.label})),it=>oDraw(it.k));
 $('oOpts').children[0].click();
-$('oVerify').onclick=()=>{const L=["re-download NASA FIRMS archive","recount detections per month","rebuild settlement buffer (1 km)","compare every figure on the page"];$('oChecks').innerHTML='';L.forEach((l,i)=>setTimeout(()=>{$('oChecks').innerHTML+=`<div class="fadein"><span class="y">✓</span> ${l}</div>`;if(i===L.length-1)$('oChecks').innerHTML+=`<div class="fadein"><b>ALL MATCH</b></div>`},350*(i+1)))};
+let oT=[];$('oVerify').onclick=()=>{oT.forEach(clearTimeout);oT=[];const L=["re-download NASA FIRMS archive","recount detections per month","rebuild settlement buffer (1 km)","compare every figure on the page"];$('oChecks').innerHTML='';L.forEach((l,i)=>oT.push(setTimeout(()=>{$('oChecks').innerHTML+=`<div class="fadein"><span class="y">✓</span> ${l}</div>`;if(i===L.length-1)$('oChecks').innerHTML+=`<div class="fadein"><b>ALL MATCH</b></div>`},350*(i+1))))};
 
 /* report */
 const PQ=[{label:"Area released last quarter?",a:'<div class="q">Area released last quarter?</div><div><span class="src">tool: sum_area(quarter)</span></div><div><b class="v">▇▇▇,▇▇▇ m²</b> <span class="hint">(computed by code)</span></div><div class="row"><span class="src">rows 412–437 · public Monthly Summary</span></div>'},
