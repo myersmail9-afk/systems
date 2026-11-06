@@ -138,6 +138,22 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 .pss dd{margin:0;font-size:13.5px;line-height:1.45}
 .pss dd.sysline{font:12px/1.55 var(--mono);color:var(--muted)}
 @media (max-width:860px){.pss{grid-template-columns:1fr}}
+
+.mapgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.lane{background:var(--pane);padding:10px 12px;display:grid;gap:6px;align-content:start;min-width:0}
+.lane ul{margin:0;padding-left:16px;display:grid;gap:2px;font-size:12.5px}
+.lane:first-child ul{grid-template-columns:1fr 1fr;column-gap:14px}
+.lh{font:600 10.5px var(--mono);letter-spacing:.06em;padding:4px 6px;border-radius:2px;justify-self:start}
+.lh.live{color:var(--green);background:var(--green-soft)} .lh.avail{color:var(--amber);background:var(--amber-soft)} .lh.built{color:var(--blue);background:var(--blue-soft)} .lh.test{color:var(--muted);border:1px solid var(--line)} .lh.ret{color:var(--muted);border:1px dashed var(--line)}
+.tl{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.tl div{position:relative;padding:6px 0 10px 16px;font-size:13px;opacity:.35;transition:opacity .25s}
+.tl div.on{opacity:1}
+.tl div::before{content:"";position:absolute;left:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--pane);border:2px solid var(--muted)}
+.tl div.on::before{border-color:var(--blue);background:var(--blue)}
+.tl b{font:600 12px var(--mono);margin-right:8px}
+.door{grid-template-columns:1fr 1fr}
+.door p{margin:2px 0 0;font-size:13px}
+@media (max-width:860px){.mapgrid{grid-template-columns:1fr}.lane:first-child ul{grid-template-columns:1fr}.door{grid-template-columns:1fr}}
 /* skins */
 .skins{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 9px;color:var(--muted)}
@@ -173,10 +189,13 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <nav class="nav" aria-label="Sections">
   <span class="k">Case file</span>
   <a href="#overview">Overview<span>at a glance</span></a>
+  <a href="#map">System map<span>20 systems</span></a>
   <a href="#draft">Draft agent<span>recording → quote</span></a>
-  <a href="#brain">Knowledge base<span>cite or abstain</span></a>
-  <a href="#tools">Permissions<span>least privilege</span></a>
-  <a href="#reid">Re-identification<span>field photos</span></a>
+  <a href="#brief">Briefings<span>event-driven</span></a>
+  <a href="#brain">Company memory<span>2,490 facts</span></a>
+  <a href="#tools">Permissions<span>default-deny</span></a>
+  <a href="#locates">Locates<span>4-view check</span></a>
+  <a href="#reid">Re-identification<span>computer vision</span></a>
   <a href="#osint">OSINT screens<span>public data</span></a>
   <a href="#report">Reporting<span>code does math</span></a>
   <a href="#forecast">Forecasts<span>logged, scored</span></a>
@@ -186,79 +205,132 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 <main>
 <section class="hero" id="overview">
   <p class="sig">I didn't come up through computer science. I came up through systems thinking, and I taught myself to build what I see.</p>
-  <p class="bluf"><b>BLUF</b>I build AI that shows its evidence: answers cite sources, tests decide what ships, and a person signs off on anything that leaves the system. Every demo below is clickable.</p>
+  <p class="bluf"><b>BLUF</b>I built a supervised AI operating layer for a working service company: agents that read real records, write drafts, check their own work, and stop when they should. People keep prices, sends, payments and legal filings.</p>
   <div class="facts">
     <div class="fact"><span class="v">800+</span><span class="l">hours hands-on with AI since Aug 2026</span></div>
-    <div class="fact"><span class="v">1,269</span><span class="l">logged agent runs on the platform I built and run</span></div>
-    <div class="fact"><span class="v">36</span><span class="l">AI skills in daily production (54 built)</span></div>
-    <div class="fact"><span class="v">2,173</span><span class="l">facts, each traced to its source recording</span></div>
-    <div class="fact"><span class="v">560</span><span class="l">automated tests on one vision app, built in 2 weeks</span></div>
-    <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches on a held-out test</span></div>
+    <div class="fact"><span class="v">20</span><span class="l">AI systems built · 13 live and doing real work</span></div>
+    <div class="fact"><span class="v">151</span><span class="l">production agent runs, failures kept on the record</span></div>
+    <div class="fact"><span class="v">2,490</span><span class="l">sourced facts in a company memory</span></div>
+    <div class="fact"><span class="v">12</span><span class="l">read-back checks after every agent write</span></div>
+    <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches, vision re-ID test</span></div>
   </div>
+</section>
+
+<section class="sys" id="map">
+  <header><h2>System map · 20 systems, labelled by what's actually true</h2></header>
+  <div class="mapgrid">
+    <div class="lane"><span class="lh live">LIVE · USED</span><ul><li>Walkthrough → draft quote agent</li><li>Daily estimator briefings</li><li>Structured phone intake</li><li>Online request triage</li><li>Multi-channel ops inbox</li><li>Customer dossiers + grounded replies</li><li>Visit confirmation + safe reschedule</li><li>Utility-locate surveillance</li><li>Locate form staging + recording</li><li>Bounced-email recovery (narrow)</li><li>Review analysis + crew credit</li><li>Crew mobile app (51 tools)</li><li>Field logistics app</li></ul></div>
+    <div class="lane"><span class="lh avail">LIVE · ADOPTION UNPROVEN</span><ul><li>Ask-the-expert knowledge base</li><li>Supervisor decision board</li><li>Calculators and training pages</li></ul></div>
+    <div class="lane"><span class="lh built">BUILT · PREVIEW</span><ul><li>Guarded self-improvement</li><li>Office connector for a chat assistant</li><li>Route-aware bid scheduling</li><li>Next-gen logistics app</li></ul></div>
+    <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
+  </div>
+  <p class="hint" style="margin:0">Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
 </section>
 
 <!-- DRAFT -->
 <section class="sys" id="draft">
-  <header><div class="pills"><span class="pill live">In use daily</span><span class="pill">Agent + human approval</span></div>
-  <h2>A site walkthrough becomes a draft quote</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>Quotes were written by hand after every site visit.</dd></div><div><dt>Solution</dt><dd>Record the walkthrough once. An agent drafts every line and cites the second of audio it came from.</dd></div><div><dt>System</dt><dd class="sysline">Recording → agent → least-privilege tools → person approves → run ledger</dd></div></dl></header>
+  <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
+  <h2>A field recording becomes a draft quote in about a minute</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then checks its own work. A person prices and sends.</dd></div><div><dt>System</dt><dd class="sysline">Recording → transcript watcher → agent (6 read tools, 1 draft tool) → 12 read-back checks → estimator</dd></div></dl>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Try it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body">
-        <div class="row"><button class="btn" id="dPlay" type="button">▶ Play walkthrough</button><span class="hint" id="dHint">Real client data is private; this is invented.</span></div>
+        <div class="opts" id="dCase"></div>
         <div class="tx" id="dTx"><span class="ts">walkthrough.m4a · waiting</span></div>
-        <div class="quote"><div class="qhead"><span>DRAFT QUOTE</span><span class="st" id="dSt">○ empty</span></div><div id="dRows"><div class="qempty">Line items appear as the agent hears them.</div></div></div>
-        <div class="row"><button class="btn ok" id="dOk" type="button" disabled>Approve and send</button><button class="btn ghost" id="dReset" type="button">Reset</button></div>
+        <div class="quote"><div class="qhead"><span>DRAFT QUOTE · prices held at $0</span><span class="st" id="dSt">○ empty</span></div><div id="dRows"><div class="qempty">Line items appear as the agent works.</div></div></div>
+        <div class="checks" id="dChecks"></div>
+        <div class="row"><button class="btn" id="dPlay" type="button">▶ Run agent</button><button class="btn ok" id="dOk" type="button" disabled>Estimator prices + sends</button></div>
       </div></div>
     <div style="display:grid;gap:12px;align-content:start">
+      <div class="panel"><div class="ph"><span class="k">151 recorded runs · 23 Sep – 4 Nov</span></div>
+        <svg class="chart" viewBox="0 0 360 96" role="img" aria-label="119 succeeded, 22 stopped, 10 failed">
+          <rect x="10" y="14" width="269" height="26" fill="var(--green)"/><rect x="279" y="14" width="50" height="26" fill="var(--amber)"/><rect x="329" y="14" width="22" height="26" fill="var(--red)"/>
+          <text x="12" y="62" style="fill:var(--ink)">119 succeeded</text><text x="190" y="62" style="fill:var(--amber)">22 stopped on purpose</text><text x="290" y="82" style="fill:var(--red)">10 failed</text>
+        </svg></div>
       <div class="metrics">
-        <div class="metric"><span class="v">15 → 1.3 min</span><span class="l">per quote: by hand (est.) vs agent median</span></div>
-        <div class="metric"><span class="v">330</span><span class="l">bid-workflow runs · ~$0.53 per draft</span></div>
-        <div class="metric"><span class="v">270</span><span class="l">call intakes · 94% error-free</span></div>
-        <div class="metric"><span class="v">82%</span><span class="l">of 1,177 instrumented runs with zero tool errors</span></div>
+        <div class="metric"><span class="v">~1.2 min</span><span class="l">typical run · 14 agent steps</span></div>
+        <div class="metric"><span class="v">$0.63–0.84</span><span class="l">model cost per draft</span></div>
+        <div class="metric"><span class="v">90 s</span><span class="l">4 trees, 2 approaches, 3 optional items</span></div>
+        <div class="metric"><span class="v">8/8</span><span class="l">live test battery passed, 26 Oct</span></div>
       </div>
-      <ul class="limits"><li>No CI pipeline on that platform yet.</li><li>Prompt injection isn't directly tested.</li></ul>
+      <ul class="limits"><li>Execution metrics, not an ROI study.</li><li>The agent never prices or sends; that is by design.</li></ul>
     </div>
+  </div>
+</section>
+
+<!-- BRIEFINGS -->
+<section class="sys" id="brief">
+  <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
+  <h2>Every stop briefed before the knock</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div><div><dt>System</dt><dd class="sysline">Schedule watcher → call transcript + request + past work + past price + cited expert facts → signed-in page → usage tracking</dd></div></dl>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Replay a real event · 4 Nov</span><span class="demo">REAL TIMESTAMPS</span></div>
+      <div class="body">
+        <div class="tl" id="bTl"></div>
+        <div class="row"><button class="btn" id="bPlay" type="button">▶ Replay</button><span class="hint">Schedule moved → page republished in 5 minutes, no one touched it.</span></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">At the door · one stop</span><span class="demo">SAMPLE</span></div>
+      <div class="body door">
+        <div><span class="k">Wants</span><p>Two maples thinned, worried about the roofline.</p></div>
+        <div><span class="k">Remember</span><p>Called twice. Prefers text. Dog in back yard.</p></div>
+        <div><span class="k">Last time</span><p>2024 · crown clean, 2 trees · <span class="red">$▇▇▇</span></p></div>
+        <div><span class="k">Expert note</span><p>Cited company fact <span class="src">F-1187</span></p></div>
+      </div></div>
   </div>
 </section>
 
 <!-- KB -->
 <section class="sys" id="brain">
-  <header><div class="pills"><span class="pill live">In use</span><span class="pill">RAG · evals</span></div>
-  <h2>Answers with a source, or “I don't have that”</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>An owner's pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Turn recorded walkthroughs into sourced facts the crew can query from their phones.</dd></div><div><dt>System</dt><dd class="sysline">Fact cards → keyword + vector search, reranked → cite or abstain → nightly regression gate</dd></div></dl></header>
+  <header><div class="pills"><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
+  <h2>A company memory that knows where every fact came from</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div><div><dt>System</dt><dd class="sysline">Recordings + documents → atomic facts → hybrid search, reranked → cite or abstain → nightly regression gate → health report</dd></div></dl>
   <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
-      <div class="body">
-        <div class="opts" id="kOpts"></div>
-        <div class="ans" id="kAns"><span class="hint">Pick a question.</span></div>
-      </div></div>
-    <div class="panel"><div class="ph"><span class="k">Nightly gate · real dated events</span></div>
-      <svg class="chart" viewBox="0 0 360 180" role="img" aria-label="Golden set results and gate blocks">
-        <text x="16" y="22" style="fill:var(--ink)">Ships only if nothing that passed now fails.</text>
-        <line x1="20" y1="110" x2="344" y2="110" stroke="var(--line)"/>
-        <circle cx="44" cy="110" r="6" fill="var(--green)"/><text x="44" y="134" text-anchor="middle">12 Sep</text><text x="44" y="92" text-anchor="middle" style="fill:var(--ink)">337/352</text><text x="44" y="76" text-anchor="middle">95.7%</text>
-        <rect x="134" y="103" width="14" height="14" fill="var(--red)"/><rect x="154" y="103" width="14" height="14" fill="var(--red)"/><rect x="174" y="103" width="14" height="14" fill="var(--red)"/>
-        <text x="161" y="134" text-anchor="middle">30 Sep – 2 Oct</text><text x="161" y="88" text-anchor="middle" style="fill:var(--red)">blocked ×3</text>
-        <circle cx="300" cy="110" r="6" fill="var(--green)"/><text x="300" y="134" text-anchor="middle">Oct</text><text x="300" y="92" text-anchor="middle" style="fill:var(--ink)">462/481</text><text x="300" y="76" text-anchor="middle">expanded set</text>
-        <text x="16" y="160">Caught: 40 retired prices still marked current.</text>
-        <text x="16" y="176">Fine-tune rejected: 331 vs 337 held-out.</text>
+    <div class="panel"><div class="ph"><span class="k">2,490 facts by provenance</span></div>
+      <svg class="chart" viewBox="0 0 360 120" role="img" aria-label="2,347 verbatim, 90 inferred, 53 need confirmation">
+        <rect x="10" y="14" width="318" height="24" fill="var(--green)"/><rect x="328" y="14" width="12" height="24" fill="var(--amber)"/><rect x="340" y="14" width="8" height="24" fill="var(--red)"/>
+        <text x="12" y="58" style="fill:var(--ink)">2,347 verbatim from the expert</text><text x="12" y="76" style="fill:var(--amber)">90 inferred</text><text x="12" y="94" style="fill:var(--red)">53 waiting for confirmation</text>
+        <text x="12" y="114">418 entities · 33 supersession chains for rules that changed</text>
       </svg></div>
+    <div class="panel"><div class="ph"><span class="k">Ask it</span><span class="demo">DEMO · SAMPLE</span></div>
+      <div class="body"><div class="opts" id="kOpts"></div><div class="ans" id="kAns"><span class="hint">Pick a question.</span></div></div></div>
   </div>
-  <ul class="limits"><li>Golden set written from the same transcripts, not real user questions.</li><li>Usage isn't measured yet, so no adoption claims.</li></ul>
+  <div class="metrics">
+    <div class="metric"><span class="v">62</span><span class="l">contradictions it surfaced for review, not hid</span></div>
+    <div class="metric"><span class="v">95.7%</span><span class="l">right fact in top 12 · 352-question golden set</span></div>
+    <div class="metric"><span class="v">3 nights</span><span class="l">a bad index blocked by the gate</span></div>
+    <div class="metric"><span class="v">17 → 7</span><span class="l">photographed lab reports → reviewed facts + 1 supersession</span></div>
+  </div>
+  <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
 </section>
 
 <!-- TOOLS -->
 <section class="sys" id="tools">
-  <header><div class="pills"><span class="pill live">In use</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
+  <header><div class="pills"><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
   <h2>The agent can only do what its tools allow</h2>
-  <dl class="pss"><div><dt>Problem</dt><dd>An agent with write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Give it only what the job needs: read, and draft. Never send, invoice or delete.</dd></div><div><dt>System</dt><dd class="sysline">Custom MCP server · GraphQL · OAuth 2.0 · 6 read tools · 1 draft tool · 0 send tools</dd></div></dl></header>
+  <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div><div><dt>System</dt><dd class="sysline">Custom MCP server · read clients, requests, quotes, jobs, visits, catalog · create_draft_quote · nothing else</dd></div></dl>
   <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
-    <div class="body">
-      <div class="opts" id="tOpts"></div>
-      <div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div>
-    </div></div>
+    <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
 </section>
+
+<!-- LOCATES -->
+<section class="sys" id="locates">
+  <header><div class="pills"><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
+  <h2>Utility locates: four views reconciled, never one field trusted</h2>
+  <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div><div><dt>System</dt><dd class="sysline">Visits + job status + digging line items + tasks + email → covered / opening window / no date → staged form → human submit → ticket written to job, future visits, pinned note</dd></div></dl>
+  <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
+    <svg class="chart" viewBox="0 0 360 150" role="img" aria-label="Locate reconciliation counts">
+      <g style="font-size:11px">
+      <rect x="10" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="48" y="30" text-anchor="middle" style="fill:var(--ink)">26</text><text x="48" y="46" text-anchor="middle">visits</text>
+      <rect x="96" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="134" y="30" text-anchor="middle" style="fill:var(--ink)">174</text><text x="134" y="46" text-anchor="middle">active jobs</text>
+      <rect x="182" y="10" width="76" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="220" y="30" text-anchor="middle" style="fill:var(--ink)">14</text><text x="220" y="46" text-anchor="middle">digging jobs</text>
+      <rect x="268" y="10" width="82" height="44" rx="3" fill="var(--rail)" stroke="var(--line)"/><text x="309" y="30" text-anchor="middle" style="fill:var(--ink)">38</text><text x="309" y="46" text-anchor="middle">tasks</text>
+      <path d="M48 54L180 92M134 54L180 92M220 54L180 92M309 54L180 92" stroke="var(--muted)" fill="none"/>
+      <rect x="110" y="92" width="140" height="28" rx="3" fill="var(--green-soft)" stroke="var(--green)"/><text x="180" y="110" text-anchor="middle" style="fill:var(--green)">0 unexplained gaps</text>
+      <text x="180" y="142" text-anchor="middle">Surfaced a filing-date disagreement instead of picking the convenient answer</text></g>
+    </svg></div>
+  <ul class="limits"><li>Supports compliance work; doesn't guarantee it. A person is legally responsible and submits every form.</li></ul>
+</section>
+
 
 <!-- REID -->
 <section class="sys" id="reid">
@@ -382,16 +454,27 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 function opts(el,items,on){items.forEach((it,i)=>{const b=document.createElement('button');b.className='opt';b.type='button';b.textContent=it.label;b.setAttribute('aria-pressed','false');b.onclick=()=>{[...el.children].forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');on(it,i)};el.appendChild(b)})}
 
 /* draft agent */
-const LINES=[["01:12","…<mark>two dead limbs over the garage</mark>, six inch or so…","Remove 2 dead limbs over structure"],["02:40","…<mark>we'll need the bucket</mark>, no climb on this one…","Bucket truck, no climb"],["03:05","…<mark>haul everything</mark>, she doesn't want chips…","Haul all debris"]];
-let dT=[];
-function dReset(){dT.forEach(clearTimeout);dT=[];$('dTx').innerHTML='<span class="ts">walkthrough.m4a · waiting</span>';$('dRows').innerHTML='<div class="qempty">Line items appear as the agent hears them.</div>';$('dSt').textContent='○ empty';$('dSt').className='st';$('dOk').disabled=true;$('dOk').textContent='Approve and send';$('dPlay').disabled=false}
-$('dPlay').onclick=()=>{dReset();$('dPlay').disabled=true;$('dTx').innerHTML='<span class="ts">walkthrough.m4a · transcribing</span>';$('dRows').innerHTML='';$('dSt').textContent='● drafting';
- LINES.forEach(([t,l,item],i)=>dT.push(setTimeout(()=>{const d=document.createElement('div');d.className='fadein';d.innerHTML=`<span class="ts">[${t}]</span> ${l}`;$('dTx').appendChild(d);
-  const r=document.createElement('div');r.className='qrow fadein';r.innerHTML=`<span>${esc(item)}</span><span class="src">${t}</span><span class="red">$▇▇▇</span>`;$('dRows').appendChild(r);
-  if(i===LINES.length-1){$('dSt').textContent='● awaiting estimator';$('dOk').disabled=false}},700*(i+1))))};
-$('dOk').onclick=()=>{$('dSt').textContent='✓ approved and sent by the estimator';$('dSt').className='st sent';$('dOk').disabled=true;$('dOk').textContent='Sent by a person'};
-$('dReset').onclick=dReset;
+const CASES=[{label:"Normal walkthrough",lines:[["01:12","…<mark>two dead limbs over the garage</mark>, six inch or so…","Remove 2 dead limbs over structure"],["02:40","…<mark>grind that stump</mark> by the fence…","Stump grinding, 1 stump"],["02:41","(rule) stump grinding implies",""],["03:05","…<mark>if she wants, haul the chips</mark>…","Optional · chip removal"]],stop:null},
+ {label:"Recording “1 of 2”",lines:[["00:00","file: walkthrough (1 of 2).m4a",""]],stop:"STOPPED · multipart recording. Waiting for the merged file instead of quoting half the job."},
+ {label:"Re-fired trigger",lines:[["00:00","request already converted to a quote",""]],stop:"STOPPED · request already converted. No duplicate quote created."}];
+const CHECKS=["quote exists and is still a DRAFT","all prices still $0","salesperson present","stump line → utility-locate note added","every stump line has optional chip-removal companion","quantities = 1, no accidental multiplication","optional work kept optional","no street address in note fields"];
+let dT=[],dCur=CASES[0];
+function dReset(){dT.forEach(clearTimeout);dT=[];$('dTx').innerHTML='<span class="ts">walkthrough.m4a · waiting</span>';$('dRows').innerHTML='<div class="qempty">Line items appear as the agent works.</div>';$('dSt').textContent='○ empty';$('dSt').className='st';$('dOk').disabled=true;$('dOk').textContent='Estimator prices + sends';$('dChecks').innerHTML='';$('dPlay').disabled=false}
+opts($('dCase'),CASES,it=>{dCur=it;dReset()});
+$('dPlay').onclick=()=>{dReset();$('dPlay').disabled=true;$('dRows').innerHTML='';$('dTx').innerHTML='<span class="ts">transcript · agent reading</span>';$('dSt').textContent='● working';
+ const L=dCur.lines;let t=0;
+ L.forEach(([ts,l,item])=>{t+=650;dT.push(setTimeout(()=>{const d=document.createElement('div');d.className='fadein';d.innerHTML=`<span class="ts">[${ts}]</span> ${l}`;$('dTx').appendChild(d);
+  if(item){const r=document.createElement('div');r.className='qrow fadein';r.innerHTML=`<span>${esc(item)}</span><span class="src">${ts}</span><span class="red">$0</span>`;$('dRows').appendChild(r)}
+  if(ts==="02:41"){const r=document.createElement('div');r.className='qrow fadein';r.innerHTML='<span>Note: utility locate required before grinding</span><span class="src">rule</span><span class="red">note</span>';$('dRows').appendChild(r)}},t))});
+ if(dCur.stop){dT.push(setTimeout(()=>{$('dSt').textContent='■ stopped';$('dSt').className='st';$('dRows').innerHTML=`<div class="refuse" style="margin:8px">${esc(dCur.stop)}</div>`},t+500));return}
+ CHECKS.forEach((c,i)=>{dT.push(setTimeout(()=>{$('dChecks').innerHTML+=`<div class="fadein"><span class="y">✓</span> read-back: ${esc(c)}</div>`;if(i===CHECKS.length-1){$('dSt').textContent='● draft ready for estimator';$('dOk').disabled=false;$('dPlay').disabled=false}},t+400+i*260))});
+};
+$('dOk').onclick=()=>{$('dSt').textContent='✓ priced and sent by a person';$('dSt').className='st sent';$('dOk').disabled=true};
 
+/* briefings replay */
+const BT=[["1:49 PM","A real appointment moves in the scheduling system."],["1:51 PM","Watcher detects the change (2 min)."],["1:52 PM","Pulls call notes, request, past work, past price, cited facts."],["1:54 PM","Estimator's private page republished. Nobody clicked refresh."]];
+$('bTl').innerHTML=BT.map(([t,x])=>`<div><b>${t}</b>${esc(x)}</div>`).join('');
+$('bPlay').onclick=()=>{const it=[...$('bTl').children];it.forEach(e=>e.classList.remove('on'));it.forEach((e,i)=>setTimeout(()=>e.classList.add('on'),450*(i+1)))};
 /* knowledge base */
 const KQ=[{label:"Minimum crew for a crane removal?",a:'<div class="q">Minimum crew for a crane removal?</div><div><span class="red">▇▇▇▇ ▇▇▇▇▇▇ ▇▇▇ ▇▇▇▇ ▇▇▇▇▇▇▇</span> <span class="hint">(answer private)</span></div><div class="row"><span class="src">F-0412</span><span class="src">walkthrough 2026-03-14 · 02:41</span><span class="src">verbatim quote</span></div>'},
  {label:"When do we stop pruning oaks?",a:'<div class="q">When do we stop pruning oaks?</div><div><span class="red">▇▇▇▇▇ ▇▇▇▇▇▇▇ ▇▇▇▇</span> <span class="hint">(answer private)</span></div><div class="row"><span class="src">F-1187</span><span class="src">walkthrough 2026-05-02 · 11:08</span><span class="src">verbatim quote</span></div>'},
@@ -399,9 +482,8 @@ const KQ=[{label:"Minimum crew for a crane removal?",a:'<div class="q">Minimum c
 opts($('kOpts'),KQ,it=>{$('kAns').innerHTML=it.a});
 
 /* tools */
-const TQ=[{label:"Look up a client's open jobs",ok:1,t:"read_jobs(client) → 3 open jobs"},{label:"Draft a quote",ok:1,t:"create_draft_quote(...) → DRAFT saved for a person"},{label:"Send the quote to the client",ok:0,t:"no tool can send. A person sends."},{label:"Create an invoice",ok:0,t:"no invoice tool exists"},{label:"Delete an old request",ok:0,t:"no delete tool exists"}];
+const TQ=[{label:"Read the client's past quotes",ok:1,t:"read_quotes(client) → 2 prior quotes"},{label:"Create a draft quote",ok:1,t:"create_draft_quote(...) → DRAFT, prices $0"},{label:"Set the price",ok:0,t:"no pricing tool exists. The estimator prices."},{label:"Send the quote",ok:0,t:"no send tool exists. A person sends."},{label:"Take a payment",ok:0,t:"no payment tool exists"},{label:"Delete a record",ok:0,t:"no delete tool exists"},{label:"Run any query I want",ok:0,t:"no general query tool. Only the 6 named reads."}];
 opts($('tOpts'),TQ,it=>{$('tLog').innerHTML=`agent@connector $ ${esc(it.label.toLowerCase())}<br>${it.ok?'<span class="y">✓ ALLOWED</span>':'<span class="n">✕ BLOCKED</span>'} · ${esc(it.t)}`});
-
 /* re-id: drawn coat patterns */
 function coat(seed,color){let s=seed,r=()=>(s=(s*9301+49297)%233280)/233280;let p='';for(let i=0;i<14;i++){const x=8+r()*74,y=6+r()*58,w=9+r()*12,h=8+r()*11;p+=`<path d="M${x} ${y}l${w*.6} ${-h*.2}l${w*.4} ${h*.5}l${-w*.2} ${h*.6}l${-w*.7} ${h*.1}z" fill="${color}"/>`}return `<svg viewBox="0 0 90 70" aria-hidden="true"><rect width="90" height="70" fill="var(--amber-soft)"/>${p}</svg>`}
 const SIGHT=[{label:"Sighting A · clear flank",cands:[[11,92,"GIR-07"],[23,41,"GIR-02"],[37,18,"GIR-11"]]},{label:"Sighting B · bad angle",cands:[[5,58,"GIR-04"],[19,54,"GIR-09"],[31,22,"GIR-01"]]}];
@@ -438,7 +520,7 @@ F.forEach(([p,o],i)=>{br+=(p-o)**2;const c=document.createElementNS('http://www.
 $('brier').textContent='Mean Brier '+(br/F.length).toFixed(2)+' · lower is better';
 
 /* defaults so every demo opens in a working state */
-$('kOpts').children[0].click();$('tOpts').children[2].click();$('rOpts').children[0].click();$('pOpts').children[0].click();
+$('dCase').children[0].click();$('kOpts').children[0].click();$('tOpts').children[3].click();$('rOpts').children[0].click();$('pOpts').children[0].click();
 
 
 /* design skins */
