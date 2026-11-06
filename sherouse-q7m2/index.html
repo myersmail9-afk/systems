@@ -281,7 +281,7 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
     </div>
   </div>
   <div class="panel"><div class="ph"><span class="k">Live map · interact with it</span><div class="opts" id="mTabs" role="tablist"></div></div>
-    <div class="mapwrap"><button type="button" class="shield" id="mShield">Tap to explore the map</button><iframe id="mFrame" title="Live OSINT map" loading="lazy" src="about:blank"></iframe></div>
+    <div class="mapwrap"><button type="button" class="shield" id="mShield">▶ Tap to load the live map</button><iframe id="mFrame" title="Live OSINT map" loading="lazy" src="about:blank"></iframe></div>
     <p class="hint" style="margin:0;padding:8px 12px">The real pages, running live on public data. Pan, zoom, hover cells for numbers. <a id="mOpen" href="#" target="_blank" rel="noopener">Open full page ↗</a></p></div>
 </section>
 
@@ -581,11 +581,11 @@ let sv='';try{sv=localStorage.getItem('skin')||''}catch(_){}if(sv!=='light')sv='
 
 /* live maps (same-origin on the published site: scroll each page to its map) */
 const MAPS=[{label:"Namibia EEZ · fishing grid",url:"https://myersmail9-afk.github.io/client-demos/eez-watch/",h:"Where the fishing is"},{label:"Darfur · fire grid vs baseline",url:"https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/",h:"Where: detections"}];
-function mShow(it){const f=$('mFrame');$('mOpen').href=it.url;f.onload=()=>{try{const d=f.contentDocument;const h=[...d.querySelectorAll('h2')].find(x=>x.textContent.trim().startsWith(it.h));if(h)f.contentWindow.scrollTo(0,h.getBoundingClientRect().top+f.contentWindow.scrollY-8)}catch(_){}};f.src=it.url}
+function mShow(it){const f=$('mFrame');$('mShield').parentElement.classList.add('live');$('mOpen').href=it.url;f.onload=()=>{try{const d=f.contentDocument;const h=[...d.querySelectorAll('h2')].find(x=>x.textContent.trim().startsWith(it.h));if(h){const y=window.scrollY;f.contentWindow.scrollTo(0,h.getBoundingClientRect().top+f.contentWindow.scrollY-8);if(Math.abs(window.scrollY-y)>2)window.scrollTo(0,y)}}catch(_){}};f.src=it.url}
 opts($('mTabs'),MAPS,mShow);
-$('mShield').onclick=()=>{$('mShield').parentElement.classList.add('live')};$('mFrame').addEventListener('mouseleave',()=>$('mShield').parentElement.classList.remove('live'));
+$('mShield').onclick=()=>{const w=$('mShield').parentElement;w.classList.add('live');if($('mFrame').src.startsWith('about'))$('mTabs').children[0].click()};$('mFrame').addEventListener('mouseleave',()=>$('mShield').parentElement.classList.remove('live'));
 
-const mio=new IntersectionObserver(es=>{if(es[0].isIntersecting){$('mTabs').children[0].click();mio.disconnect()}},{rootMargin:'200px'});mio.observe($('mFrame'));
+/* the map loads only when tapped: an embedded page can never move this page */
 /* autoplay demos once when they scroll into view */
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function onView(el,fn){if(RM||!el)return;const o=new IntersectionObserver(es=>{if(es[0].isIntersecting){fn();o.disconnect()}},{threshold:.45});o.observe(el)}
