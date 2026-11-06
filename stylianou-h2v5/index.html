@@ -181,7 +181,8 @@ svg.chart text{fill:var(--muted);font:11px var(--mono)}
 html{scroll-behavior:auto}
 nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
 
-#dTx{height:178px;overflow:hidden}
+#dTx{height:228px;overflow:hidden}
+@media (max-width:520px){#dTx{height:365px}#dRows{height:330px!important}#dChecks{height:295px!important}}
 #dRows{height:236px;overflow:hidden}
 #dChecks{height:190px;overflow:hidden}
 #oChecks{height:118px}
@@ -266,6 +267,8 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
 .mini tr.pick td{background:var(--blue-soft);color:var(--ink)}
 .mini tr:not(.pick) td{color:var(--muted)}
 .tw{overflow-x:auto}
+@media (max-width:520px){.mini th:nth-child(5),.mini td:nth-child(5){display:none}.mini th,.mini td{padding:3px 4px}}
+.sys[data-st="pilot"] .pill.live{color:var(--blue);border-color:var(--blue);background:var(--blue-soft)}
 .qline{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:5px 0;border-bottom:1px solid var(--line)}
 .qline:last-child{border-bottom:0}
 .big1{font:600 26px var(--mono);color:var(--ink)}
