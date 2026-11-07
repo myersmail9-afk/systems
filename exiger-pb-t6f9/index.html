@@ -295,6 +295,105 @@ svg.chart text{fill:var(--muted);font:11px var(--sans)}
   body{font-size:12pt;background:#fff;color:#000}
   main{padding:0;gap:16pt}
 }
+
+/* guided demos: a mock field-service app, narrated step by step.
+   Generic look (white cards, bottom nav). The accent is this page's own burnt orange, not any vendor's colour. */
+:root{--acc:#c2410c;--acc-t:#9a3412;--acc-soft:#ffedd5;--acc-ink:#fff;--ap-bg:#f3f4f6}
+@media (prefers-color-scheme:dark){:root:not([data-skin="light"]){--acc:#fb923c;--acc-t:#fdba74;--acc-soft:#3b1d0a;--acc-ink:#1b1b1b;--ap-bg:#111214}}
+:root[data-skin="dark"]{--acc:#fb923c;--acc-t:#fdba74;--acc-soft:#3b1d0a;--acc-ink:#1b1b1b;--ap-bg:#111214}
+.tour{display:grid;gap:14px;min-width:0}
+.tw-launch{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:8px;padding:12px 14px;background:var(--pane)}
+.tw-launch>div{display:grid;gap:2px;flex:1 1 220px;min-width:0}
+.tw-launch b{font-weight:600}
+.tour .btn{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.tour .btn.ghost{background:transparent;color:var(--acc-t)}
+.tw-stage{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:20px;align-items:start}
+.tw-phone{border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--ap-bg);box-shadow:0 8px 24px rgba(0,0,0,.08);display:grid;grid-template-rows:auto 1fr auto;min-width:0;color:var(--ink)}
+.ap-top{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--pane);border-bottom:1px solid var(--line);font-size:14px}
+.ap-logo{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--acc);color:var(--acc-ink)}
+.ap-badge{margin-left:auto;font-size:11px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px;white-space:nowrap}
+.ap-scr{height:420px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;position:relative}
+.ap-scr>*{flex-shrink:0}
+.ap-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--pane);border-top:1px solid var(--line);padding:2px 4px}
+.ap-ni{display:grid;justify-items:center;gap:1px;padding:6px 0 8px;font-size:11px;color:var(--muted);border-radius:10px}
+.ap-ni.on{color:var(--acc-t);font-weight:600}
+.ap-head{display:grid}.ap-head b{font-size:17px;line-height:1.3}.ap-head span{font-size:12px;color:var(--muted)}
+.ap-card{background:var(--pane);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;gap:6px;font-size:13px;line-height:1.45;min-width:0}
+.ap-row{display:flex;justify-content:space-between;align-items:center;gap:8px;min-width:0}
+.ap-row>span:first-child{min-width:0}
+.ap-sub{font-size:12px;color:var(--muted)}
+.ap-k{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.ap-chip{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--acc-soft);color:var(--acc-t);white-space:nowrap}
+.ap-chip.ok{background:var(--green-soft);color:var(--green)}.ap-chip.no{background:var(--red-soft);color:var(--red)}.ap-chip.q{background:var(--amber-soft);color:var(--amber)}
+.ap-btn{display:flex;align-items:center;justify-content:center;gap:6px;min-height:42px;border-radius:10px;background:var(--acc);color:var(--acc-ink);font-weight:600;font-size:14px;padding:8px 14px;text-align:center}
+.ap-btn.ghost{background:var(--pane);color:var(--acc-t);border:1px solid var(--line)}
+.ap-btn.done{background:var(--green);color:var(--bg)}
+.ap-btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.ap-btns .ap-btn{font-size:12px;padding:6px;min-height:40px}
+.ap-mono{font:12px/1.65 var(--mono)}
+.ap-tx mark{background:var(--acc-soft);color:var(--ink);border-radius:2px;padding:0 2px}
+.ap-ts{color:var(--muted)}
+.ap-y{color:var(--green);font-weight:700}.ap-n{color:var(--red);font-weight:700}.ap-a{color:var(--amber);font-weight:700}
+.ap-qr{border-top:1px solid var(--line);padding-top:6px;font-size:12.5px}
+.ap-r{display:flex;gap:6px;align-items:center;white-space:nowrap}
+.ap-src{font:11px var(--mono);color:var(--acc-t);background:var(--acc-soft);padding:1px 5px;border-radius:4px}
+.ap-load{height:6px;border-radius:3px;background:var(--line);overflow:hidden}.ap-load i{display:block;height:100%;width:0;background:var(--acc);transition:width .5s linear}
+.ap-rec{display:grid;gap:8px}
+.ap-wave{display:flex;gap:3px;align-items:center;height:30px}.ap-wave i{width:4px;height:6px;border-radius:2px;background:var(--line)}
+.ap-rec.on .ap-wave i{background:var(--acc);animation:apw .7s ease-in-out infinite alternate}
+.ap-timer{font:600 20px var(--mono);font-variant-numeric:tabular-nums}
+@keyframes apw{to{height:28px}}
+.ap-input{border:1px solid var(--line);border-radius:10px;background:var(--pane);min-height:44px;padding:10px 12px;font-size:14px}
+.ap-caret{display:inline-block;width:2px;height:16px;background:var(--acc);vertical-align:-3px;margin-left:1px;animation:apc 1s steps(1) infinite}
+@keyframes apc{50%{opacity:0}}
+.ap-bub{align-self:flex-end;max-width:85%;background:var(--acc);color:var(--acc-ink);border-radius:14px 14px 4px 14px;padding:8px 12px;font-size:13px}
+.ap-ans{align-self:flex-start;max-width:94%;background:var(--pane);border:1px solid var(--line);border-radius:14px 14px 14px 4px;padding:8px 12px;font-size:13px;display:grid;gap:6px}
+.ap-ans.abst{border-left:3px solid var(--amber)}
+.ap-fact{border-left:3px solid var(--green)}.ap-fact.inf{border-left-color:var(--amber)}.ap-fact.old{border-left-color:var(--line);color:var(--muted)}.ap-fact.old .ap-ft{text-decoration:line-through}
+.ap-tags{display:flex;gap:4px;flex-wrap:wrap}
+.ap-photo{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#dfe9ef}
+.gf{display:block;width:100%;height:auto}
+.gf .kp{fill:none;stroke:var(--acc);stroke-width:1.6}
+.gf .kl{stroke:var(--acc);stroke-width:1;opacity:.85}
+.ap-box{position:absolute;border:2.5px solid var(--acc);border-radius:6px}
+.ap-box span{position:absolute;left:0;top:0;background:var(--acc);color:var(--acc-ink);font-size:11px;font-weight:600;padding:1px 6px;border-radius:2px 0 4px 0;white-space:nowrap}
+.ap-cands{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.ap-cand{background:var(--pane);border:1px solid var(--line);border-radius:10px;padding:5px;display:grid;gap:3px;font-size:11px;text-align:center;min-width:0}
+.ap-cand .gf{border-radius:6px}
+.ap-cand b{font-size:14px}
+.ap-bar{height:5px;border-radius:3px;background:var(--line);overflow:hidden}.ap-bar i{display:block;height:100%;background:var(--acc)}
+.ap-stack{display:flex;height:16px;border-radius:4px;overflow:hidden}
+.ap-tl{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.ap-tl div{position:relative;padding:4px 0 8px 14px;font-size:12.5px}
+.ap-tl div::before{content:"";position:absolute;left:-7px;top:9px;width:12px;height:12px;border-radius:50%;background:var(--acc)}
+.ap-in{animation:apin .35s ease both}
+@keyframes apin{from{opacity:0;transform:translateY(6px)}}
+.tw-spot{outline:3px solid var(--acc);outline-offset:2px;animation:twp 1.5s ease-out infinite;cursor:pointer}
+@keyframes twp{0%{box-shadow:0 0 0 0 rgba(194,65,12,.45)}70%,100%{box-shadow:0 0 0 12px rgba(194,65,12,0)}}
+.tw-side{display:grid;gap:12px;align-content:start;min-width:0}
+.tw-bar{display:flex;align-items:center;gap:10px}
+.tw-count{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
+.tw-prog{flex:1;height:6px;border-radius:3px;background:var(--line);overflow:hidden}.tw-prog i{display:block;height:100%;width:0;background:var(--acc);transition:width .3s}
+.tw-ctl{display:flex;flex-wrap:wrap;gap:8px}
+.tw-ctl .tw-next{min-width:120px}
+.tour .linkbtn{color:var(--acc-t)}
+.tw-narr{display:grid;gap:8px;min-height:170px;align-content:start}
+.tw-narr h3{font-size:18px}
+.tw-narr p{margin:0;max-width:60ch}
+.tw-why{color:var(--muted);font-size:15px;border-left:3px solid var(--acc);padding-left:10px}
+.tw-legal{margin:0;font-size:12px;color:var(--muted)}
+.tw-keys{margin:0;font-size:12px;color:var(--muted)}
+@media (max-width:760px){
+  .tw-stage{grid-template-columns:minmax(0,1fr);gap:14px}
+  .tw-phone{max-width:360px;width:100%;justify-self:center}
+  .ap-scr{height:370px}
+  .tw-narr{min-height:0}
+  .tw-keys{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .tw-spot,.ap-in,.ap-caret,.ap-rec.on .ap-wave i{animation:none!important}
+  .tw-prog i,.ap-load i{transition:none}
+}
+@media print{.tour{display:none!important}}
 </style>
 
 <a class="skip" href="#main">Skip to content</a>
@@ -359,6 +458,7 @@ svg.chart text{fill:var(--muted);font:11px var(--sans)}
 <h2>A company memory that knows where every fact came from</h2>
 <div class="hl"><span class="v">2,490</span><span class="l">facts, each tied to its source · right fact in top 12 for 462 of 481 test questions (Oct 2026, 2,173 facts at that test)</span></div>
 <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div></dl>
+<div class="tour" data-tour="brain" data-label="Guided demo: ask the company memory"><div class="tw-launch"><div><b>Walk through it: ask the company memory</b><span class="hint">A click-through model of the app, narrated step by step. 8 steps, about 2 minutes. Demo data, not real customers.</span></div><button class="btn tw-start" type="button">▶ Start demo</button></div></div>
 <details class="more"><summary>See the demo and proof</summary><div class="more-b">
 <div class="flowd" role="img" aria-label="Recordings then Atomic facts + source then Hybrid search + rerank then Cite or abstain then Nightly regression"><span>Recordings</span><i>→</i><span>Atomic facts + source</span><i>→</i><span>Hybrid search + rerank</span><i>→</i><span class="g">Cite or abstain</span><i>→</i><span class="g">Nightly regression</span></div>
   <div class="grid2">
@@ -400,6 +500,7 @@ svg.chart text{fill:var(--muted);font:11px var(--sans)}
 <h2>A field recording becomes a draft quote in about a minute</h2>
 <div class="hl"><span class="v">151</span><span class="l">recorded runs · 119 succeeded, 22 stopped, 10 failed</span></div>
 <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then reads it back. A person prices and sends.</dd></div></dl>
+<div class="tour" data-tour="draft" data-label="Guided demo: site walk to draft quote"><div class="tw-launch"><div><b>Walk through it: site walk to draft quote</b><span class="hint">A click-through model of the app, narrated step by step. 9 steps, about 2 minutes. Demo data, not real customers.</span></div><button class="btn tw-start" type="button">▶ Start demo</button></div></div>
 <details class="more"><summary>See the demo and proof</summary><div class="more-b">
 <div class="flowd" role="img" aria-label="Field recording then Transcript then Agent · 6 reads then Draft quote · $0 then 12 read-back checks then Estimator prices + sends"><span>Field recording</span><i>→</i><span>Transcript</span><i>→</i><span>Agent · 6 reads</span><i>→</i><span>Draft quote · $0</span><i>→</i><span class="g">12 read-back checks</span><i>→</i><span class="h">Estimator prices + sends</span></div>
   <div class="ba">
@@ -452,6 +553,7 @@ svg.chart text{fill:var(--muted);font:11px var(--sans)}
 <h2>Which giraffe is this?</h2>
 <div class="hl"><span class="v">31 / 52</span><span class="l">right giraffe first on another team's photos · top 5: 38 of 52 · a person decides almost every case</span></div>
 <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person decides almost every case.</dd></div></dl>
+<div class="tour" data-tour="reid" data-label="Guided demo: photo to confirmed match"><div class="tw-launch"><div><b>Walk through it: photo to confirmed match</b><span class="hint">A click-through model of the app, narrated step by step. 8 steps, about 2 minutes. Demo data: drawings, not real animals.</span></div><button class="btn tw-start" type="button">▶ Start demo</button></div></div>
 <details class="more"><summary>See the demo and proof</summary><div class="more-b">
 <div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
   
@@ -577,6 +679,7 @@ svg.chart text{fill:var(--muted);font:11px var(--sans)}
 <h2>Every stop briefed before the knock</h2>
 <div class="hl"><span class="v">5 min</span><span class="l">schedule moved → page republished, no one touched it</span></div>
 <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div></dl>
+<div class="tour" data-tour="brief" data-label="Guided demo: schedule change to door briefing"><div class="tw-launch"><div><b>Walk through it: schedule change to door briefing</b><span class="hint">A click-through model of the app, narrated step by step. 7 steps, about 90 seconds. Demo data, not real customers.</span></div><button class="btn tw-start" type="button">▶ Start demo</button></div></div>
 <details class="more"><summary>See the replay</summary><div class="more-b">
 <div class="flowd" role="img" aria-label="Schedule change then Watcher · 2 min then Call + history + price then Private page"><span>Schedule change</span><i>→</i><span>Watcher · 2 min</span><i>→</i><span>Call + history + price</span><i>→</i><span class="h">Private page</span></div>
   <div class="grid2">
@@ -828,6 +931,197 @@ addEventListener('hashchange',()=>openTarget(location.hash.slice(1)));
 document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#c-"]');if(a&&a.hash===location.hash){e.preventDefault();openTarget(a.hash.slice(1))}});
 openTarget(location.hash.slice(1));
 if(location.hash){const t=document.getElementById(location.hash.slice(1));if(t&&!location.hash.startsWith('#c-'))t.scrollIntoView()}
+})();
+</script>
+<script>
+/* guided demos: narrated click-through models of four builds.
+   To edit the words, change the steps below: t = step title, n = what happens, w = why I built it that way.
+   Every name, price and animal here is invented. Only figures already on this page are used. */
+(function(){
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+const IC={cal:'<path d="M4 5h12v11H4zM4 8.5h12M7 3v3.5M13 3v3.5"/>',job:'<path d="M3 7.5h14v8.5H3zM7.5 7.5V5h5v2.5M3 11h14"/>',quote:'<path d="M5 3h7l3 3v11H5zM12 3v3h3M8 10h5M8 13h5"/>',client:'<circle cx="8" cy="7" r="3"/><path d="M3 16.5c0-3 2.2-5 5-5s5 2 5 5M13.5 4.5a3 3 0 010 5.5M15 16.5c0-1.8-.6-3.2-1.6-4.1"/>',ask:'<path d="M3.5 4h13v9h-7l-4 3.2V13h-2z"/>',cam:'<path d="M3 7h3l1.8-2h4.4L14 7h3v9H3z"/><circle cx="10" cy="11.3" r="2.8"/>',grid:'<path d="M4 4h5v5H4zM11 4h5v5h-5zM4 11h5v5H4zM11 11h5v5h-5z"/>',check:'<path d="M4 10.5l4 4 8-9"/>',map:'<path d="M3 5.5l4.5-2 5 2 4.5-2v11l-4.5 2-5-2-4.5 2zM7.5 3.5v11M12.5 5.5v11"/>'};
+const ico=k=>`<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">${IC[k]}</svg>`;
+function put(p,h,anim){const d=document.createElement('div');d.innerHTML=h.trim();const e=d.firstElementChild;if(anim)e.classList.add('ap-in');p.appendChild(e);return e}
+const head=(c,b,s)=>put(c.scr,`<div class="ap-head"><b>${b}</b>${s?`<span>${s}</span>`:''}</div>`);
+const card=(c,h,cls)=>put(c.scr,`<div class="ap-card ${cls||''}">${h}</div>`);
+
+/* placeholder giraffe drawing: same seed = same coat pattern */
+let gid=0;
+function giraffe(seed,o={}){let s=seed*9301+49297;const r=()=>(s=(s*1664525+1013904223)%4294967296)/4294967296;const id='gfc'+(gid++);
+ const body='M52 66Q60 56 90 58L128 56Q140 58 142 70L140 92Q120 98 90 96L58 96Q48 90 52 66Z',neck='M122 62L148 14L162 17L142 72Z',hd='M146 12Q154 4 168 7L182 13Q185 20 176 23L160 23Q150 22 146 12Z';
+ const legs=[56,68,124,134].map(x=>`<rect x="${x}" y="90" width="7" height="50" rx="2"/>`).join('');
+ const shape=`<path d="${body}"/><path d="${neck}"/><path d="${hd}"/>${legs}`;
+ let p='';for(let y=6;y<142;y+=10)for(let x=44;x<190;x+=10){const cx=x+(r()-.5)*5+((y/10)%2?5:0),cy=y+(r()-.5)*5,rad=3.4+r()*1.5,pts=[];for(let k=0;k<6;k++){const a=k/6*6.283+r()*.5,rr=rad*(.75+r()*.35);pts.push((cx+Math.cos(a)*rr).toFixed(1)+','+(cy+Math.sin(a)*rr).toFixed(1))}p+=`<polygon points="${pts.join(' ')}"/>`}
+ const sky=o.dim?'#cfc7ad':'#dce8ee',gr=o.dim?'#a99f77':'#cdbf8f';
+ const pos=o.x!=null?` x="${o.x}" y="0" width="200" height="150"`:'';
+ return `<svg${pos} viewBox="${o.vb||'0 0 200 150'}" class="gf"${o.x!=null?'':` role="img" aria-label="${o.label||'Drawing of a giraffe, standing in for a field photo'}"`}><defs><clipPath id="${id}">${shape}</clipPath></defs>
+ <rect x="-20" y="-20" width="240" height="190" fill="${sky}"/><rect x="-20" y="118" width="240" height="52" fill="${gr}"/><circle cx="${o.dim?172:28}" cy="112" r="14" fill="#9aab74"/>
+ <g fill="#e4bf7e">${shape}</g><path d="M52 68L44 94" stroke="#6b4a26" stroke-width="2"/><rect x="150" y="3" width="2.5" height="8" fill="#6b4a26"/><rect x="156" y="2" width="2.5" height="8" fill="#6b4a26"/>
+ <g clip-path="url(#${id})" fill="#8b5a2b">${p}</g>${o.dim?'<rect x="-20" y="-20" width="240" height="190" fill="#000" opacity=".14"/>':''}${o.extra||''}</svg>`}
+const KP=[[66,74],[82,84],[96,66],[110,86],[124,70],[134,58],[142,40],[150,26]];
+const kps=(dx,A)=>KP.map(([x,y],k)=>`<circle class="kp${A?' ap-in':''}" cx="${x+dx}" cy="${y}" r="3.6" style="${A?`animation-delay:${k*.18}s`:''}"/>`).join('');
+
+/* ---------- 1. draft agent ---------- */
+const TXL=[["00:41","big <mark>silver maple</mark> out front, about <mark>thirty inch</mark>"],["01:12","<mark>two dead leaders over the garage</mark>, those come out"],["02:05","<mark>bucket truck fits</mark> in the driveway, no climb"],["02:40","<mark>grind that stump by the fence</mark>, eighteen inch-ish"],["03:05","<mark>chips</mark>, she hasn't decided, ask her later"]];
+const QL=[["Silver maple, 30\" DBH · front yard","00:41"],["Remove 2 dead leaders over garage roof","01:12"],["Bucket truck access, no climb","02:05"],["Stump grinding · 1 stump, ~18\"","02:40"],["Internal note: utility locate before grinding","rule","note"],["Optional · chip removal","03:05"]];
+const qrow=([l,ts,p])=>`<div class="ap-row ap-qr"><span>${l}</span><span class="ap-r"><span class="ap-src">${ts}</span><b data-p>${p||'$0'}</b></span></div>`;
+function quote(c,o={}){const q=card(c,`<div class="ap-row"><b>Quote · Demo client A</b><span class="ap-chip q" data-st>Draft · prices $0</span></div><div data-rows style="display:grid;gap:6px"></div>`);const rows=q.querySelector('[data-rows]');
+ if(o.rows!==false)QL.forEach(x=>put(rows,qrow(x)));return q}
+const DRAFT={app:'Crew demo',logo:'job',legal:'Demo data. Not real customers.',nav:[['cal','Schedule'],['job','Jobs'],['quote','Quotes'],['client','Clients']],steps:[
+{t:'A visit on the schedule',nav:'cal',n:"This is an estimator's day. Each visit is a property walk. Before this, he rebuilt every quote by hand afterwards.",w:"I started from the job as it already was. The only new thing is one tap.",
+ v(c){head(c,'Today','Tuesday · 3 visits');const a=card(c,`<div class="ap-row"><b>9:00 · Assessment</b><span class="ap-chip">Next</span></div><span class="ap-sub">Demo client A · maple and a stump</span>`);card(c,`<b>11:30 · Assessment</b><span class="ap-sub">Demo client B · hedge line</span>`);card(c,`<b>2:00 · Follow-up</b><span class="ap-sub">Demo client C · storm cleanup</span>`);c.at(300,()=>c.spot(a))}},
+{t:'Record the walk',nav:'job',n:"He taps record and talks through the job the way he'd tell a coworker: the trees, the access, what the customer is worried about.",w:"Nobody wants to fill in a form standing in a yard. Talking is faster and catches more.",
+ v(c){head(c,'Demo client A','Assessment · 9:00');card(c,`<span class="ap-k">From the call</span><span>Worried about limbs over the garage.</span>`);
+  const r=card(c,`<div class="ap-rec"><span class="ap-btn" data-b>● Record walk</span><div class="ap-row"><span class="ap-timer" data-t>00:00</span><div class="ap-wave">${Array.from({length:14},(_,k)=>`<i style="animation-delay:${(k%5)*.12}s"></i>`).join('')}</div></div><span class="ap-sub" data-s>Ready</span></div>`);
+  const b=r.querySelector('[data-b]'),tm=r.querySelector('[data-t]'),st=r.querySelector('[data-s]'),rec=r.querySelector('.ap-rec');c.spot(b);
+  c.at(800,()=>{rec.classList.add('on');b.textContent='■ Recording';st.textContent='Recording · walkthrough.m4a'});
+  for(let k=1;k<=37;k++)c.at(800+k*80,()=>{const s=k*5;tm.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')});
+  c.at(4000,()=>{rec.classList.remove('on');b.textContent='✓ Uploaded · 3 min walk';b.className='ap-btn done';st.textContent='Sent for transcription'})}},
+{t:'Text with timestamps',nav:'job',n:"The recording becomes text, and every line keeps its timestamp.",w:"Each line on the quote will point back to the second it came from, so he can check it instead of trusting it.",
+ v(c){head(c,'Transcript','walkthrough.m4a · 3:05');const t=card(c,`<div class="ap-mono ap-tx" style="display:grid;gap:4px"></div>`);const box=t.firstElementChild;c.spot(t);
+  TXL.forEach(([ts,l],k)=>c.at(400+k*550,()=>put(box,`<div><span class="ap-ts">[${ts}]</span> …${l}</div>`,c.A)))}},
+{t:'The agent reads first',nav:'job',n:"An agent reads the transcript and matches each thing he said to a line in the service catalog. It also looks at the client's past quotes.",w:"Reading is safe, so that's where the agent works freely. It can read six kinds of records.",
+ v(c){head(c,'Drafting quote','Agent working · usually about a minute');const l=card(c,`<div class="ap-load"><i data-l></i></div><div class="ap-mono" data-g style="display:grid;gap:2px"></div>`);const g=l.querySelector('[data-g]'),bar=l.querySelector('[data-l]');c.spot(l);
+  const L=['<span class="ap-y">✓</span> read · transcript','<span class="ap-y">✓</span> read · visit request','<span class="ap-y">✓</span> read · client\'s past quotes','<span class="ap-y">✓</span> read · service catalog','→ 5 things said → 5 catalog lines','→ stump grinding: add locate note','<span class="ap-y">✓</span> create · draft quote'];
+  L.forEach((x,k)=>c.at(300+k*450,()=>{put(g,`<div>${x}</div>`,c.A);bar.style.width=Math.round((k+1)/L.length*100)+'%'}))}},
+{t:'Deny by default',nav:'job',n:"The agent has seven tools. Six read. One creates a draft. That's the whole list.",w:"There's no tool to price, send, take a payment or delete. It isn't a rule the agent could talk its way around. The tool doesn't exist.",
+ v(c){head(c,'Agent permissions','What this agent can touch');card(c,`<span class="ap-k">Allowed</span><div class="ap-row"><span>Read 6 kinds of records</span><span class="ap-chip ok">yes</span></div><div class="ap-row"><span>Create a draft quote</span><span class="ap-chip ok">yes</span></div>`);
+  const no=card(c,`<span class="ap-k">Not in its toolbox</span>${['Set a price','Send to the customer','Take a payment','Delete a record'].map(x=>`<div class="ap-row"><span>${x}</span><span class="ap-chip no">no tool</span></div>`).join('')}`);c.spot(no);
+  c.at(1200,()=>card(c,`<div class="ap-mono">agent → send_quote()<br><span class="ap-n">✕ no such tool</span></div>`).classList.toggle('ap-in',c.A))}},
+{t:'A draft, prices held at $0',nav:'quote',n:"About a minute after upload there's a draft quote. Every price is $0, and each line shows where in the recording it came from.",w:"Stump grinding means digging, so the run adds a utility-locate note. That's a written rule the run checks for, not something I hope the model remembers.",
+ v(c){head(c,'Quotes','1 new draft');const q=quote(c,{rows:false}),rows=q.querySelector('[data-rows]');c.spot(q);QL.forEach((x,k)=>c.at(300+k*420,()=>put(rows,qrow(x),c.A)))}},
+{t:'It checks its own work',nav:'quote',n:"Then it reads the draft back and checks it. Still a draft. Prices still $0. Locate note there. Optional work kept optional.",w:"A run only counts as OK if a real draft exists and passes. When a review found it had mislabeled 3 of its last 4 real runs, I made that check stricter.",
+ v(c){head(c,'Read-back checks','Run on the saved draft');const k=card(c,`<div class="ap-mono" data-k style="display:grid;gap:2px"></div>`),box=k.querySelector('[data-k]');c.spot(k);
+  ['quote exists and is still a draft','all prices still $0','salesperson present','stump line has a locate note','stump line has optional chip removal','quantities = 1','optional work kept optional','no street address in notes'].forEach((x,i)=>c.at(250+i*300,()=>put(box,`<div><span class="ap-y">✓</span> ${x}</div>`,c.A)));
+  c.at(250+8*300,()=>card(c,`<div class="ap-row"><b>8 of 8 passed</b><span class="ap-chip ok">ready for estimator</span></div>`).classList.toggle('ap-in',c.A))}},
+{t:'A person prices and sends',nav:'quote',n:"The estimator opens the draft, puts in his own prices and sends it himself.",w:"A person always prices and sends. The agent can only draft. Price is judgment, and the customer relationship is his.",
+ v(c){head(c,'Quote · Demo client A','Estimator editing');const q=quote(c),ps=[...q.querySelectorAll('[data-p]')].filter(e=>e.textContent==='$0'),st=q.querySelector('[data-st]');st.textContent='Estimator pricing';
+  ps.forEach((e,k)=>c.at(400+k*380,()=>{e.textContent='$▇▇▇';e.style.color='var(--acc-t)'}));
+  const send=put(c.scr,`<span class="ap-btn">Send to client</span>`);c.at(400+ps.length*380,()=>c.spot(send));
+  c.at(1400+ps.length*380,()=>{send.textContent='✓ Sent by the estimator';send.className='ap-btn done';st.textContent='Sent';st.className='ap-chip ok';c.spot(null)})}},
+{t:'On the record',nav:'job',n:"151 recorded runs so far: 119 succeeded, 22 stopped, 10 failed. Some were test runs. A typical run takes about 1.2 minutes.",w:"Stopping is a feature. A recording split in two, or a trigger that fires twice, stops the run instead of quoting half a job. The failures stay on the record too.",
+ v(c){head(c,'Run log','23 Sep – 4 Nov');const r=card(c,`<div class="ap-stack" role="img" aria-label="119 succeeded, 22 stopped, 10 failed"><i style="width:78.8%;background:var(--green)"></i><i style="width:14.6%;background:var(--amber)"></i><i style="width:6.6%;background:var(--red)"></i></div><div class="ap-row"><span class="ap-y">119 succeeded</span><span class="ap-a">22 stopped</span><span class="ap-n">10 failed</span></div><span class="ap-sub">~1.2 min typical run · 14 agent steps</span>`);c.spot(r);
+  c.at(700,()=>card(c,`<span class="ap-k">Stopped on purpose</span><div class="ap-row"><span>Recording split “1 of 2”</span><span class="ap-chip q">waited for part 2</span></div><div class="ap-row"><span>Trigger fired twice</span><span class="ap-chip q">no duplicate</span></div>`).classList.toggle('ap-in',c.A))}}
+]};
+
+/* ---------- 2. company memory ---------- */
+const Q1='Do we need a locate before grinding a stump?',Q2='What did we charge this client in 2019?';
+const FACTS=[['D-104','Stump grinding counts as digging. Call in a utility locate first.','walkthrough recording · 00:14','verbatim','ok',''],['D-087','Book the grind for after the locate clears.','inferred from D-104','inferred','q','inf'],['D-055','Old: small stumps need no locate.','replaced by D-104 on 1 Apr','replaced','no','old']];
+const fact=([id,t,src,tag,cl,cls])=>`<div class="ap-card ap-fact ${cls}"><div class="ap-row"><b>${id}</b><span class="ap-chip ${cl}">${tag}</span></div><span class="ap-ft">${t}</span><span class="ap-sub">${src}</span></div>`;
+const BRAIN={app:'Crew demo',logo:'job',legal:'Demo data. Not real customers. The facts shown are invented examples.',nav:[['cal','Schedule'],['job','Jobs'],['ask','Ask'],['client','Clients']],steps:[
+{t:'A question on the job',nav:'job',n:"A crew lead is on a job and hits a question. Before, the answer lived in one expert's head, and getting it meant a phone call.",w:"I wanted the answer one tap away, with proof of where it came from.",
+ v(c){head(c,'On site · Demo job 14','Stump grind · back fence');card(c,`<div class="ap-row"><span>Crew</span><b>3</b></div><div class="ap-row"><span>Gear</span><b>Grinder, trailer</b></div><div class="ap-row"><span>Status</span><span class="ap-chip">In progress</span></div>`);c.at(300,()=>c.spot('[data-k="ask"]'))}},
+{t:'Ask in plain words',nav:'ask',n:"He types the question the way he'd say it out loud.",w:"No keywords and no menus to learn. If it needs training to use, the crew won't use it.",
+ v(c){head(c,'Ask the company memory','Answers cite their source');const i=put(c.scr,`<div class="ap-input"><span data-q></span><span class="ap-caret"></span></div>`),q=i.querySelector('[data-q]');c.spot(i);const e=c.type(q,Q1,300);const b=put(c.scr,`<span class="ap-btn">Ask</span>`);c.at(e+200,()=>c.spot(b))}},
+{t:'Search two ways',nav:'ask',n:"It searches 2,490 facts two ways at once, by matching words and by matching meaning. Then a reranker keeps the best 12.",w:"Words catch names and part numbers. Meaning catches the same question asked differently. You need both.",
+ v(c){put(c.scr,`<div class="ap-bub">${Q1}</div>`);const s=card(c,`<span class="ap-k">Searching 2,490 facts</span><div data-g style="display:grid;gap:4px"></div>`),g=s.querySelector('[data-g]');c.spot(s);
+  ['Word match','Meaning match','Rerank · keep top 12'].forEach((x,k)=>{const row=put(g,`<div class="ap-row"><span>${x}</span><span class="ap-chip q" data-c>…</span></div>`);c.at(500+k*600,()=>{const ch=row.querySelector('[data-c]');ch.textContent='✓ done';ch.className='ap-chip ok'})})}},
+{t:'Facts, not documents',nav:'ask',n:"What comes back is small facts. Each has its source, how sure we are, and the date it took effect.",w:"When a rule changes, the old fact isn't deleted. It's marked replaced, so you can see what changed and when.",
+ v(c){put(c.scr,`<div class="ap-bub">${Q1}</div>`);let f0;FACTS.forEach((f,k)=>c.at(300+k*500,()=>{const e=put(c.scr,fact(f),c.A);if(!k)f0=e;if(k===2)c.spot(e)}))}},
+{t:'An answer you can check',nav:'ask',n:"The answer cites the fact it used. Tap the citation and you see the exact words and where they were recorded.",w:"If people can't check it, they won't trust it, and they shouldn't.",
+ v(c){put(c.scr,`<div class="ap-bub">${Q1}</div>`);const a=put(c.scr,`<div class="ap-ans"><span>Yes. Stump grinding counts as digging, so a utility locate has to be called in first.</span><div class="ap-tags"><span class="ap-src" data-cite>D-104 · verbatim</span></div></div>`,c.A);
+  c.at(700,()=>c.spot(a.querySelector('[data-cite]')));c.at(1600,()=>{c.spot(null);const d=card(c,`<span class="ap-k">Source of D-104</span><span>“Any time we grind, that's digging. Locate first.”</span><span class="ap-sub">Expert walkthrough recording · 00:14 · high confidence</span>`);if(c.A)d.classList.add('ap-in');c.spot(d)})}},
+{t:"Or it says it doesn't know",nav:'ask',n:"Ask something it has no fact for, and it says so.",w:"A confident wrong answer about price or safety costs more than no answer. I'd rather it say “I don't have that” than guess.",
+ v(c){head(c,'Ask the company memory','');const i=put(c.scr,`<div class="ap-input"><span data-q></span><span class="ap-caret"></span></div>`);const e=c.type(i.querySelector('[data-q]'),Q2,200);
+  c.at(e+300,()=>{const a=put(c.scr,`<div class="ap-ans abst"><b>I don't have that.</b><span>No fact covers 2019 pricing for this client, so I won't guess.</span><span class="ap-sub">Nearest facts: D-090 (pricing), D-231 (repeat clients)</span></div>`,c.A);c.spot(a)})}},
+{t:'Checked every night',nav:'ask',n:"Every night a test runs a set of known questions against the new search index. If the new index does worse, it doesn't go live.",w:"That held back a worse index three nights running, until I fixed 40 outdated facts. It guards the search, not the answers.",
+ v(c){head(c,'Nightly test','Known questions vs the new index');const n=card(c,`<div data-g style="display:grid;gap:6px"></div>`),g=n.querySelector('[data-g]');c.spot(n);
+  [['Night 1','worse · held back','q'],['Night 2','worse · held back','q'],['Night 3','worse · held back','q'],['Fix','40 outdated facts corrected',''],['Next night','passed · went live','ok']].forEach(([a,b,cl],k)=>c.at(300+k*500,()=>put(g,`<div class="ap-row"><span>${a}</span><span class="ap-chip ${cl}">${b}</span></div>`,c.A)))}},
+{t:'The honest part',nav:'ask',n:"The search tests well. The right fact was in the top 12 for 462 of 481 test questions in October. But those questions came from the same recordings as the facts, so it's a generous test.",w:"And adoption isn't proven. One recent week nobody asked it anything, and 6 of 7 sampled answers failed a quality check. That's the next thing to fix, not something to hide.",
+ v(c){head(c,'Usage and tests','What the logs say');const a=card(c,`<div class="ap-row"><span>Right fact in top 12</span><b>462 / 481</b></div><div class="ap-bar"><i style="width:96%"></i></div><span class="ap-sub">Oct 2026 · questions from the same recordings</span>`);
+  const b=card(c,`<div class="ap-row"><span>Crew questions, one recent week</span><b>0</b></div><div class="ap-row"><span>Sampled answers that failed a check</span><b>6 of 7</b></div><span class="ap-chip no" style="justify-self:start">Adoption unproven</span>`);c.spot(a);c.at(900,()=>c.spot(b))}}
+]};
+
+/* ---------- 3. giraffe ID ---------- */
+const GS=7;
+const photo=(c,extra,o={})=>put(c.scr,`<div class="ap-photo">${giraffe(GS,o)}${extra||''}</div>`);
+const REID={app:'Field ID demo',logo:'cam',legal:'Demo data. Drawings, not real animals or sightings. Real photos and matcher output are in the proof below.',nav:[['cam','Sightings'],['grid','Catalog'],['check','Review'],['map','Map']],steps:[
+{t:'Back from a drive',nav:'cam',n:"A researcher comes back from a drive with photos. Each giraffe has to be matched against the catalog, and by eye that takes hours.",w:"I wanted to cut the searching, not the judgment.",
+ v(c){head(c,'Sightings','Drive 3 · today');card(c,`<div class="ap-row"><b>Drive 3</b><span class="ap-chip q">4 unmatched</span></div><span class="ap-sub">Demo reserve · morning drive</span>`);card(c,`<div class="ap-row"><b>Drive 2</b><span class="ap-chip ok">all matched</span></div><span class="ap-sub">Demo reserve · yesterday</span>`);const b=put(c.scr,`<span class="ap-btn">＋ New sighting</span>`);c.at(300,()=>c.spot(b))}},
+{t:'Add a photo',nav:'cam',n:"The researcher adds a photo from the drive.",w:"This drawing stands in for a field photo. The real photos and the matcher's real output are in the proof section below.",
+ v(c){head(c,'New sighting','IMG_0412 · Drive 3');const l=card(c,`<div class="ap-row"><span>Uploading</span><span class="ap-sub" data-p>0%</span></div><div class="ap-load"><i data-l></i></div>`);
+  c.at(200,()=>{l.querySelector('[data-l]').style.width='100%';l.querySelector('[data-p]').textContent='100%'});c.at(900,()=>{l.remove();const p=photo(c);if(c.A)p.classList.add('ap-in');c.spot(p)})}},
+{t:'Find the giraffe and its side',nav:'cam',n:"First it finds the giraffe in the frame, and works out which side is facing the camera.",w:"A giraffe's left and right coats are different, so it only compares right sides with right sides. On another team's photos the detectors found 74 of 77 giraffes.",
+ v(c){head(c,'New sighting','Detecting');const p=photo(c);c.at(600,()=>{const b=put(p,`<div class="ap-box" style="left:20%;top:3%;width:74%;height:92%"><span>giraffe · right side</span></div>`,c.A);c.spot(b)});c.at(1300,()=>card(c,`<div class="ap-row"><span>Animals found</span><b>1</b></div><div class="ap-row"><span>Side facing camera</span><span class="ap-chip">right</span></div>`).classList.toggle('ap-in',c.A))}},
+{t:'Read the coat',nav:'cam',n:"Then it reads the coat. The patch shapes become a set of points it can compare.",w:"The patches work like a fingerprint for that animal. Light and background change between photos; the coat doesn't.",
+ v(c){head(c,'Coat pattern','Right side · body and neck');const p=put(c.scr,`<div class="ap-photo">${giraffe(GS,{vb:'50 10 110 95',extra:kps(0,c.A),label:'Close-up of the drawn coat with matching points circled'})}</div>`);c.spot(p);c.at(1700,()=>card(c,`<div class="ap-row"><span>Coat points found</span><b>${KP.length} shown</b></div>`).classList.toggle('ap-in',c.A))}},
+{t:'Ranked candidates',nav:'grid',n:"It ranks the catalog animals most likely to be this one. Each gets a calibrated confidence and a count of coat points that line up.",w:"Calibrated means 88% should be right about 88 times in 100. A raw score just looks sure of itself.",
+ v(c){head(c,'Likely matches','From the catalog');const g=put(c.scr,`<div class="ap-cands"></div>`);let first;
+  [[GS,'G-07','88%',46,88,1],[21,'G-21','<1%',0,1],[3,'G-03','<1%',0,1]].forEach(([sd,id,pc,pt,w,dim],k)=>c.at(300+k*450,()=>{const e=put(g,`<div class="ap-cand">${giraffe(sd,{dim:!!dim,label:'Drawing of catalog giraffe '+id})}<b>${pc}</b><span>${id} · ${pt} points</span><div class="ap-bar"><i style="width:${w}%"></i></div></div>`,c.A);if(!k)first=e}));
+  c.at(1400,()=>c.spot(first))}},
+{t:'Not sure enough, so a person looks',nav:'check',n:"This one ranks first, but it falls short of the bar for an automatic match. So it goes to a person.",w:"I set the bar high on purpose. A wrong match quietly corrupts the catalog for years.",
+ v(c){head(c,'Automatic match?','Both checks must pass');const r=card(c,`<div class="ap-row"><span>At least 58 coat points</span><span class="ap-chip no">46 ✕</span></div><div class="ap-row"><span>At least 90% confidence</span><span class="ap-chip no">88% ✕</span></div>`);c.spot(r);
+  c.at(900,()=>{const d=card(c,`<div class="ap-row"><b>Sent to a reviewer</b><span class="ap-chip q">needs a person</span></div><span class="ap-sub">No automatic match is made.</span>`);if(c.A)d.classList.add('ap-in');c.spot(d)})}},
+{t:'A person decides',nav:'check',n:"The reviewer sees both coats side by side, with the matching points joined, and makes the call.",w:"The model narrows the search. A person decides almost every case.",
+ v(c){head(c,'Review','Sighting vs G-07');const lines=KP.map(([x,y])=>`<line class="kl" x1="${x}" y1="${y}" x2="${x+210}" y2="${y}"/>`).join('');
+  put(c.scr,`<div class="ap-photo"><svg viewBox="0 0 410 150" class="gf" role="img" aria-label="The new drawing and catalog giraffe G-07 side by side, matching coat points joined by lines">${giraffe(GS,{x:0})}${giraffe(GS,{x:210,dim:1})}${kps(0,false)}${kps(210,false)}${lines}</svg></div>`);
+  put(c.scr,`<div class="ap-row ap-sub"><span>New sighting</span><span>G-07 · catalog</span></div>`);
+  const bs=put(c.scr,`<div class="ap-btns"><span class="ap-btn" data-y>Same giraffe</span><span class="ap-btn ghost">Not this one</span><span class="ap-btn ghost">New animal</span></div>`),y=bs.querySelector('[data-y]');c.at(400,()=>c.spot(y));
+  c.at(1700,()=>{y.textContent='✓ Confirmed';y.className='ap-btn done';c.spot(null)})}},
+{t:'Who decided is recorded',nav:'check',n:"The log says a person made this match, not the model.",w:"On another team's public photos it put the right giraffe first 31 of 52 times, and in the top 5 38 times. Good for narrowing, not good enough to decide alone. Not yet tested on the partner's own animals.",
+ v(c){head(c,'Audit log','Sighting S-114');const a=card(c,`<div class="ap-mono">S-114 → G-07<br>matched by: <b>reviewer</b><br>model: rank 1 · 88% · 46 points<br>auto-match: no (under the bar)</div>`);c.spot(a);
+  c.at(800,()=>card(c,`<span class="ap-k">Test on another team's photos</span><div class="ap-row"><span>Right giraffe first</span><b>31 / 52</b></div><div class="ap-row"><span>Right giraffe in top 5</span><b>38 / 52</b></div>`).classList.toggle('ap-in',c.A))}}
+]};
+
+/* ---------- 4. briefings ---------- */
+const BRIEF={app:'Crew demo',logo:'job',legal:'Demo data. Not real customers. The four timestamps are from one real event on 4 Nov.',nav:[['cal','Schedule'],['job','Jobs'],['quote','Quotes'],['client','Clients']],steps:[
+{t:'The schedule moves',nav:'cal',n:"At 1:49 PM the office moves an estimate appointment. That happens all day.",w:"Every move used to mean the estimator showed up with yesterday's information.",
+ v(c){head(c,'Office schedule','Estimates · Tuesday');card(c,`<b>1:00 · Demo client D</b><span class="ap-sub">Assessment</span>`);const m=card(c,`<div class="ap-row"><b data-t>2:30 · Demo client B</b><span class="ap-chip" data-c>Assessment</span></div><span class="ap-sub">Two maples, roofline</span>`);card(c,`<b>4:00 · Demo client E</b><span class="ap-sub">Assessment</span>`);c.spot(m);
+  c.at(1000,()=>{m.querySelector('[data-t]').textContent='3:15 · Demo client B';const ch=m.querySelector('[data-c]');ch.textContent='Moved · 1:49 PM';ch.className='ap-chip q'})}},
+{t:'A watcher notices',nav:'cal',n:"Two minutes later, at 1:51, a watcher sees the change. Nobody told it to look.",w:"It checks the schedule every couple of minutes, so nobody has to remember to tell the estimator.",
+ v(c){head(c,'Watcher','Checks the schedule every 2 min');const w=card(c,`<div class="ap-row"><span data-s>Checking…</span><span class="ap-chip q" data-c>1:50 PM</span></div>`);c.spot(w);
+  c.at(1000,()=>{w.querySelector('[data-s]').textContent='Change found: Demo client B → 3:15';const ch=w.querySelector('[data-c]');ch.textContent='1:51 PM';ch.className='ap-chip ok'})}},
+{t:'It pulls what he needs',nav:'cal',n:"At 1:52 it pulls the call notes, the request, past work, what was charged last time, and any company facts that apply.",w:"Everything he'd otherwise dig for in several places ends up on one page.",
+ v(c){head(c,'Building the briefing','1:52 PM');const b=card(c,`<div data-g style="display:grid;gap:4px"></div>`),g=b.querySelector('[data-g]');c.spot(b);
+  ['Call notes','Online request','Past work','Last price','Company facts'].forEach((x,k)=>c.at(300+k*380,()=>put(g,`<div class="ap-row"><span>${x}</span><span class="ap-y">✓</span></div>`,c.A)))}},
+{t:'His page is rebuilt',nav:'job',n:"At 1:54 his private page is republished. Five minutes from the schedule change, and nobody clicked refresh.",w:"One page per estimator, private to him. It's only useful if it's current without anyone remembering to update it.",
+ v(c){const h=put(c.scr,`<div class="ap-row"><div class="ap-head"><b>My stops</b><span>Tuesday · estimator view</span></div><span class="ap-chip ok" data-u>Updated 1:54 PM</span></div>`);card(c,`<b>1:00 · Demo client D</b><span class="ap-sub">Assessment</span>`);card(c,`<div class="ap-row"><b>3:15 · Demo client B</b><span class="ap-chip q">moved</span></div><span class="ap-sub">Briefing ready</span>`);card(c,`<b>4:00 · Demo client E</b><span class="ap-sub">Assessment</span>`);c.at(300,()=>c.spot(h.querySelector('[data-u]')))}},
+{t:'At the door',nav:'job',n:"Before he knocks, he knows what they want, how they like to be contacted, the dog in the back yard, and what was done last time.",w:"Walking up cold costs trust. This is a glance in the truck, not homework.",
+ v(c){head(c,'3:15 · Demo client B','Briefing');const d=card(c,`<span class="ap-k">Wants</span><span>Two maples thinned, worried about the roofline.</span><span class="ap-k">Remember</span><span>Called twice. Prefers text. Dog in back yard.</span><span class="ap-k">Last time</span><span>2024 · crown clean, 2 trees · $▇▇▇</span><span class="ap-k">Expert note</span><span class="ap-tags"><span class="ap-src" data-f>D-212 · company memory</span></span>`);c.at(300,()=>c.spot(d))}},
+{t:'Linked to the company memory',nav:'job',n:"The expert note is a cited fact from the company memory, the same kind you saw in the demo above.",w:"The briefing and the Ask screen draw on the same memory, so each fact has one home and one source.",
+ v(c){head(c,'3:15 · Demo client B','Briefing');const d=card(c,`<span class="ap-k">Expert note</span><span class="ap-tags"><span class="ap-src" data-f>D-212 · company memory</span></span>`);c.at(300,()=>c.spot(d.querySelector('[data-f]')));
+  c.at(1200,()=>{c.spot(null);const f=card(c,`<div class="ap-row"><b>D-212</b><span class="ap-chip ok">verbatim</span></div><span>Check roof clearance before quoting a thin near a roofline.</span><span class="ap-sub">Expert walkthrough recording · 01:32</span>`);if(c.A)f.classList.add('ap-in');c.spot(f)})}},
+{t:'What I can claim',nav:'job',n:"Schedule moved at 1:49. Page live at 1:54. Nobody touched it.",w:"That's one timed event, on a short production history. It's live and the estimators use it; I'm not claiming more than that.",
+ v(c){head(c,'One real event','4 Nov 2026');const t=card(c,`<div class="ap-tl">${[['1:49 PM','Appointment moved'],['1:51 PM','Watcher detects it'],['1:52 PM','Notes, history, price, facts pulled'],['1:54 PM','Private page republished']].map(([a,b])=>`<div><b>${a}</b> · ${b}</div>`).join('')}</div>`);c.spot(t)}}
+]};
+
+/* ---------- the tour engine ---------- */
+function Tour(root,cfg){
+ const S=cfg.steps,N=S.length;let i=0,T=[],auto=false,aT=0;
+ const st=document.createElement('div');st.className='tw-stage';st.hidden=true;st.setAttribute('role','region');st.setAttribute('aria-label',root.dataset.label||'Guided demo');
+ st.innerHTML=`<div class="tw-phone" role="group" aria-label="Demo app screen with invented data"><div class="ap-top"><span class="ap-logo">${ico(cfg.logo)}</span><b>${cfg.app}</b><span class="ap-badge">Demo data</span></div><div class="ap-scr"></div><div class="ap-nav" aria-hidden="true">${cfg.nav.map(([k,l])=>`<span class="ap-ni" data-k="${k}">${ico(k)}<span>${l}</span></span>`).join('')}</div></div>
+ <div class="tw-side"><div class="tw-bar"><span class="tw-count"></span><span class="tw-prog"><i></i></span><button class="linkbtn tw-x" type="button">Close</button></div>
+ <div class="tw-ctl"><button class="btn ghost tw-back" type="button">◀ Back</button><button class="btn tw-next" type="button">Next ▶</button><button class="btn ghost tw-auto" type="button" aria-pressed="false">▶ Autoplay</button></div>
+ <div class="tw-narr" aria-live="polite" aria-atomic="true"></div><p class="tw-legal">${cfg.legal}</p><p class="tw-keys">Keys: ← and → step through.</p></div>`;
+ root.appendChild(st);
+ const q=s=>st.querySelector(s),ph=q('.tw-phone'),scr=q('.ap-scr'),narr=q('.tw-narr'),back=q('.tw-back'),next=q('.tw-next'),ab=q('.tw-auto'),start=root.querySelector('.tw-start');
+ const nav=[...st.querySelectorAll('.ap-ni')];
+ function spot(sel){ph.querySelectorAll('.tw-spot').forEach(e=>e.classList.remove('tw-spot'));const e=typeof sel==='string'?ph.querySelector(sel):sel;if(!e)return;e.classList.add('tw-spot');
+  if(scr.contains(e)){const top=e.offsetTop,bot=top+e.offsetHeight;if(bot>scr.scrollTop+scr.clientHeight||top<scr.scrollTop)scr.scrollTop=Math.max(0,bot-scr.clientHeight+12)}}
+ function go(n,anim){T.forEach(clearTimeout);T=[];clearTimeout(aT);i=n;const s=S[n],A=anim&&!RM.matches;let end=0;
+  scr.innerHTML='';scr.scrollTop=0;nav.forEach(e=>e.classList.toggle('on',e.dataset.k===s.nav));
+  const c={scr,A,spot,at(ms,fn){if(!A){fn();return}end=Math.max(end,ms);T.push(setTimeout(fn,ms))},
+   type(el,txt,t0){if(!A){el.textContent=txt;return t0}for(let k=1;k<=txt.length;k++)c.at(t0+k*32,()=>{el.textContent=txt.slice(0,k)});return t0+txt.length*32}};
+  s.v(c);
+  narr.innerHTML=`<h3>${s.t}</h3><p>${s.n}</p>${s.w?`<p class="tw-why"><b>Why:</b> ${s.w}</p>`:''}`;
+  q('.tw-count').textContent=`Step ${n+1} of ${N}`;q('.tw-prog i').style.width=((n+1)/N*100)+'%';
+  back.disabled=n===0;if(back.disabled&&document.activeElement===back)next.focus();
+  next.textContent=n===N-1?'↺ Start over':'Next ▶';
+  if(auto){if(n===N-1)setAuto(false);else{const words=(s.n+' '+(s.w||'')).split(/\s+/).length;aT=setTimeout(()=>go(i+1,true),end+Math.max(4500,words*280))}}
+ }
+ function setAuto(on){auto=on;ab.setAttribute('aria-pressed',on);ab.textContent=on?'❚❚ Pause':'▶ Autoplay';clearTimeout(aT);if(on)go(i===N-1?0:i,true)}
+ next.onclick=()=>go(i===N-1?0:i+1,true);
+ back.onclick=()=>{if(i>0)go(i-1,false)};
+ ab.onclick=()=>setAuto(!auto);
+ scr.addEventListener('click',e=>{if(e.target.closest('.tw-spot')&&i<N-1)go(i+1,true)});
+ ph.querySelector('.ap-nav').addEventListener('click',e=>{if(e.target.closest('.tw-spot')&&i<N-1)go(i+1,true)});
+ st.addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey)return;if(e.key==='ArrowRight'){e.preventDefault();if(i<N-1)go(i+1,true)}else if(e.key==='ArrowLeft'){e.preventDefault();if(i>0)go(i-1,false)}});
+ q('.tw-x').onclick=()=>{setAuto(false);T.forEach(clearTimeout);st.hidden=true;start.hidden=false;start.focus()};
+ start.onclick=()=>{st.hidden=false;start.hidden=true;go(0,true);next.focus({preventScroll:true});st.scrollIntoView({block:'nearest',behavior:RM.matches?'auto':'smooth'})};
+ root.tour={go,next:()=>next.click(),N};
+}
+const CFG={draft:DRAFT,brain:BRAIN,reid:REID,brief:BRIEF};
+document.querySelectorAll('.tour[data-tour]').forEach(r=>{const c=CFG[r.dataset.tour];if(c)Tour(r,c)});
 })();
 </script>
 </html>
