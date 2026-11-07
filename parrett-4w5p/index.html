@@ -1,360 +1,381 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex"><style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}img{max-width:100%}[hidden]{display:none!important}</style><title>Systems by Joseph Myers · for Dr. Chris Parrett</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="AI systems Joseph Myers has built: clickable demos, the evidence they work, and their limits.">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex"><style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}img{max-width:100%}[hidden]{display:none!important}</style><title>Joseph Myers: Applied AI systems · for Dr. Chris Parrett</title>
+<meta name="description" content="Joseph Myers: applied AI systems, the evidence they work, and their limits.">
+<link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+<script>try{var sk=localStorage.getItem('skin');if(sk==='light'||sk==='dark')document.documentElement.setAttribute('data-skin',sk)}catch(e){}</script>
 <style>
-/* Layout: analyst workstation — sticky top bar, left index, one scrolling case file. Each system = BLUF line + clickable demo + numbers + limits. */
-/* Tokens from the U.S. Web Design System (USWDS) system palette: gray-cool, blue-v, green-cool-v, gold-v, red-v. Dark is the default; Light is a toggle. */
+/* Layered like carved stone: calm at first glance, more detail the closer you look.
+   Each system: one-line summary, specifics, expandable proof, source links.
+   Colors: U.S. Web Design System tokens. Follows the device theme; the button overrides it. */
 :root{
-  --bg:#1c1d1f; --pane:#252629; --rail:#202124; --ink:#f0f0f0; --muted:#a9aeb1; --line:#3d4551; --hover:#2d2e2f;
-  --blue:#58b4ff; --blue-soft:#11263b; --green:#00ce9c; --green-soft:#0d2a24; --amber:#ffbe2e; --amber-soft:#332a10; --red:#fb5a47; --red-soft:#3b1a16;
-  --sans:"Public Sans", "Helvetica Neue", Arial, sans-serif;
-  --mono:"Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
-  color-scheme:dark;
-}
-:root[data-skin="light"]{
-  --bg:#f0f0f0; --pane:#ffffff; --rail:#f7f7f7; --ink:#1b1b1b; --muted:#565c65; --line:#dfe1e2; --hover:#eef0f1;
-  --blue:#005ea2; --blue-soft:#e7f2f5; --green:#00796b; --green-soft:#e3f5f1; --amber:#8a5c00; --amber-soft:#faf3d1; --red:#b50909; --red-soft:#fde0db;
+  --bg:#fff; --pane:#fff; --rail:#f7f7f7; --ink:#1b1b1b; --muted:#565c65; --line:#dfe1e2; --hover:#f0f0f0;
+  --blue:#005ea2; --blue-soft:#e7f2f5; --green:#00695c; --green-soft:#e3f5f1; --amber:#7a5100; --amber-soft:#faf3d1; --red:#b50909; --red-soft:#fde0db;
+  --sans:"Public Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   color-scheme:light;
 }
+@media (prefers-color-scheme:dark){:root:not([data-skin="light"]){
+  --bg:#16171a; --pane:#1f2023; --rail:#1b1c1f; --ink:#f0f0f0; --muted:#b4b9bc; --line:#3d4551; --hover:#2a2b2e;
+  --blue:#73b3e7; --blue-soft:#11263b; --green:#00ce9c; --green-soft:#0d2a24; --amber:#ffbe2e; --amber-soft:#332a10; --red:#ff8a7a; --red-soft:#3b1a16;
+  color-scheme:dark;
+}}
+:root[data-skin="dark"]{
+  --bg:#16171a; --pane:#1f2023; --rail:#1b1c1f; --ink:#f0f0f0; --muted:#b4b9bc; --line:#3d4551; --hover:#2a2b2e;
+  --blue:#73b3e7; --blue-soft:#11263b; --green:#00ce9c; --green-soft:#0d2a24; --amber:#ffbe2e; --amber-soft:#332a10; --red:#ff8a7a; --red-soft:#3b1a16;
+  color-scheme:dark;
+}
 *{box-sizing:border-box}
-html{scroll-padding-top:70px}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);margin:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);margin:0;overflow-wrap:break-word}
 button{font:inherit;color:inherit}
-.v{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.k{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-a{color:var(--blue)}
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--pane);border-bottom:1px solid var(--line);padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--pane)}
-.top b{font-size:15px}
-.top .tag{color:var(--muted);font-size:12.5px}
-.top .mail{margin-left:auto;display:flex;gap:8px;align-items:center}
-.top code{font:500 12.5px var(--mono);user-select:all}
-.btn{border:1px solid var(--blue);background:var(--blue);color:var(--pane);border-radius:3px;padding:6px 11px;font:600 12px var(--sans);cursor:pointer}
+a{color:var(--blue);text-underline-offset:2px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+[hidden]{display:none!important}
+img{max-width:100%}
+.skip{position:absolute;left:-999px;top:8px;background:var(--pane);padding:10px 14px;z-index:30}
+.skip:focus{left:16px}
+.v{font-variant-numeric:tabular-nums}
+.k{font-size:13px;font-weight:600;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted)}
+.foot{color:var(--muted);font-size:14px;margin:0}
+.one{margin:0;color:var(--muted);max-width:62ch}
+
+/* header: not sticky */
+.top,main{max-width:800px;margin-inline:auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 16px;padding-top:12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.brand{font-weight:700;color:var(--ink);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+.linkbtn{background:none;border:0;padding:0 2px;min-height:44px;color:var(--blue);text-decoration:underline;text-underline-offset:2px;cursor:pointer;font-size:15px}
+.nav{order:3;flex:1 0 100%;display:flex;flex-wrap:wrap;gap:0 18px}
+.nav a{min-height:44px;display:inline-flex;align-items:center;color:var(--ink);text-decoration:none;font-size:15px}
+.nav a:hover{color:var(--blue);text-decoration:underline}
+
+main{padding-top:40px;padding-bottom:64px;display:grid;gap:64px;min-width:0}
+main>*{min-width:0}
+section{scroll-margin-top:12px}
+h1{margin:0;font-size:clamp(32px,6vw,44px);line-height:1.1;font-weight:700;letter-spacing:-.01em}
+h2{margin:0;font-size:clamp(22px,3.4vw,26px);line-height:1.25;font-weight:600;text-wrap:balance}
+h3{margin:0;font-size:17px;line-height:1.35;font-weight:600}
+
+/* first screen */
+.hero{display:grid;gap:16px}
+.role{margin:0;font-size:clamp(18px,2.6vw,21px);line-height:1.35;font-weight:500}
+.lead{margin:0;max-width:60ch}
+.meta{margin:0;color:var(--muted);font-size:15px}
+.cta{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.cta code{font:14px var(--mono);color:var(--muted);user-select:all}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--blue);background:var(--blue);color:var(--bg);border-radius:6px;min-height:44px;padding:8px 14px;font:600 15px var(--sans);cursor:pointer;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--blue)}
-.btn.ok{border-color:var(--green);background:var(--green)}
-.btn:disabled{opacity:.45;cursor:default}
-.btn:focus-visible,.nav a:focus-visible,.opt:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.btn.ok{border-color:var(--green);background:var(--green);color:var(--bg)}
+.btn:disabled{opacity:.55;cursor:default}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 20px;border-block:1px solid var(--line);padding-block:6px;margin-top:8px}
+.fact{display:grid;gap:2px;align-content:start;padding:12px 0;color:var(--ink);text-decoration:none}
+.fact .v{font-size:26px;font-weight:700;line-height:1.15}
+.fact .l{font-size:14px;line-height:1.35;color:var(--muted)}
+.fact:hover .v{color:var(--blue);text-decoration:underline}
+.note{margin:0;font-size:14px;color:var(--muted)}
+.hero>h2{margin-top:32px}
+.built{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.built a{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr) auto;gap:2px 16px;align-items:baseline;padding:12px 0;min-height:44px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none}
+.built a:hover{background:var(--hover)}
+.built a:hover b{color:var(--blue);text-decoration:underline}
+.built b{font-weight:600}
+.built .d{color:var(--ink);font-size:15px}
+.built .st2{color:var(--muted);font-size:13px;white-space:nowrap}
+.job{display:grid;gap:4px}
+.jm{margin:0;color:var(--muted);font-size:15px}
+.job ul{margin:4px 0 0;padding-left:20px;display:grid;gap:6px;max-width:66ch}
+.edu{margin:0;display:grid;gap:12px}
+.edu div{display:grid;gap:2px}
+.edu dt{font-weight:600}
+.edu dd{margin:0;max-width:66ch}
 
-.shell{display:grid;grid-template-columns:210px minmax(0,1fr);max-width:1200px;margin:0 auto}
-.nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 50px);align-self:start;height:calc(100vh - 50px);overflow:auto;border-right:1px solid var(--line);padding:16px 0;display:flex;flex-direction:column;gap:1px}
-.nav .k{padding:4px 16px 8px}
-.nav a{display:grid;gap:1px;padding:8px 16px;border-left:3px solid transparent;color:var(--ink);text-decoration:none;font-weight:600;font-size:13px}
-.nav a span{font:400 11.5px var(--mono);color:var(--muted)}
-.nav a:hover{background:var(--hover)}
-.nav a.on{border-left-color:var(--blue);background:var(--pane)}
-main{padding-block:28px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:64px;min-width:0}
-@media (min-width:861px){main{padding-left:28px;padding-right:max(28px,env(safe-area-inset-right,0px))}}
+/* one system: summary, specifics, proof, sources */
+.sys,.claims,.contact{display:grid;gap:12px;align-content:start}
+.pills{display:flex;flex-wrap:wrap;gap:4px 8px}
+.pill{font-size:13px;line-height:1.4;color:var(--muted)}
+.pill+.pill::before{content:"· ";}
+.pill.live{color:var(--green);font-weight:600}
+.pill.concept{color:var(--amber);font-weight:600}
+.sys[data-st="pilot"] .pill.live{color:var(--blue)}
+.pill.rel{color:var(--blue);font-weight:600}
+.hl{display:flex;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
+.hl .v{font-size:32px;font-weight:700;line-height:1.1}
+.hl .l{font-size:15px;color:var(--muted);max-width:50ch;line-height:1.4}
+.pss{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 28px}
+.pss div{display:grid;gap:2px;align-content:start}
+.pss dt{font-size:13px;font-weight:600;color:var(--muted)}
+.pss dd{margin:0;font-size:15px;line-height:1.5}
+.srcs{margin:0;font-size:14px;color:var(--muted);line-height:1.9}
 
-.hero{display:grid;gap:14px}
-.sig{font-size:clamp(19px,2.4vw,24px);line-height:1.35;font-weight:500;margin:0;max-width:44ch;text-wrap:balance}
-.bluf{margin:0;max-width:70ch;font-size:15px}
-.bluf b{font:600 11px var(--mono);letter-spacing:.1em;color:var(--blue);margin-right:6px}
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.fact{background:var(--pane);padding:12px;display:grid;gap:3px;align-content:start}
-.fact .v{font-size:22px;font-weight:600;line-height:1.1}
-.fact .l{font-size:12px;color:var(--muted);line-height:1.3}
+details.more{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+details.more>summary{min-height:48px;display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--blue);font-weight:600;font-size:15px;list-style:none;padding:8px 0}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::before{content:"+";display:inline-block;width:18px;font-size:20px;line-height:1;text-align:center}
+details.more[open]>summary::before{content:"−"}
+.more-b{padding:4px 0 20px;display:grid;gap:14px;min-width:0}
 
-.sys{display:grid;gap:12px}
-.sys header{display:grid;gap:6px}
-.pills{display:flex;flex-wrap:wrap;gap:6px}
-.pill{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border-radius:2px;border:1px solid var(--line);color:var(--muted)}
-.pill.live{color:var(--green);border-color:var(--green);background:var(--green-soft)}
-.pill.concept{color:var(--amber);border-color:var(--amber);background:var(--amber-soft)}
-h2{margin:0;font-size:21px;line-height:1.25;font-weight:600;text-wrap:balance}
-.one{margin:0;color:var(--muted);max-width:72ch}
-.panel{background:var(--pane);border:1px solid var(--line);border-radius:3px;min-width:0}
-.ph{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid var(--line)}
-.demo{font:600 10px var(--mono);letter-spacing:.06em;color:var(--blue);border:1px solid var(--blue);padding:3px 6px;border-radius:2px}
-.grid2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.metric{background:var(--pane);padding:10px 12px;display:grid;gap:2px;align-content:start}
+/* panels inside proof */
+.panel{background:var(--pane);border:1px solid var(--line);border-radius:8px;min-width:0;overflow:hidden}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:6px 10px;flex-wrap:wrap;padding:10px 12px;border-bottom:1px solid var(--line)}
+.demo{font-size:12px;font-weight:600;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px}
+.rg{grid-template-columns:minmax(0,1fr)}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px 20px}
+.metric{display:grid;gap:2px;align-content:start}
 .metric .v{font-size:19px;font-weight:600}
-.metric .l{font-size:11.5px;color:var(--muted);line-height:1.3}
-.limits{margin:0;padding:9px 12px 11px 28px;display:grid;gap:3px;font-size:12.5px;border:1px solid var(--line);border-top:2px solid var(--amber);background:var(--pane);border-radius:3px;color:var(--muted)}
-.limits li::marker{color:var(--amber)}
-.body{padding:12px;display:grid;gap:10px}
-.opts{display:flex;flex-wrap:wrap;gap:6px}
-.opt{all:unset;cursor:pointer;font-size:12.5px;padding:6px 9px;border:1px solid var(--line);border-radius:3px;background:var(--rail)}
-.opt[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
+.metric .l{font-size:13px;color:var(--muted);line-height:1.35}
+.limits{margin:0;padding:0 0 0 20px;display:grid;gap:4px;font-size:14px;color:var(--muted)}
+.body{padding:12px;display:grid;gap:10px;min-width:0}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{appearance:none;background:var(--rail);cursor:pointer;font-size:14px;line-height:1.3;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:6px;text-align:left;color:var(--ink)}
+.opt[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft);font-weight:600}
 .opt:hover{border-color:var(--blue)}
-
-/* draft demo */
-.tx{font:12.5px/1.6 var(--mono);background:var(--rail);border:1px solid var(--line);border-radius:3px;padding:10px;display:grid;gap:3px;min-height:92px}
-.tx .ts{color:var(--muted)}
-.tx mark{background:var(--blue-soft);color:var(--ink);padding:0 2px;border-radius:2px}
-.quote{border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.qhead{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:7px 10px;background:var(--rail);border-bottom:1px solid var(--line);font:600 12px var(--mono)}
-.st{color:var(--amber)} .st.sent{color:var(--green)}
-.qrow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;padding:7px 10px;border-bottom:1px solid var(--line);font-size:13px;align-items:center}
-.qrow:last-child{border-bottom:0}
-.qempty{padding:10px;color:var(--muted);font-size:12.5px}
-.src{font:500 10.5px var(--mono);color:var(--blue);background:var(--blue-soft);padding:2px 5px;border-radius:2px;white-space:nowrap}
-.red{font:500 12px var(--mono);color:var(--muted)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.hint{font-size:12px;color:var(--muted)}
-
-/* answer demo */
-.ans{border:1px solid var(--line);border-radius:3px;padding:10px;display:grid;gap:8px;min-height:96px}
-.ans .q{font-weight:600}
-.abst{border-left:3px solid var(--amber);padding:6px 10px;background:var(--amber-soft);font-size:13px}
-.refuse{border-left:3px solid var(--red);padding:6px 10px;background:var(--red-soft);font-size:13px}
-
-/* tool demo */
-.log{font:12px/1.6 var(--mono);background:var(--rail);border:1px solid var(--line);border-radius:3px;padding:8px 10px;min-height:66px}
-.log .y{color:var(--green)} .log .n{color:var(--red)}
-
-/* reid demo */
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
-.cand{border:1px solid var(--line);border-radius:3px;padding:6px;display:grid;gap:4px;justify-items:center;font-size:11.5px;text-align:center}
-.cand.top{border-color:var(--green)}
-.cand svg{width:100%;height:auto;max-width:90px}
-.bar{height:5px;background:var(--line);border-radius:2px;width:100%;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--blue)}
-.verdict{font-size:13px;padding:7px 10px;border-radius:3px}
-.verdict.go{background:var(--green-soft);color:var(--green)} .verdict.q{background:var(--amber-soft);color:var(--amber)}
-
-svg.chart{width:100%;height:auto;display:block}
-svg.chart text{fill:var(--muted);font:11px var(--mono)}
-.checks{font:12px/1.7 var(--mono);min-height:20px}
-.checks .y{color:var(--green)}
-
-.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
-.trust div{background:var(--pane);padding:12px;display:grid;gap:4px;align-content:start}
-.trust b{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
-.trust p{margin:0;font-size:13px}
-.prose{padding:12px;display:grid;gap:8px;max-width:72ch}
-.prose p{margin:0}
-.foot{color:var(--muted);font-size:12px;margin:0}
-
-
-.pss{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.pss div{background:var(--pane);padding:10px 12px;display:grid;gap:3px;align-content:start}
-.pss dt{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
-.pss div:first-child dt{color:var(--red)} .pss div:nth-child(2) dt{color:var(--green)}
-.pss dd{margin:0;font-size:13.5px;line-height:1.45}
-.pss dd.sysline{font:12px/1.55 var(--mono);color:var(--muted)}
-@media (max-width:860px){.pss{grid-template-columns:1fr}}
-
-.mapgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.lane{background:var(--pane);padding:10px 12px;display:grid;gap:6px;align-content:start;min-width:0}
-.lane ul{margin:0;padding-left:16px;display:grid;gap:2px;font-size:12.5px}
-.lane:first-child ul{grid-template-columns:1fr 1fr;column-gap:14px}
-.lh{font:600 10.5px var(--mono);letter-spacing:.06em;padding:4px 6px;border-radius:2px;justify-self:start}
-.lh.live{color:var(--green);background:var(--green-soft)} .lh.avail{color:var(--amber);background:var(--amber-soft)} .lh.built{color:var(--blue);background:var(--blue-soft)} .lh.test{color:var(--muted);border:1px solid var(--line)} .lh.ret{color:var(--muted);border:1px dashed var(--line)}
-.tl{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
-.tl div{position:relative;padding:6px 0 10px 16px;font-size:13px;opacity:.35;transition:opacity .25s}
-.tl div.on{opacity:1}
-.tl div::before{content:"";position:absolute;left:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--pane);border:2px solid var(--muted)}
-.tl div.on::before{border-color:var(--blue);background:var(--blue)}
-.tl b{font:600 12px var(--mono);margin-right:8px}
-.door{grid-template-columns:1fr 1fr}
-.door p{margin:2px 0 0;font-size:13px}
-@media (max-width:860px){.mapgrid{grid-template-columns:1fr}.lane:first-child ul{grid-template-columns:1fr}.door{grid-template-columns:1fr}}
-
-.foryou{border:1px solid var(--blue);border-radius:3px;background:var(--pane);display:grid;gap:0}
-.foryou .ph{border-bottom:1px solid var(--line)}
-.fy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line)}
-.fy>div{background:var(--pane);padding:12px;display:grid;gap:6px;align-content:start;min-width:0}
-.fy h3{margin:0;font-size:12px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:600}
-.fy p{margin:0;font-size:14px}
-.fy ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
-.fy a{font-weight:600}
-.fyhead{padding:14px 14px 4px;display:grid;gap:4px}
-.fyhead h2{font-size:22px}
-.rel{color:var(--blue);border-color:var(--blue)}
-@media (max-width:860px){.fy{grid-template-columns:1fr}}
-
-.mapwrap{position:relative;height:clamp(380px,62vh,620px);border-top:1px solid var(--line);background:var(--rail)}
-.mapwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-
-.shield{position:absolute;inset:0;z-index:2;width:100%;height:100%;border:0;background:transparent;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding:14px}
-.shield::after{content:attr(data-l);}
-.shield{font:600 12px var(--sans);color:var(--ink)}
-.shield span,.shield{text-shadow:none}
-.mapwrap.live .shield{display:none}
-.mapwrap .shield{background:linear-gradient(transparent 70%,rgba(0,0,0,.45))}
-@media (max-width:860px){.mapwrap{height:420px}}
-html{scroll-behavior:auto}
-nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
-
-#dTx{height:228px;overflow:hidden}
-@media (max-width:520px){#dTx{height:365px}#dRows{height:330px!important}#dChecks{height:295px!important}}
-#dRows{height:236px;overflow:hidden}
-#dChecks{height:190px;overflow:hidden}
-#oChecks{height:118px}
-#kAns,#pAns{min-height:120px}
-#tLog{height:66px}
-#rGal{min-height:150px}
-#rVer{min-height:40px}
-#fWhy{min-height:72px}
-.tl div{opacity:1}
-.fadein{animation:none!important}
-
-.flowd{display:flex;flex-wrap:wrap;gap:6px 4px;align-items:center;font:500 12.5px/1.3 var(--mono)}
-.flowd span{padding:7px 10px;border:1px solid var(--line);border-radius:3px;background:var(--pane)}
+.flowd{display:flex;flex-wrap:wrap;gap:6px 4px;align-items:center;font-size:13px;line-height:1.3}
+.flowd span{padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--pane)}
 .flowd span.g{border-color:var(--green);color:var(--green);background:var(--green-soft)}
 .flowd span.h{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}
-.flowd span.g::before{content:"✓ "} .flowd span.h::before{content:"● "}
 .flowd i{font-style:normal;color:var(--muted);padding:0 2px}
 
-.gallery2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.tile{all:unset;cursor:zoom-in;display:grid;gap:4px;align-content:start;background:var(--pane);border:1px solid var(--line);border-radius:3px;overflow:hidden;min-width:0}
-.tile:focus-visible{outline:2px solid var(--blue)}
-.tile img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;background:#fff;border-bottom:1px solid var(--line)}
-.tile .tt{padding:8px 10px 0;font-weight:600;font-size:14px}
-.tile .td{padding:0 10px;font-size:12.5px;color:var(--ink);line-height:1.4}
-.tile .tm{padding:2px 10px 10px;font:11px var(--mono);color:var(--muted)}
-.lb{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:3px}
-.lbx{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 12px);border:0;background:#fff;color:#000;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer}
-@media (max-width:860px){.gallery2{grid-template-columns:1fr 1fr}}
-@media (max-width:520px){.gallery2{grid-template-columns:1fr}}
-/* theme toggle */
-.skins{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.skins button{all:unset;cursor:pointer;font:600 11px var(--mono);letter-spacing:.05em;padding:5px 10px;color:var(--muted)}
-.skins button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.skins button:focus-visible{outline:2px solid var(--blue)}
-.src-line{font:12px/1.5 var(--mono);color:var(--muted);margin:0}
-.src-line b{color:var(--ink);font-weight:500}
-.conf{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border-radius:2px;border:1px solid var(--blue);color:var(--blue)}
-
-@media (max-width:860px){
-  .shell{grid-template-columns:1fr}
-  .nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 50px);height:auto;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);background:var(--rail);padding:0;z-index:4}
-  .nav .k{display:none}
-  .nav a{border-left:0;border-bottom:3px solid transparent;white-space:nowrap}
-  .nav a span{display:none}
-  .nav a.on{border-bottom-color:var(--blue)}
-  .grid2,.trust{grid-template-columns:1fr}
-  .top .mail{margin-left:0}
-  .top{position:static}
-  .nav{top:env(safe-area-inset-top,0px)}
-  html{scroll-padding-top:56px}
-}
-@media (prefers-reduced-motion:no-preference){.fadein{animation:f .25s ease-out both}@keyframes f{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}}
-
-/* v5: headline result, status rail, lighter P/S, highlights, before→after */
-.hl{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:2px 0}
-.hl .v{font-size:clamp(30px,5vw,40px);font-weight:600;line-height:1;color:var(--green)}
-.hl .l{font-size:13px;color:var(--muted);max-width:40ch;line-height:1.35}
-.sys[data-st]{border-left:3px solid var(--line);padding-left:16px}
-.sys[data-st="live"]{border-left-color:var(--green)}
-.sys[data-st="pilot"]{border-left-color:var(--blue)}
-.sys[data-st="concept"]{border-left-color:var(--muted)}
-.sys[data-st="pilot"] .hl .v{color:var(--blue)} .sys[data-st="concept"] .hl .v{color:var(--ink)}
-@media (max-width:860px){.sys[data-st]{padding-left:12px}}
-.pss{background:none;border:0;border-radius:0;gap:6px 28px}
-.pss div{background:none;padding:0}
-.hi3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.hi3 a{display:grid;gap:5px;text-decoration:none;color:var(--ink);min-width:0}
-.hi3 img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px;border:1px solid var(--line);background:#fff}
-.hi3 b{font-size:13px;line-height:1.25}
-.hi3 span{font:11px/1.3 var(--mono);color:var(--muted)}
-@media (max-width:520px){.hi3 b{font-size:12px}.hi3 span{display:none}}
+/* demos */
+.tx{font:13px/1.6 var(--mono);background:var(--rail);border:1px solid var(--line);border-radius:6px;padding:10px;display:grid;gap:3px;min-height:96px;align-content:start}
+.tx .ts{color:var(--muted)}
+.tx mark{background:var(--blue-soft);color:var(--ink);padding:0 2px;border-radius:2px}
+.quote{border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.qhead{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 10px;background:var(--rail);border-bottom:1px solid var(--line);font-size:13px;font-weight:600}
+.st{color:var(--amber)} .st.sent{color:var(--green)}
+.qrow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;padding:7px 10px;border-bottom:1px solid var(--line);font-size:14px;align-items:center}
+.qrow:last-child{border-bottom:0}
+.qempty{padding:10px;color:var(--muted);font-size:14px}
+.src{font-size:12px;font-weight:500;color:var(--blue);background:var(--blue-soft);padding:2px 5px;border-radius:3px}
+.red{font-size:13px;color:var(--muted)}
+.ans{border:1px solid var(--line);border-radius:6px;padding:10px;display:grid;gap:8px;min-height:120px;align-content:start}
+.ans .q{font-weight:600}
+.abst{border-left:3px solid var(--amber);padding:6px 10px;background:var(--amber-soft);font-size:14px}
+.refuse{border-left:3px solid var(--red);padding:6px 10px;background:var(--red-soft);font-size:14px}
+.log{font:13px/1.6 var(--mono);background:var(--rail);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:66px}
+.log .y,.checks .y{color:var(--green)} .log .n{color:var(--red)}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.cand{border:1px solid var(--line);border-radius:6px;padding:6px;display:grid;gap:4px;justify-items:center;font-size:12px;text-align:center;min-width:0}
+.cand.top{border-color:var(--green)}
+.cand img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:3px}
+.cand b{font-size:12px;font-weight:600}
+.cand .pc{font-size:15px;font-weight:600}
+.cand.top .pc{color:var(--green)}
+.bar{height:5px;background:var(--line);border-radius:2px;width:100%;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue)}
+.verdict{font-size:14px;padding:8px 10px;border-radius:6px}
+.verdict.go{background:var(--green-soft);color:var(--green)} .verdict.q{background:var(--amber-soft);color:var(--amber)}
+.rm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:10px;align-items:start}
+.rq,.rev{margin:0;display:grid;gap:4px;min-width:0}
+.rq img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:6px;background:var(--rail)}
+.rev img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:contain;background:#16181a;border-radius:6px}
+.rnone{padding:28px 12px;display:flex;align-items:center;justify-content:center;background:#16181a;border-radius:6px;color:#d9dbdc;font-size:14px;text-align:center}
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{fill:var(--muted);font:11px var(--sans)}
+.checks{font:13px/1.7 var(--mono)}
+.tl{display:grid;border-left:2px solid var(--line);margin-left:6px}
+.tl div{position:relative;padding:6px 0 10px 16px;font-size:14px}
+.tl div::before{content:"";position:absolute;left:-7px;top:11px;width:12px;height:12px;border-radius:50%;background:var(--pane);border:2px solid var(--muted)}
+.tl div.on::before{border-color:var(--blue);background:var(--blue)}
+.tl b{font-weight:600;margin-right:8px}
+.door{grid-template-columns:1fr 1fr}
+.door p{margin:2px 0 0;font-size:14px}
 .ba{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:stretch}
 .ba>i{align-self:center;font-style:normal;color:var(--muted);font-size:20px}
-.ba .panel .body{gap:6px}
-.raw{font:12px/1.6 var(--mono);color:var(--muted);margin:0;white-space:pre-wrap}
+.raw{font:13px/1.6 var(--mono);color:var(--muted);margin:0;white-space:pre-wrap}
 .raw b{color:var(--ink);font-weight:500}
-.mini{width:100%;border-collapse:collapse;font:11.5px var(--mono)}
+.mini{width:100%;border-collapse:collapse;font-size:12px}
 .mini th,.mini td{padding:3px 5px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
 .mini th{color:var(--muted);font-weight:500}
 .mini td.n{text-align:right}
-.mini tr.pick td{background:var(--blue-soft);color:var(--ink)}
+.mini tr.pick td{background:var(--blue-soft);color:var(--ink);font-weight:600}
 .mini tr:not(.pick) td{color:var(--muted)}
 .tw{overflow-x:auto}
-@media (max-width:520px){.mini th:nth-child(5),.mini td:nth-child(5){display:none}.mini th,.mini td{padding:3px 4px}}
-.sys[data-st="pilot"] .pill.live{color:var(--blue);border-color:var(--blue);background:var(--blue-soft)}
-.qline{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:5px 0;border-bottom:1px solid var(--line)}
+.qline{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:5px 0;border-bottom:1px solid var(--line)}
 .qline:last-child{border-bottom:0}
-.big1{font:600 26px var(--mono);color:var(--ink)}
-@media (max-width:860px){.ba{grid-template-columns:1fr}.ba>i{transform:rotate(90deg);justify-self:center}}
-.rm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:10px;align-items:start}
-.rq,.rev{margin:0;display:grid;gap:4px;min-width:0}
-.rq img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:3px;background:var(--rail)}
-.rev{position:relative}
-.rev img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:contain;background:#16181a;border-radius:3px}
-.rnone{padding:28px 12px!important;display:flex;align-items:center;justify-content:center;background:#16181a;border-radius:3px;color:var(--muted);font-size:13px;text-align:center;padding:12px}
-#rGal{grid-template-columns:repeat(3,minmax(0,1fr));min-height:0}
-.cand img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:2px}
-.cand b{font:600 11px var(--mono)}
-.cand .pc{font:600 15px var(--mono)}
-.cand.top .pc{color:var(--green)}
-.rg{grid-template-columns:minmax(0,1fr)}
-#rVer{min-height:58px}
-@media (max-width:860px){.rm{grid-template-columns:1fr}}
+.big1{font-size:26px;font-weight:600}
+
+/* system map */
+.mapgrid{display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:16px}
+.lane{display:grid;gap:6px;align-content:start;min-width:0}
+.lane ul{margin:0;padding-left:16px;display:grid;gap:3px;font-size:14px}
+.lh{font-size:12px;font-weight:600;color:var(--muted)}
+.lh.live{color:var(--green)} .lh.avail{color:var(--amber)} .lh.built{color:var(--blue)}
+
+/* built work */
+.gallery2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tile{appearance:none;cursor:zoom-in;display:grid;gap:4px;align-content:start;background:transparent;border:0;padding:0;text-align:left;min-width:0;color:var(--ink)}
+.tile img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;background:#fff;border:1px solid var(--line);border-radius:6px;margin-bottom:4px}
+.tile .tt{font-weight:600;font-size:15px}
+.tile .td{font-size:14px;line-height:1.4}
+.tile .tm{font-size:13px;color:var(--muted)}
+.lb{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:16px}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+.lbx{position:absolute;top:10px;right:12px;border:0;background:#fff;color:#000;border-radius:50%;width:44px;height:44px;font-size:18px;cursor:pointer}
+
+/* claims */
+.cl-warn{margin:0;font-size:15px;border-left:3px solid var(--amber);padding:6px 12px;background:var(--amber-soft)}
+.cl-list{border-top:1px solid var(--line)}
+.cl-row{border-bottom:1px solid var(--line)}
+.cl-row summary{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 0;min-height:48px;cursor:pointer}
+.cl-row summary:hover{background:var(--hover)}
+.cl-n{font-size:16px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums}
+.cl-l{font-size:15px;line-height:1.35}
+.cl-meta{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.cl-g,.cl-tag{font-size:12px;line-height:1;padding:4px 6px;border-radius:4px;border:1px solid var(--line);white-space:nowrap}
+.cl-g.gA{color:var(--green);border-color:var(--green);background:var(--green-soft)}
+.cl-g.gB{color:var(--blue);border-color:var(--blue);background:var(--blue-soft)}
+.cl-g.gC{color:var(--amber);border-color:var(--amber);background:var(--amber-soft)}
+.cl-g.gD,.cl-tag{color:var(--muted)}
+.cl-d{margin:0;padding:4px 0 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px}
+.cl-d div{display:grid;gap:2px;align-content:start}
+.cl-d .std{grid-column:1/-1}
+.cl-d dt{font-size:13px;font-weight:600;color:var(--muted)}
+.cl-d .short dt{color:var(--red)}
+.cl-d dd{margin:0;font-size:15px;line-height:1.5}
+.cl-fix{margin:0;padding-left:20px;display:grid;gap:8px;font-size:15px}
+.cl-fix .hint{font-size:14px}
+
+/* standards */
+.std-t{width:100%;border-collapse:collapse;font-size:14px;line-height:1.45}
+.std-t th,.std-t td{padding:10px 10px 10px 0;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.std-t thead th{font-size:13px;font-weight:600;color:var(--muted);border-top:0}
+.std-t tbody th{font-weight:600}
+.std-t tbody th .hint{display:block;font-weight:400;margin-top:2px}
+.rmf{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;font-size:15px}
+.rmf p{margin:4px 0 0}
+.rmf-gap span{font-weight:600;color:var(--red)}
+
+.prose{display:grid;gap:10px;max-width:66ch}
+.prose p{margin:0}
+.srclist{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.contact .btn{overflow-wrap:anywhere}
+
+/* tailored pages */
+.foryou{border:1px solid var(--blue);border-radius:8px;display:grid;overflow:hidden}
+.fyhead{padding:16px 16px 8px;display:grid;gap:6px}
+.fy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;padding:8px 16px 16px}
+.fy>div{display:grid;gap:6px;align-content:start;min-width:0}
+.fy h3{font-size:15px;color:var(--blue)}
+.fy p{margin:0;font-size:15px}
+.fy ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:15px}
+.fy a{font-weight:600}
+.foryou .ph{border-top:1px solid var(--line);border-bottom:0;padding:12px 16px}
+.foryou .ph code{font:14px var(--mono)}
+
+@media (max-width:760px){
+  main{padding-top:28px;gap:52px}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .built a{grid-template-columns:minmax(0,1fr)}
+  .built .st2{white-space:normal}
+  .pss,.grid2,.ba,.rm,.mapgrid,.door,.fy,.cl-d,.rmf{grid-template-columns:minmax(0,1fr)}
+  .ba>i{transform:rotate(90deg);justify-self:center}
+  .gallery2{grid-template-columns:minmax(0,1fr)}
+  .tile{grid-template-columns:104px minmax(0,1fr);column-gap:12px}
+  .tile img{grid-row:1/span 3;margin:0}
+  .tile .tm{grid-column:2}
+  .cl-row summary{grid-template-columns:minmax(0,1fr)}
+  .cl-meta{justify-content:flex-start}
+  .nav a.nr{display:none}
+  .mini th:nth-child(5),.mini td:nth-child(5){display:none}
+  .mini th,.mini td{padding:3px 4px}
+  /* standards table stacks on a phone */
+  .std-t thead{position:absolute;left:-9999px}
+  .std-t,.std-t tbody,.std-t tr,.std-t th,.std-t td{display:block;width:auto}
+  .std-t tr{padding:12px 0;border-top:1px solid var(--line)}
+  .std-t th,.std-t td{border:0;padding:3px 0}
+  .std-t td::before{content:attr(data-l) ": ";font-weight:600;color:var(--muted)}
+}
+@media print{
+  .top,.cta .ghost,.note,.srcs,.more,.opts,#built,.built{display:none!important}
+  main>*:not(#overview):not(#contact){display:none!important}
+  body{font-size:12pt;background:#fff;color:#000}
+  main{padding:0;gap:16pt}
+}
 </style>
 
-<div class="top"><b>Joseph Myers</b><span class="tag">Applied AI · systems I've built</span>
-  <div class="skins" role="group" aria-label="Theme"><button type="button" data-s="">Dark</button><button type="button" data-s="light">Light</button></div><div class="mail"><code id="email">myersmail9@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></div></div>
-
-<div class="shell">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="#overview">Joseph Myers</a><button class="linkbtn" id="theme" type="button">Dark mode</button>
 <nav class="nav" aria-label="Sections">
-  <span class="k">Case file</span>
-  <a href="#foryou">For you<span>how this relates</span></a>
-  <a href="#overview">Overview<span>at a glance</span></a>
-  <a href="#reid">Re-identification<span>computer vision</span></a>
-  <a href="#tools">Permissions<span>default-deny</span></a>
-  <a href="#locates">Locates<span>4-view check</span></a>
-  <a href="#work">Built work<span>real examples</span></a>
-  <a href="#draft">Draft agent<span>recording → quote</span></a>
-  
-  <a href="#brain">Company memory<span>2,490 facts</span></a>
-  <a href="#osint">OSINT screens<span>public data</span></a>
-  <a href="#brief">Briefings<span>event-driven</span></a>
-  <a href="#map">System map<span>20 systems</span></a>
-  <a href="#report">Reporting<span>code does math</span></a>
-  <a href="#forecast">Forecasts<span>logged, scored</span></a>
-  <a href="#about">About<span>background</span></a>
-</nav>
+<a href="#foryou">For you</a>
+<a href="#overview">Overview</a>
+<a class="nr" href="#reid">Re-identification</a>
+<a class="nr" href="#tools">Permissions</a>
+<a class="nr" href="#locates">Locates</a>
+<a href="#built">Built</a>
+<a href="#claims">Check my claims</a>
+<a href="#standards">Standards</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</nav></header>
 
-<main>
+<main id="main">
 <section class="foryou" id="foryou"><div class="fyhead"><span class="k">Prepared for Dr. Chris Parrett · Director, Rapid Capabilities Office, NGA</span><h2>How this relates to your work</h2></div>
 <div class="fy"><div><h3>Your mission</h3><p>Getting AI-enabled GEOINT capabilities into field units faster, through short pilots and prototypes that transition into program lines (SpaceNews, May 2026).</p></div><div><h3>What stood out</h3><p>The Tactical ISR PED challenge (Oct 2026) wants small-drone computer vision that detects, tracks and re-identifies objects without cloud reach-back, and adapts with minimal labeled data and minimal coding. Adapting in the field is the hard part, because a wrong re-ID that looks confident costs more than a miss.</p></div>
-<div><h3>Where my systems map</h3><ul><li><a href="#reid">Re-identification</a>: Different platform and species, same core question. In a pre-registered test on public photos it made 0 of 32 wrong automatic matches; on another team&#x27;s photos it found 74 of 77 giraffes and ranked the right one first 60% of the time. A person decides almost every case.</li><li><a href="#tools">Permissions</a>: You&#x27;ve described field units linking business-automation apps as tedious and error-prone. My agent connects to a business system through 7 tools, default-deny, with only one able to write, and only drafts.</li><li><a href="#locates">Locates</a>: Four independent records cross-checked before anything is called covered, 174 active jobs in one morning scan. Same discipline as not trusting one feed.</li></ul></div><div><h3>My assessment</h3><p>My assessment: false-match rate and how quickly a model adapts in the field, more than headline accuracy, will likely decide which prototypes reach operational evaluation.</p><p class="hint" style="font-size:12px">Sources: <a href="https://spacenews.com/nga-rapid-capabilities-office-to-embrace-speed-and-risk-taking/" target="_blank" rel="noopener">SpaceNews, 6 May 2026, NGA RCO</a> · <a href="https://breakingdefense.com/2026/05/ai-blueprint-coming-soon-to-nga-to-help-operationalize-geoint/" target="_blank" rel="noopener">Breaking Defense, 7 May 2026</a> · <a href="https://www.bwcoconsulting.com/fod/nga-tactical-isr-ped-edge-computer-vision" target="_blank" rel="noopener">BW&amp;CO summary of the Tactical ISR PED listing, 23 Oct 2026</a> · <a href="https://www.insaonline.org/detail-pages/person/chris-parrett" target="_blank" rel="noopener">INSA bio</a></p></div></div>
-<div class="ph" style="border-top:1px solid var(--line);border-bottom:0"><span>I'd love 15 minutes to pick your brain on how someone like me gets into this work.</span><code>myersmail9@gmail.com</code></div></section>
+<div><h3>Where my systems map</h3><ul><li><a href="#reid">Re-identification</a>: Different platform and species, same core question. On an earlier split of public photos, not a clean test, it made 0 of 32 wrong automatic matches; on another team&#x27;s photos it found 74 of 77 giraffes and ranked the right one first 60% of the time. A person decides almost every case.</li><li><a href="#tools">Permissions</a>: You&#x27;ve described field units linking business-automation apps as tedious and error-prone. My agent connects to a business system through 7 tools, default-deny, with only one able to write, and only drafts.</li><li><a href="#locates">Locates</a>: Four independent records cross-checked before anything is called covered, 174 active jobs in one morning scan. Same discipline as not trusting one feed.</li></ul></div><div><h3>My assessment</h3><p>My assessment: false-match rate and how quickly a model adapts in the field, more than headline accuracy, will likely decide which prototypes reach operational evaluation.</p><p class="hint">Sources: <a href="https://spacenews.com/nga-rapid-capabilities-office-to-embrace-speed-and-risk-taking/" target="_blank" rel="noopener">SpaceNews, 6 May 2026, NGA RCO</a> · <a href="https://breakingdefense.com/2026/05/ai-blueprint-coming-soon-to-nga-to-help-operationalize-geoint/" target="_blank" rel="noopener">Breaking Defense, 7 May 2026</a> · <a href="https://www.bwcoconsulting.com/fod/nga-tactical-isr-ped-edge-computer-vision" target="_blank" rel="noopener">BW&amp;CO summary of the Tactical ISR PED listing, 23 Oct 2026</a> · <a href="https://www.insaonline.org/detail-pages/person/chris-parrett" target="_blank" rel="noopener">INSA bio</a></p></div></div>
+<div class="ph"><span>I&#x27;d love 15 minutes to pick your brain on how someone like me gets into this work.</span><a href="mailto:myersmail9@gmail.com"><code>myersmail9@gmail.com</code></a></div></section>
 <section class="hero" id="overview">
-  <div class="hi3">
-    <a href="#reid"><img src="../img/reid-pair.jpg" alt="Same giraffe matched across two photos" loading="eager"><b>Same giraffe, two photos</b><span>165 coat points matched</span></a>
-    <a href="#osint"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid" loading="eager"><b>Darfur fire grid</b><span>112,416 detections vs baseline</span></a>
-    <a href="#work"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread map" loading="eager"><b>Etosha fire spread</b><span>73 of 73 re-checks passed</span></a>
-  </div>
-  <p class="sig">Production AI agents, evaluation, computer vision, geospatial.</p>
-  <p class="bluf"><b>BLUF</b>AI that does real work, checks itself, and leaves the big decisions to people.</p>
-  <div class="facts">
-    <div class="fact"><span class="v">20</span><span class="l">AI systems built · 13 live and doing real work</span></div>
-    <div class="fact"><span class="v">151</span><span class="l">production agent runs, failures kept on the record</span></div>
-    <div class="fact"><span class="v">2,490</span><span class="l">sourced facts in a company memory</span></div>
-    <div class="fact"><span class="v">0 / 32</span><span class="l">wrong automatic matches on an earlier split · not a clean test</span></div>
-  </div>
+<h1>Joseph Myers</h1>
+<p class="role">Applied AI: production agents, evaluation, computer vision, geospatial.</p>
+<p class="lead">AI that does real work, gets checked, and leaves the big decisions to people. I build with Claude Code.</p>
+<p class="meta">Logan, Utah · US citizen</p>
+<div class="cta"><a class="btn big" href="mailto:myersmail9@gmail.com">Email me</a><button class="btn big ghost" id="copy" type="button">Copy address</button><code id="email">myersmail9@gmail.com</code></div>
+<div class="facts">
+<a class="fact" href="#c-live"><span class="v">13</span><span class="l">workflows and apps live and doing real work · some plain software</span></a>
+<a class="fact" href="#c-bid"><span class="v">151</span><span class="l">recorded agent runs, failures kept on the record</span></a>
+<a class="fact" href="#c-memory"><span class="v">2,490</span><span class="l">sourced facts in a company memory</span></a>
+<a class="fact" href="#c-giraffe"><span class="v">31 / 52</span><span class="l">right giraffe first on another team's photos (95% CI 46–72)</span></a>
+</div>
+<p class="note">Tap a figure for its source and limits. Nobody outside has audited these. <a href="#claims">Check my claims</a></p>
+
+<h2 id="built">What I've built</h2>
+<ul class="built"><li><a href="#draft"><b>Draft agent</b><span class="d">A field recording becomes a draft quote in about a minute.</span><span class="st2">Live, used, supervised</span></a></li><li><a href="#brain"><b>Company memory</b><span class="d">2,490 facts, each tied to its source.</span><span class="st2">Live, adoption unproven</span></a></li><li><a href="#reid"><b>Giraffe re-identification</b><span class="d">Ranks likely matches. A person decides almost every case.</span><span class="st2">Field pilot</span></a></li><li><a href="#osint"><b>OSINT screens</b><span class="d">Satellite fire counts against a pre-war baseline, caveats first.</span><span class="st2">Concept, public data</span></a></li><li><a href="#report"><b>Reporting assistant</b><span class="d">The model routes, code does the math.</span><span class="st2">Concept, public data</span></a></li><li><a href="#tools"><b>Permissions</b><span class="d">1 of 7 tools can write, and it only creates drafts.</span><span class="st2">Production boundary</span></a></li><li><a href="#locates"><b>Utility locates</b><span class="d">Four views reconciled. A person files every form.</span><span class="st2">Live, used, decision support</span></a></li><li><a href="#brief"><b>Briefings</b><span class="d">A private page per estimator, rebuilt when the schedule moves.</span><span class="st2">Live, used</span></a></li><li><a href="#forecast"><b>Forecast log</b><span class="d">10 resolved forecasts, logged and scored.</span><span class="st2">Ongoing</span></a></li></ul>
+
+<h2 id="experience">Experience</h2>
+<div class="job"><h3>Applied AI builder, private company</h3><p class="jm">Logan, Utah · 2026 to present</p><ul>
+<li>13 workflows and apps live and used for real work, some plain software rather than AI at runtime. <a href="#map">System map</a></li>
+<li>A <a href="#draft">bid agent</a> with 151 recorded runs and failures on the record. Its tools read or create drafts; a person prices and sends.</li>
+<li>A <a href="#brain">company memory</a> of 2,490 sourced facts, with a nightly test that blocks a worse search index. Adoption isn't proven.</li></ul></div>
+<div class="job"><h3>CEO, refugee NGO (unpaid)</h3><p class="jm">Remote from Utah, programs in Herat · 2022 to 2023</p><ul>
+<li>Literacy and vocational programs for 500+ students a year, including children, women and mothers, with 15 staff. <a href="#c-herat">Check this</a></li>
+<li>Local managers did all the in-person work, and I would have failed without them.</li></ul></div>
+<div class="job"><h3>Public-data analysis and builds</h3><p class="jm">Independent</p><ul>
+<li>A <a href="#osint">Darfur fire screen</a>, an <a href="#work">Etosha fire timeline</a>, <a href="#reid">giraffe matching</a> and a <a href="#report">reporting assistant</a>, all on public data.</li>
+<li><a href="#forecast">Forecasts</a> logged and scored from my CAI 4300 class.</li></ul></div>
+<div class="job"><h3>Mission service</h3><p class="jm">Botswana, Namibia and South Africa · Nearly two years</p></div>
+
+<h2 id="education">Education and tools</h2>
+<dl class="edu"><div><dt>Education</dt><dd>International Studies, Utah State University. Minor in Anticipatory Intelligence. Certificate in Global Peacebuilding.</dd></div>
+<div><dt>Tools and methods</dt><dd>Claude Code · MCP · GraphQL · OAuth 2.0 · hybrid search and reranking · golden-set evaluation · computer vision · NASA FIRMS, Sentinel, AIS, OpenStreetMap · Brier-scored forecasting.</dd></div></dl>
+<p class="note"><button class="linkbtn" id="print" type="button">Print this resume</button></p>
 </section>
 
 <!-- REID -->
 <section class="sys" id="reid" data-st="pilot">
-  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
-  <h2>Which giraffe is this?</h2>
-  <div class="hl"><span class="v">0 / 32</span><span class="l">wrong automatic matches on an earlier split · 29 of 32 had a near-duplicate photo, so not a clean test</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person decides almost every case.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
-  </header>
+<div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Field pilot</span><span class="pill">Computer vision</span></div>
+<h2>Which giraffe is this?</h2>
+<div class="hl"><span class="v">31 / 52</span><span class="l">right giraffe first on another team's photos · top 5: 38 of 52 · a person decides almost every case</span></div>
+<dl class="pss"><div><dt>Problem</dt><dd>Researchers match giraffes by eye across thousands of field photos.</dd></div><div><dt>Solution</dt><dd>Rank likely matches with calibrated confidence. A person decides almost every case.</dd></div></dl>
+<details class="more"><summary>See the demo and proof</summary><div class="more-b">
+<div class="flowd" role="img" aria-label="Field photo then Detect + side then Coat-pattern match then Calibrated confidence then Person confirms then Audit log"><span>Field photo</span><i>→</i><span>Detect + side</span><i>→</i><span>Coat-pattern match</span><i>→</i><span class="g">Calibrated confidence</span><i>→</i><span class="h">Person confirms</span><i>→</i><span>Audit log</span></div>
+  
   <figure class="panel" style="margin:0 0 14px"><div class="ph"><span class="k">Same giraffe, two sightings 2.7 hours apart · the matcher's own points</span><span class="demo">REAL PHOTOS · REAL OUTPUT</span></div>
-    <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="736" loading="lazy">
-    <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. 165 keypoints verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure>
+    <img src="../img/reid-pair.jpg" alt="Two real photos of the same Masai giraffe in Nairobi National Park, one in bright light and one in shade, with ten numbered colored circles on matching coat spots joined by lines" style="display:block;width:100%;height:auto" width="1600" height="676" loading="lazy">
+    <figcaption class="hint" style="padding:8px 12px">Different light, different background, same coat. Points verified by geometric matching; 10 shown. Nairobi National Park, GZGC, CDLA-Permissive-1.0.</figcaption></figure>
   <div class="panel"><div class="ph"><span class="k">Match a sighting</span><span class="demo">REAL PHOTOS · REAL MATCHER OUTPUT</span></div>
     <div class="body">
       <div class="opts" id="rOpts"></div>
-      <div class="rm"><figure class="rq"><img id="rQ" alt="New giraffe sighting" width="520" height="390"><figcaption class="hint" id="rQc"></figcaption></figure>
+      <div class="rm"><figure class="rq"><img id="rQ" loading="lazy" alt="New giraffe sighting" width="520" height="390"><figcaption class="hint" id="rQc"></figcaption></figure>
         <div class="gallery" id="rGal"></div></div>
-      <figure class="rev"><img id="rEv" alt="Coat points the matcher verified between the sighting and its top candidate" width="1200" height="600"><div class="rnone" id="rNone" hidden>No candidate has enough matching coat points.</div><figcaption class="hint" id="rEc"></figcaption></figure>
+      <figure class="rev"><img id="rEv" loading="lazy" alt="Coat points the matcher verified between the sighting and its top candidate" width="1200" height="600"><div class="rnone" id="rNone" hidden>No candidate has enough matching coat points.</div><figcaption class="hint" id="rEc"></figcaption></figure>
       <div id="rVer"></div>
       <span class="hint">Recorded output of the frozen matcher on its test set, not re-run in your browser. Public photos: Nairobi National Park, GZGC, CDLA-Permissive-1.0.</span>
     </div></div>
   <div class="grid2 rg">
-    <div class="panel"><div class="ph"><span class="k">Held-out test · another team's photos</span></div>
+    <div class="panel"><div class="ph"><span class="k">Test on another team's photos · scored once</span></div>
       <svg class="chart" viewBox="0 0 360 200" role="img" aria-label="Re-identification test results">
         <text x="12" y="22" style="fill:var(--ink)">Detectors found 74 of 77 giraffes</text>
         <rect x="12" y="30" width="336" height="14" fill="var(--line)"/><rect x="12" y="30" width="323" height="14" fill="var(--green)"/>
@@ -363,31 +384,35 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
         <line x1="167" y1="76" x2="167" y2="94" stroke="var(--ink)"/><line x1="254" y1="76" x2="254" y2="94" stroke="var(--ink)"/><line x1="167" y1="85" x2="254" y2="85" stroke="var(--ink)"/>
         <text x="12" y="120" style="fill:var(--ink)">Top-5 73%</text>
         <rect x="12" y="128" width="336" height="10" fill="var(--line)"/><rect x="12" y="128" width="245" height="10" fill="var(--blue)"/>
-        <text x="12" y="166" style="fill:var(--ink)">Separate test: 0 of 32 auto-matches wrong</text>
+        <text x="12" y="166" style="fill:var(--ink)">Earlier split, not a clean test: 0 of 32 auto-matches wrong</text>
         <text x="12" y="186">14-animal test: right animal first, 20 of 21</text>
       </svg></div>
   </div>
   <ul class="limits"><li>Measured on public datasets, not yet on the partner's own animals.</li><li>Night infrared untested.</li></ul>
+</div></details>
+<p class="srcs"><a href="#c-giraffe">Check the main test</a> · <a href="#c-zero">Check the earlier split</a> · Public dataset: GZGC, Nairobi National Park, 2015.</p>
 </section>
-
 <!-- TOOLS -->
 <section class="sys" id="tools" data-st="live">
-  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
-  <h2>The agent can only do what its tools allow</h2>
-  <div class="hl"><span class="v">1 of 7</span><span class="l">tools can write, and it only creates drafts</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Agent then 6 read tools then 1 draft tool then No send · price · pay · delete"><span>Agent</span><i>→</i><span>6 read tools</span><i>→</i><span>1 draft tool</span><i>→</i><span class="g">No send · price · pay · delete</span></div>
+<div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Production boundary</span><span class="pill">MCP · GraphQL · OAuth 2.0</span></div>
+<h2>The agent can only do what its tools allow</h2>
+<div class="hl"><span class="v">1 of 7</span><span class="l">tools can write, and it only creates drafts</span></div>
+<dl class="pss"><div><dt>Problem</dt><dd>An agent with general write access can do real damage.</dd></div><div><dt>Solution</dt><dd>Default-deny. Six read tools and one write: create a draft. No general mutation tool exists.</dd></div></dl>
+<details class="more"><summary>Try the permissions demo</summary><div class="more-b">
+<div class="flowd" role="img" aria-label="Agent then 6 read tools then 1 draft tool then No send · price · pay · delete"><span>Agent</span><i>→</i><span>6 read tools</span><i>→</i><span>1 draft tool</span><i>→</i><span class="g">No send · price · pay · delete</span></div>
   <div class="panel"><div class="ph"><span class="k">Ask the agent to…</span><span class="demo">DEMO</span></div>
     <div class="body"><div class="opts" id="tOpts"></div><div class="log" id="tLog">agent@connector $ <span class="hint">waiting for a request</span></div></div></div>
+</div></details>
+<p class="srcs"><a href="#c-tools">Check the tool limits</a> · Connector configuration, private.</p>
 </section>
-
 <!-- LOCATES -->
 <section class="sys" id="locates" data-st="live">
-  <header><div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
-  <h2>Utility locates: four views reconciled, never one field trusted</h2>
-  <div class="hl"><span class="v">174</span><span class="l">active jobs reconciled in one morning scan · 0 unexplained gaps</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Visits · jobs · tasks · email then Reconcile 4 views then Staged form then Person submits"><span>Visits · jobs · tasks · email</span><i>→</i><span class="g">Reconcile 4 views</span><i>→</i><span>Staged form</span><i>→</i><span class="h">Person submits</span></div>
+<div class="pills"><span class="pill rel">Relevant to your work</span><span class="pill live">Live · used · decision support</span><span class="pill">Reconciliation</span></div>
+<h2>Utility locates: four views reconciled, never one field trusted</h2>
+<div class="hl"><span class="v">174</span><span class="l">active jobs reconciled in one morning scan · 0 unexplained gaps</span></div>
+<dl class="pss"><div><dt>Problem</dt><dd>Digging without a valid locate ticket is a safety and legal risk, and the ticket field is often blank or stale.</dd></div><div><dt>Solution</dt><dd>Cross-check four independent records plus email before calling anything covered. A person submits every legal form.</dd></div></dl>
+<details class="more"><summary>See the scan</summary><div class="more-b">
+<div class="flowd" role="img" aria-label="Visits · jobs · tasks · email then Reconcile 4 views then Staged form then Person submits"><span>Visits · jobs · tasks · email</span><i>→</i><span class="g">Reconcile 4 views</span><i>→</i><span>Staged form</span><i>→</i><span class="h">Person submits</span></div>
   <div class="panel"><div class="ph"><span class="k">One morning scan · 5 Nov</span><span class="demo">REAL COUNTS</span></div>
     <svg class="chart" viewBox="0 0 360 160" role="img" aria-label="Locate reconciliation counts">
       <g style="font-size:11px">
@@ -400,23 +425,17 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
       <text x="180" y="138" text-anchor="middle">Flagged a filing-date disagreement</text><text x="180" y="152" text-anchor="middle">instead of picking the convenient answer</text></g>
     </svg></div>
   <ul class="limits"><li>Supports compliance work; doesn't guarantee it. A person is legally responsible and submits every form.</li></ul>
+</div></details>
+<p class="srcs"><a href="#c-locates">Check the scan</a> · Scan log, private.</p>
 </section>
-
-
-<section class="sys" id="work">
-  <header><div class="pills"><span class="pill live">Real builds</span><span class="pill">Public data · tap to enlarge</span></div>
-  <h2>Built work</h2></header>
-  <div class="gallery2"><button type="button" class="tile" data-full="img/gallery/report-answer.jpg"><img src="../img/gallery/report-answer.jpg" alt="Reporting assistant: Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded." loading="lazy"><span class="tt">Reporting assistant</span><span class="td">Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded.</span><span class="tm">Concept on a demining NGO's public monthly data</span></button><button type="button" class="tile" data-full="img/gallery/darfur-grid.jpg"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid: 112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements." loading="lazy"><span class="tt">Darfur fire grid</span><span class="td">112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements.</span><span class="tm">Public data · fires are not attacks</span></button><button type="button" class="tile" data-full="img/gallery/map-namibia-fire.jpg"><img src="../img/gallery/map-namibia-fire.jpg" alt="Omaheke, Namibia · fire history: Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once." loading="lazy"><span class="tt">Omaheke, Namibia · fire history</span><span class="td">Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once.</span><span class="tm">Public data · Leaflet + OSM</span></button><button type="button" class="tile" data-full="img/gallery/map-kunene-rain.jpg"><img src="../img/gallery/map-kunene-rain.jpg" alt="Kunene, Namibia · rainfall: 2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more." loading="lazy"><span class="tt">Kunene, Namibia · rainfall</span><span class="td">2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more.</span><span class="tm">Public data · slider by season</span></button><button type="button" class="tile" data-full="img/gallery/darfur-baseline.jpg"><img src="../img/gallery/darfur-baseline.jpg" alt="Month by month vs baseline: Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year." loading="lazy"><span class="tt">Month by month vs baseline</span><span class="td">Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year.</span><span class="tm">Public data</span></button><button type="button" class="tile" data-full="img/gallery/etosha-timeline.jpg"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread: each 1 km cell colored by first detection date, 22 Sep to 10 Oct 2025" loading="lazy"><span class="tt">Etosha · how the fire spread</span><span class="td">Each ~1 km cell colored by the day fire first reached it, 22 Sep – 10 Oct 2025. Dates consistent with a published investigation; 73 of 73 automated re-checks passed.</span><span class="tm">Public data · NASA, Copernicus, OSM</span></button></div>
-</section>
-<div class="lb" id="lb" hidden><button type="button" class="lbx" id="lbx" aria-label="Close">✕</button><img id="lbimg" alt=""></div>
-
 <!-- DRAFT -->
 <section class="sys" id="draft" data-st="live">
-  <header><div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
-  <h2>A field recording becomes a draft quote in about a minute</h2>
-  <div class="hl"><span class="v">151</span><span class="l">recorded production runs · 119 succeeded, 22 stopped, 10 failed</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then reads it back. A person prices and sends.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Field recording then Transcript then Agent · 6 reads then Draft quote · $0 then 12 read-back checks then Estimator prices + sends"><span>Field recording</span><i>→</i><span>Transcript</span><i>→</i><span>Agent · 6 reads</span><i>→</i><span>Draft quote · $0</span><i>→</i><span class="g">12 read-back checks</span><i>→</i><span class="h">Estimator prices + sends</span></div>
+<div class="pills"><span class="pill live">Live · used · supervised</span><span class="pill">Agent + read-back QA</span></div>
+<h2>A field recording becomes a draft quote in about a minute</h2>
+<div class="hl"><span class="v">151</span><span class="l">recorded runs · 119 succeeded, 22 stopped, 10 failed</span></div>
+<dl class="pss"><div><dt>Problem</dt><dd>Estimators rebuilt every quote by hand after each property walk.</dd></div><div><dt>Solution</dt><dd>Record the walk once. An agent maps it to the service catalog, creates a draft, then reads it back. A person prices and sends.</dd></div></dl>
+<details class="more"><summary>See the demo and proof</summary><div class="more-b">
+<div class="flowd" role="img" aria-label="Field recording then Transcript then Agent · 6 reads then Draft quote · $0 then 12 read-back checks then Estimator prices + sends"><span>Field recording</span><i>→</i><span>Transcript</span><i>→</i><span>Agent · 6 reads</span><i>→</i><span>Draft quote · $0</span><i>→</i><span class="g">12 read-back checks</span><i>→</i><span class="h">Estimator prices + sends</span></div>
   <div class="ba">
     <div class="panel"><div class="ph"><span class="k">Before · what the estimator said</span><span class="demo">SAMPLE · 3 MIN WALK</span></div><div class="body">
       <p class="raw">00:41 ok so uh, <b>big silver maple out front</b>, I'd say <b>thirty inch</b> maybe…
@@ -437,10 +456,11 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
     <div class="panel"><div class="ph"><span class="k">Try it</span><span class="demo">DEMO · SAMPLE CONTENT</span></div>
       <div class="body">
         <div class="opts" id="dCase"></div>
+        <div class="row"><button class="btn" id="dPlay" type="button">▶ Run agent</button><button class="btn ok" id="dOk" type="button" disabled>Estimator prices + sends</button></div>
         <div class="tx" id="dTx"><span class="ts">walkthrough.m4a · waiting</span></div>
         <div class="quote"><div class="qhead"><span>DRAFT QUOTE · prices held at $0</span><span class="st" id="dSt">○ empty</span></div><div id="dRows"><div class="qempty">Line items appear as the agent works.</div></div></div>
         <div class="checks" id="dChecks"></div>
-        <div class="row"><button class="btn" id="dPlay" type="button">▶ Run agent</button><button class="btn ok" id="dOk" type="button" disabled>Estimator prices + sends</button></div>
+        
       </div></div>
     <div style="display:grid;gap:12px;align-content:start">
       <div class="panel"><div class="ph"><span class="k">151 recorded runs · 23 Sep – 4 Nov</span></div>
@@ -457,15 +477,17 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
       <ul class="limits"><li>Execution metrics, not an ROI study.</li><li>The agent never prices or sends; that is by design.</li></ul>
     </div>
   </div>
+</div></details>
+<p class="srcs"><a href="#c-bid">Check the run count</a> · <a href="#c-tools">Check the tool limits</a> · Run log and live test battery, private.</p>
 </section>
-
-<!-- KB -->
+<!-- BRAIN -->
 <section class="sys" id="brain" data-st="live">
-  <header><div class="pills"><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
-  <h2>A company memory that knows where every fact came from</h2>
-  <div class="hl"><span class="v">2,490</span><span class="l">facts, each tied to its source · right fact in top 12, 95.7%</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Recordings then Atomic facts + source then Hybrid search + rerank then Cite or abstain then Nightly regression"><span>Recordings</span><i>→</i><span>Atomic facts + source</span><i>→</i><span>Hybrid search + rerank</span><i>→</i><span class="g">Cite or abstain</span><i>→</i><span class="g">Nightly regression</span></div>
+<div class="pills"><span class="pill concept">Live · adoption unproven</span><span class="pill">Provenance · evals</span></div>
+<h2>A company memory that knows where every fact came from</h2>
+<div class="hl"><span class="v">2,490</span><span class="l">facts, each tied to its source · right fact in top 12 for 462 of 481 test questions (Oct 2026, 2,173 facts at that test)</span></div>
+<dl class="pss"><div><dt>Problem</dt><dd>Expert pricing and field judgment lived in one person's head.</dd></div><div><dt>Solution</dt><dd>Atomic facts with source, confidence, effective dates and replacement history. Answers cite a fact or say “I don't have that.”</dd></div></dl>
+<details class="more"><summary>See the demo and proof</summary><div class="more-b">
+<div class="flowd" role="img" aria-label="Recordings then Atomic facts + source then Hybrid search + rerank then Cite or abstain then Nightly regression"><span>Recordings</span><i>→</i><span>Atomic facts + source</span><i>→</i><span>Hybrid search + rerank</span><i>→</i><span class="g">Cite or abstain</span><i>→</i><span class="g">Nightly regression</span></div>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">2,490 facts by provenance</span></div>
       <svg class="chart" viewBox="0 0 360 120" role="img" aria-label="2,347 verbatim, 90 inferred, 53 need confirmation">
@@ -478,20 +500,22 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   </div>
   <div class="metrics">
     <div class="metric"><span class="v">62</span><span class="l">contradictions it surfaced for review, not hid</span></div>
-    <div class="metric"><span class="v">95.7%</span><span class="l">right fact in top 12 · 352-question golden set</span></div>
+    <div class="metric"><span class="v">95.7%</span><span class="l">right fact in top 12 · 352-question golden set, Sep 2026</span></div>
     <div class="metric"><span class="v">3 nights</span><span class="l">a bad index blocked by the gate</span></div>
     <div class="metric"><span class="v">17 → 7</span><span class="l">photographed lab reports → reviewed facts + 1 supersession</span></div>
   </div>
   <ul class="limits"><li>Adoption isn't proven: one recent week logged zero crew questions, and 6 of 7 sampled answers failed a quality check.</li><li>Golden set came from the same transcripts, not real user questions.</li></ul>
+</div></details>
+<p class="srcs"><a href="#c-memory">Check the test score</a> · <a href="#c-gate">Check the nightly test</a> · Evaluation files, private.</p>
 </section>
-
 <!-- OSINT -->
 <section class="sys" id="osint" data-st="concept">
-  <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
-  <h2>Screens that check their own numbers</h2>
-  <div class="hl"><span class="v">73 / 73</span><span class="l">automated re-checks passed · dates consistent with a published investigation</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Satellite · AIS · fire then Pre-war baseline then Anomaly screen then verify.py then Analyst"><span>Satellite · AIS · fire</span><i>→</i><span>Pre-war baseline</span><i>→</i><span>Anomaly screen</span><i>→</i><span class="g">verify.py</span><i>→</i><span class="h">Analyst</span></div></header>
+<div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">OSINT · geospatial</span></div>
+<h2>Screens whose numbers get re-derived by script</h2>
+<div class="hl"><span class="v">73 / 73</span><span class="l">automated re-checks passed · dates consistent with a published investigation</span></div>
+<dl class="pss"><div><dt>Problem</dt><dd>Raw satellite fire counts get misread as attacks.</dd></div><div><dt>Solution</dt><dd>Compare against a pre-war baseline, lead with caveats, and re-derive every number by script.</dd></div></dl>
+<details class="more"><summary>See the demo and proof</summary><div class="more-b">
+<div class="flowd" role="img" aria-label="Satellite · AIS · fire then Pre-war baseline then Anomaly screen then verify.py then Analyst"><span>Satellite · AIS · fire</span><i>→</i><span>Pre-war baseline</span><i>→</i><span>Anomaly screen</span><i>→</i><span class="g">verify.py</span><i>→</i><span class="h">Analyst</span></div>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Darfur fires vs pre-war baseline · real totals</span><span class="demo">DEMO</span></div>
       <div class="body">
@@ -510,49 +534,17 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
   <ul class="limits"><li>Concept demos, not operational products. A signal is a lead, never a conclusion.</li></ul>
     </div>
   </div>
+</div></details>
+<p class="srcs"><a href="#c-darfur">Check Darfur</a> · <a href="#c-etosha">Check Etosha</a> · Full pages: <a href="https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/" target="_blank" rel="noopener">Darfur</a>, <a href="https://myersmail9-afk.github.io/client-demos/etosha-one-year-on/" target="_blank" rel="noopener">Etosha</a>.</p>
 </section>
-
-<!-- BRIEFINGS -->
-<section class="sys" id="brief" data-st="live">
-  <header><div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
-  <h2>Every stop briefed before the knock</h2>
-  <div class="hl"><span class="v">5 min</span><span class="l">schedule moved → page republished, no one touched it</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Schedule change then Watcher · 2 min then Call + history + price then Private page"><span>Schedule change</span><i>→</i><span>Watcher · 2 min</span><i>→</i><span>Call + history + price</span><i>→</i><span class="h">Private page</span></div>
-  <div class="grid2">
-    <div class="panel"><div class="ph"><span class="k">Replay a real event · 4 Nov</span><span class="demo">REAL TIMESTAMPS</span></div>
-      <div class="body">
-        <div class="tl" id="bTl"></div>
-        <div class="row"><button class="btn" id="bPlay" type="button">▶ Replay</button><span class="hint">Schedule moved → page republished in 5 minutes, no one touched it.</span></div>
-      </div></div>
-    <div class="panel"><div class="ph"><span class="k">At the door · one stop</span><span class="demo">SAMPLE</span></div>
-      <div class="body door">
-        <div><span class="k">Wants</span><p>Two maples thinned, worried about the roofline.</p></div>
-        <div><span class="k">Remember</span><p>Called twice. Prefers text. Dog in back yard.</p></div>
-        <div><span class="k">Last time</span><p>2024 · crown clean, 2 trees · <span class="red">$▇▇▇</span></p></div>
-        <div><span class="k">Expert note</span><p>Cited company fact <span class="src">F-1187</span></p></div>
-      </div></div>
-  </div>
-</section>
-
-<section class="sys" id="map">
-  <header><h2>System map · 20 systems, labelled by what's actually true</h2></header>
-  <div class="mapgrid">
-    <div class="lane"><span class="lh live">LIVE · USED</span><ul><li>Walkthrough → draft quote agent</li><li>Daily estimator briefings</li><li>Structured phone intake</li><li>Online request triage</li><li>Multi-channel ops inbox</li><li>Customer dossiers + grounded replies</li><li>Visit confirmation + safe reschedule</li><li>Utility-locate surveillance</li><li>Locate form staging + recording</li><li>Bounced-email recovery (narrow)</li><li>Review analysis + crew credit</li><li>Crew mobile app (51 tools)</li><li>Field logistics app</li></ul></div>
-    <div class="lane"><span class="lh avail">LIVE · ADOPTION UNPROVEN</span><ul><li>Ask-the-expert knowledge base</li><li>Supervisor decision board</li><li>Calculators and training pages</li></ul></div>
-    <div class="lane"><span class="lh built">BUILT · PREVIEW</span><ul><li>Guarded self-improvement</li><li>Office connector for a chat assistant</li><li>Route-aware bid scheduling</li><li>Next-gen logistics app</li></ul></div>
-    <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
-  </div>
-  <p class="hint" style="margin:0">Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
-</section>
-
 <!-- REPORT -->
 <section class="sys" id="report" data-st="concept">
-  <header><div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
-  <h2>The model routes, code does the math</h2>
-  <div class="hl"><span class="v">19 / 19</span><span class="l">questions it had to refuse, refused</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Question then Model picks tool then Code computes then Source rows then Release gate"><span>Question</span><i>→</i><span>Model picks tool</span><i>→</i><span>Code computes</span><i>→</i><span class="g">Source rows</span><i>→</i><span class="h">Release gate</span></div></header>
+<div class="pills"><span class="pill concept">Concept · public data</span><span class="pill">TEVV</span></div>
+<h2>The model routes, code does the math</h2>
+<div class="hl"><span class="v">19 / 19</span><span class="l">questions it had to refuse, refused</span></div>
+<dl class="pss"><div><dt>Problem</dt><dd>Language models make up numbers.</dd></div><div><dt>Solution</dt><dd>The model only picks the tool. Code computes every number and links it to its source rows.</dd></div></dl>
+<details class="more"><summary>See the demo and proof</summary><div class="more-b">
+<div class="flowd" role="img" aria-label="Question then Model picks tool then Code computes then Source rows then Release gate"><span>Question</span><i>→</i><span>Model picks tool</span><i>→</i><span>Code computes</span><i>→</i><span class="g">Source rows</span><i>→</i><span class="h">Release gate</span></div>
   <div class="ba">
     <div class="panel"><div class="ph"><span class="k">Before · the public monthly table</span><span class="demo">REAL ROWS · CAMBODIA Q3 2026</span></div><div class="body">
       <div class="tw"><table class="mini"><thead><tr><th>ID</th><th>Month</th><th>Type</th><th>Activity</th><th>Status</th><th class="n">Area m²</th></tr></thead><tbody><tr><td>1093</td><td>2026-07</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">345,037</td></tr><tr class=pick><td>1094</td><td>2026-07</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">495,571</td></tr><tr><td>1095</td><td>2026-07</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">492,100</td></tr><tr><td>1096</td><td>2026-07</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr><td>1101</td><td>2026-08</td><td>Areas</td><td>MDD</td><td>Approved</td><td class="n">258,778</td></tr><tr class=pick><td>1102</td><td>2026-08</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">428,918</td></tr><tr><td>1103</td><td>2026-08</td><td>Areas</td><td>TSD</td><td>Approved</td><td class="n">452,500</td></tr><tr><td>1104</td><td>2026-08</td><td>Items</td><td>MDR</td><td>Approved</td><td class="n">0</td></tr><tr class=pick><td>1111</td><td>2026-09</td><td>Areas</td><td>MDR</td><td>Approved</td><td class="n">455,723</td></tr></tbody></table></div>
@@ -576,15 +568,42 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
         <text x="12" y="142">Weakest: typos, other languages. Next fix.</text>
       </svg></div>
   </div>
+</div></details>
+<p class="srcs"><a href="#c-report">Check the release test</a> · Public source data, private test.</p>
 </section>
-
+<!-- BRIEF -->
+<section class="sys" id="brief" data-st="live">
+<div class="pills"><span class="pill live">Live · used</span><span class="pill">Event-driven</span></div>
+<h2>Every stop briefed before the knock</h2>
+<div class="hl"><span class="v">5 min</span><span class="l">schedule moved → page republished, no one touched it</span></div>
+<dl class="pss"><div><dt>Problem</dt><dd>Estimators walked up to doors without the call, the history or what was charged last time.</dd></div><div><dt>Solution</dt><dd>A private daily page per estimator, rebuilt automatically when the schedule moves.</dd></div></dl>
+<details class="more"><summary>See the replay</summary><div class="more-b">
+<div class="flowd" role="img" aria-label="Schedule change then Watcher · 2 min then Call + history + price then Private page"><span>Schedule change</span><i>→</i><span>Watcher · 2 min</span><i>→</i><span>Call + history + price</span><i>→</i><span class="h">Private page</span></div>
+  <div class="grid2">
+    <div class="panel"><div class="ph"><span class="k">Replay a real event · 4 Nov</span><span class="demo">REAL TIMESTAMPS</span></div>
+      <div class="body">
+        <div class="tl" id="bTl"></div>
+        <div class="row"><button class="btn" id="bPlay" type="button">▶ Replay</button><span class="hint">Schedule moved → page republished in 5 minutes, no one touched it.</span></div>
+      </div></div>
+    <div class="panel"><div class="ph"><span class="k">At the door · one stop</span><span class="demo">SAMPLE</span></div>
+      <div class="body door">
+        <div><span class="k">Wants</span><p>Two maples thinned, worried about the roofline.</p></div>
+        <div><span class="k">Remember</span><p>Called twice. Prefers text. Dog in back yard.</p></div>
+        <div><span class="k">Last time</span><p>2024 · crown clean, 2 trees · <span class="red">$▇▇▇</span></p></div>
+        <div><span class="k">Expert note</span><p>Cited company fact <span class="src">F-1187</span></p></div>
+      </div></div>
+  </div>
+</div></details>
+<p class="srcs">Watcher event log, 4 Nov 2026. One event, on a short production history.</p>
+</section>
 <!-- FORECAST -->
 <section class="sys" id="forecast" data-st="live">
-  <header><div class="pills"><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
-  <h2>Forecasts, logged and scored</h2>
-  <div class="hl"><span class="v">0.14</span><span class="l">mean Brier score, 10 resolved forecasts · lower is better</span></div>
-  <dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl>
-  <div class="flowd" role="img" aria-label="Base rate then Indicators then Dated updates then Brier score"><span>Base rate</span><i>→</i><span>Indicators</span><i>→</i><span>Dated updates</span><i>→</i><span class="g">Brier score</span></div></header>
+<div class="pills"><span class="pill live">Ongoing</span><span class="pill">Anticipatory intelligence</span></div>
+<h2>Forecasts, logged and scored</h2>
+<div class="hl"><span class="v">0.14</span><span class="l">mean Brier score, 10 resolved forecasts · lower is better</span></div>
+<dl class="pss"><div><dt>Problem</dt><dd>Judgment that's never scored never improves.</dd></div><div><dt>Solution</dt><dd>Log every forecast with its base rate and dated updates, then score it.</dd></div></dl>
+<details class="more"><summary>See the forecasts</summary><div class="more-b">
+<div class="flowd" role="img" aria-label="Base rate then Indicators then Dated updates then Brier score"><span>Base rate</span><i>→</i><span>Indicators</span><i>→</i><span>Dated updates</span><i>→</i><span class="g">Brier score</span></div>
   <div class="grid2">
     <div class="panel"><div class="ph"><span class="k">Step through an update</span><span class="demo">REAL LOG</span></div>
       <div class="body">
@@ -602,29 +621,104 @@ nav.nav{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behav
         <circle cx="116" cy="132" r="5" fill="none" stroke="var(--muted)" stroke-width="1.5"/><text x="126" y="136">didn't</text>
       </svg></div>
   </div>
+</div></details>
+<p class="srcs"><a href="#c-forecast">Check the score</a> · My forecast log, shared on request.</p>
 </section>
-
+<section class="sys" id="map">
+<div class="pills"><span class="pill">All systems</span></div>
+<h2>System map · labelled by what's actually true</h2>
+<div class="hl"><span class="v">13</span><span class="l">live and used · others are unproven, in preview or in test</span></div>
+<details class="more"><summary>See every system and its label</summary><div class="more-b"><div class="mapgrid">
+    <div class="lane"><span class="lh live">LIVE · USED</span><ul><li>Walkthrough → draft quote agent</li><li>Daily estimator briefings</li><li>Structured phone intake</li><li>Online request triage</li><li>Multi-channel ops inbox</li><li>Customer dossiers + grounded replies</li><li>Visit confirmation + safe reschedule</li><li>Utility-locate surveillance</li><li>Locate form staging + recording</li><li>Bounced-email recovery (narrow)</li><li>Review analysis + crew credit</li><li>Crew mobile app (51 supervisor tiles)</li><li>Field logistics app</li></ul></div>
+    <div class="lane"><span class="lh avail">LIVE · ADOPTION UNPROVEN</span><ul><li>Ask-the-expert knowledge base</li><li>Supervisor decision board</li><li>Calculators and training pages</li></ul></div>
+    <div class="lane"><span class="lh built">BUILT · PREVIEW</span><ul><li>Guarded self-improvement</li><li>Office connector for a chat assistant</li><li>Route-aware bid scheduling</li><li>Next-gen logistics app</li></ul></div>
+    <div class="lane"><span class="lh test">TEST ONLY</span><ul><li>Orchestrator live board</li></ul><span class="lh ret" style="margin-top:10px">RETIRED</span><ul><li>4 earlier tools, replaced</li></ul></div>
+  </div></div></details>
+<p class="srcs"><a href="#c-live">Check the count</a> · Built for a private company. Names, customers and prices stay private; structure and measured results are shown.</p>
+</section>
+<section class="sys" id="work">
+<div class="pills"><span class="pill">Public data</span></div>
+<h2>Built work on public data</h2>
+<p class="one">Real outputs. Tap one to enlarge.</p>
+<div class="gallery2"><button type="button" class="tile"><img src="../img/gallery/etosha-timeline.jpg" alt="Etosha fire spread: each 1 km cell colored by first detection date, 22 Sep to 10 Oct 2025" loading="lazy"><span class="tt">Etosha · how the fire spread</span><span class="td">Each ~1 km cell colored by the day fire first reached it, 22 Sep – 10 Oct 2025. Dates consistent with a published investigation; 73 of 73 automated re-checks passed.</span><span class="tm">Public data · NASA, Copernicus, OSM</span></button><button type="button" class="tile"><img src="../img/gallery/darfur-grid.jpg" alt="Darfur fire grid: 112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements." loading="lazy"><span class="tt">Darfur fire grid</span><span class="td">112,416 NASA fire detections on an 11 km grid, Apr 2023 – Dec 2024, against a 90,282 pre-war mean, with OSM settlements.</span><span class="tm">Public data · fires are not attacks</span></button><button type="button" class="tile"><img src="../img/gallery/report-answer.jpg" alt="Reporting assistant: Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded." loading="lazy"><span class="tt">Reporting assistant</span><span class="td">Ask a question, get a number computed by code: 1,380,212 m² from 3 source rows, re-added in the browser ✓, download hash recorded.</span><span class="tm">Concept on a demining NGO's public monthly data</span></button></div>
+<details class="more"><summary>See three more</summary><div class="more-b"><div class="gallery2"><button type="button" class="tile"><img src="../img/gallery/map-namibia-fire.jpg" alt="Omaheke, Namibia · fire history: Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once." loading="lazy"><span class="tt">Omaheke, Namibia · fire history</span><span class="td">Years with fire per 10 km square, 2001–2024 (MODIS): 636 of 739 squares burned at least once.</span><span class="tm">Public data · Leaflet + OSM</span></button><button type="button" class="tile"><img src="../img/gallery/map-kunene-rain.jpg" alt="Kunene, Namibia · rainfall: 2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more." loading="lazy"><span class="tt">Kunene, Namibia · rainfall</span><span class="td">2024/25 wet season vs the 30-year normal (CHIRPS): 71 of 174 squares at 110% or more.</span><span class="tm">Public data · slider by season</span></button><button type="button" class="tile"><img src="../img/gallery/darfur-baseline.jpg" alt="Month by month vs baseline: Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year." loading="lazy"><span class="tt">Month by month vs baseline</span><span class="td">Each month's detections against the 2018–22 range for the same month. 9 of 21 months above every baseline year.</span><span class="tm">Public data</span></button></div></div></details>
+<p class="srcs"><a href="https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/" target="_blank" rel="noopener">Darfur full page</a> · <a href="https://myersmail9-afk.github.io/client-demos/etosha-one-year-on/" target="_blank" rel="noopener">Etosha full page</a></p>
+</section>
+<div class="lb" id="lb" hidden><button type="button" class="lbx" id="lbx" aria-label="Close">✕</button><img id="lbimg" alt=""></div>
+<!-- CLAIMS -->
+<section class="claims" id="claims">
+<div class="pills"><span class="pill">Claims ledger</span><span class="pill">ICD 203 style</span></div>
+<h2>Check my claims</h2>
+<p class="one">Most of these numbers are real but narrow. Tap a row for what it measures, how you can check it, and where it falls short.</p>
+<p class="cl-warn"><b>Biggest limit:</b> nobody outside has audited this. The checks were run by me and by AI sessions I direct. Only two rows rest entirely on public data you can recount yourself, and my check scripts for them are private.</p>
+<div class="opts" id="clOpts" role="group" aria-label="Filter claims">
+    <button class="opt" type="button" data-f="all" aria-pressed="true">All</button>
+    <button class="opt" type="button" data-f="A" aria-pressed="false">Anyone can check</button>
+    <button class="opt" type="button" data-f="B" aria-pressed="false">My logs</button>
+    <button class="opt" type="button" data-f="C" aria-pressed="false">My own test</button>
+    <button class="opt" type="button" data-f="D" aria-pressed="false">My account</button>
+    <button class="opt" type="button" data-f="intl" aria-pressed="false">International</button>
+  </div>
+<div class="cl-list" id="clList">
+<details class="cl-row" id="c-bid" data-cls="B" data-intl="0"><summary><span class="cl-n">151</span><span class="cl-l">Bid agent runs: 119 succeeded, 22 stopped, 10 failed</span><span class="cl-meta"><span class="cl-g gB">My logs</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>Every recorded run of the agent that turns a recorded site walk into a draft quote, as of 5 Nov 2026. Under the rule I set, a run counts as succeeded only if a draft quote was created.</dd></div><div><dt>Source</dt><dd>Run log and a live test battery from 26 Oct. Private, because it holds customer data.</dd></div><div><dt>How to check it</dt><dd>I can walk you through the log on a call with customer details removed.</dd></div><div class="short"><dt>Where it falls short</dt><dd>A live test battery ran on 26 Oct, so some runs are likely tests and this is not 151 jobs. It doesn't measure quote quality or time saved. An earlier version graded its own runs and mislabeled 3 of 4, so I changed the rule.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Moderate.</dd></div><div><dt>What would change my mind</dt><dd>Estimators reporting that drafts take as long to fix as writing the quote from scratch.</dd></div><div class="std"><dt>Standard used</dt><dd>Mapped by me to NIST AI RMF 1.0 (Measure). ICD 206-style source descriptor.</dd></div></dl></details>
+<details class="cl-row" id="c-memory" data-cls="C" data-intl="0"><summary><span class="cl-n">462 / 481</span><span class="cl-l">Company memory: right fact in the top 12 search results (Oct 2026)</span><span class="cl-meta"><span class="cl-g gC">My own test</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>Whether search finds the right fact. The memory held 2,173 facts at this test and holds 2,490 now; I have no rerun on the larger set. In Sep 2026 it was 95.7% of 352 questions.</dd></div><div><dt>Source</dt><dd>Evaluation files and a knowledge-base state report, Sep–Nov 2026. Private.</dd></div><div><dt>How to check it</dt><dd>I can show the question set and results on a call.</dd></div><div class="short"><dt>Where it falls short</dt><dd>The test questions come from the same transcripts as the facts, which makes it easier than real use. It tests search, not the written answer. One recent week had zero answers, and 6 of 7 sampled answers failed a quality check.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Low.</dd></div><div><dt>What would change my mind</dt><dd>Scoring well on questions from crew members that it has never seen.</dd></div><div class="std"><dt>Standard used</dt><dd>Mapped by me to NIST AI RMF 1.0 (Measure). In-house regression test.</dd></div></dl></details>
+<details class="cl-row" id="c-gate" data-cls="B" data-intl="0"><summary><span class="cl-n">3 nights</span><span class="cl-l">Nightly test held back a bad search index until 40 outdated facts were fixed</span><span class="cl-meta"><span class="cl-g gB">My logs</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>A new index can't go live if it misses a question the live one got right.</dd></div><div><dt>Source</dt><dd>Gate logs and evaluation files, Sep–Oct 2026. Private.</dd></div><div><dt>How to check it</dt><dd>I can show the logs on a call.</dd></div><div class="short"><dt>Where it falls short</dt><dd>It guards the search index only, and the rest of the platform has no equivalent automated test. This is one documented episode, not a track record.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Moderate.</dd></div><div><dt>What would change my mind</dt><dd>A bad index getting through the test and being found later.</dd></div><div class="std"><dt>Standard used</dt><dd>In-house rule: nothing ships if it gets worse.</dd></div></dl></details>
+<details class="cl-row" id="c-tools" data-cls="B" data-intl="0"><summary><span class="cl-n">1 of 7</span><span class="cl-l">Connector tools that can write, and it only creates drafts</span><span class="cl-meta"><span class="cl-g gB">My logs</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>The hosted connector has six read tools and one that creates a draft quote. None can price, send, invoice or delete.</dd></div><div><dt>Source</dt><dd>Connector configuration. Private.</dd></div><div><dt>How to check it</dt><dd>The demo on this page shows the behavior. It uses sample content, not the live system.</dd></div><div class="short"><dt>Where it falls short</dt><dd>This covers one connector. Other apps have their own, wider access, including a crew app with 51 tiles for supervisors. Nobody outside has tested it.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Moderate.</dd></div><div><dt>What would change my mind</dt><dd>An outside reviewer getting the agent to change something it shouldn't.</dd></div><div class="std"><dt>Standard used</dt><dd>Least privilege, the idea in NIST SP 800-53 AC-6. Not audited against it.</dd></div></dl></details>
+<details class="cl-row" id="c-live" data-cls="D" data-intl="0"><summary><span class="cl-n">13</span><span class="cl-l">Workflows and apps live and used for real work (Nov 2026)</span><span class="cl-meta"><span class="cl-g gD">My account</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>My own count from my own maturity list. The system map on this page shows the labels.</dd></div><div><dt>Source</dt><dd>My systems write-up, 5 Nov 2026. Private.</dd></div><div><dt>How to check it</dt><dd>The system map on this page lists each one. I can walk through them on a call.</dd></div><div class="short"><dt>Where it falls short</dt><dd>Some are plain software, not AI at runtime. “Live” does not mean widely adopted. Others are unproven, in preview or in test.</dd></div><div><dt>Confidence</dt><dd>The number: Moderate. What it means: Moderate.</dd></div><div><dt>What would change my mind</dt><dd>Usage logs showing that a “live” system has stopped being used.</dd></div><div class="std"><dt>Standard used</dt><dd>In-house maturity labels.</dd></div></dl></details>
+<details class="cl-row" id="c-locates" data-cls="B" data-intl="0"><summary><span class="cl-n">174</span><span class="cl-l">Active jobs reconciled in one morning scan, 14 of them digging jobs</span><span class="cl-meta"><span class="cl-g gB">My logs</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>One scan on 5 Nov 2026 cross-checking four records plus email before calling a job covered.</dd></div><div><dt>Source</dt><dd>Scan log. Private.</dd></div><div><dt>How to check it</dt><dd>I can show the log on a call with customer details removed.</dd></div><div class="short"><dt>Where it falls short</dt><dd>This is one morning, and no unexplained reconciliation difference is the scan's own report. It flags disagreements and a person still files every form.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Moderate.</dd></div><div><dt>What would change my mind</dt><dd>A job it called covered turning out not to be.</dd></div><div class="std"><dt>Standard used</dt><dd>ICD 206-style source descriptor. In-house reconciliation rule.</dd></div></dl></details>
+<details class="cl-row" id="c-giraffe" data-cls="C" data-intl="1"><summary><span class="cl-n">31 / 52</span><span class="cl-l">Right giraffe ranked first on another survey team's photos (60%)</span><span class="cl-meta"><span class="cl-tag">Kenya</span><span class="cl-g gC">My own test</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>A different team's photos against the existing catalog, frozen matcher, scored once. First suggestion 60% (95% CI 46–72). Top 5: 38 of 52, 73% (60–83). Detection: 74 of 77 giraffes (89–99).</dd></div><div><dt>Source</dt><dd>Public dataset (GZGC, Nairobi National Park, 2015). Evaluation files are private.</dd></div><div><dt>How to check it</dt><dd>The dataset is public. I can share the evaluation files on request.</dd></div><div class="short"><dt>Where it falls short</dt><dd>Same park and same survey. The camera clocks disagree, so the gap may be hours, not a day. Top-1 and top-5 were computed after the run from its saved candidates. Only 2 auto-filings, so there's no error rate. 38 of 61 returning giraffes were called “new?”, so that signal isn't reliable. Not tested on partner animals.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Moderate.</dd></div><div><dt>What would change my mind</dt><dd>A true multi-season test on animals it has never seen.</dd></div><div class="std"><dt>Standard used</dt><dd>Added after first results, logged as a deviation, scored once. No pass mark of its own: the original targets (top-1 at least 75%, new animals at least 80%) were set for the earlier split, and this test is below both. Wilson intervals, treating sightings as independent, so the true range is somewhat wider. TRIPOD+AI not yet applied.</dd></div></dl></details>
+<details class="cl-row" id="c-zero" data-cls="C" data-intl="1"><summary><span class="cl-n">0 / 32</span><span class="cl-l">Wrong automatic giraffe matches on an earlier split</span><span class="cl-meta"><span class="cl-tag">Kenya</span><span class="cl-g gC">My own test</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>Matches the tool filed without a person, on the pre-registered split.</dd></div><div><dt>Source</dt><dd>Same public dataset and private evaluation files.</dd></div><div><dt>How to check it</dt><dd>I can share the evaluation files on request.</dd></div><div class="short"><dt>Where it falls short</dt><dd>Not a clean test. 29 of 32 had a near-duplicate photo seconds apart, and the matcher was revised after first results. I'd give it little weight.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Low.</dd></div><div><dt>What would change my mind</dt><dd>It's already weak. Trust the row above instead.</dd></div><div class="std"><dt>Standard used</dt><dd>Pre-registration, with deviations logged. This rerun does not meet it as an untouched test.</dd></div></dl></details>
+<details class="cl-row" id="c-darfur" data-cls="A" data-intl="1"><summary><span class="cl-n">112,416</span><span class="cl-l">NASA fire detections in Darfur vs a 90,282 baseline (+24.5%)</span><span class="cl-meta"><span class="cl-tag">Sudan</span><span class="cl-g gA">Anyone can check</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>Detections 15 Apr 2023 – 31 Dec 2024 against the 2018–22 mean for the same calendar days. Baseline years ran 82,740–105,165. Within 1 km of a mapped settlement: 3,086 vs 1,869.</dd></div><div><dt>Source</dt><dd>NASA FIRMS and OpenStreetMap, both public.</dd></div><div><dt>How to check it</dt><dd>Open the <a href="https://myersmail9-afk.github.io/client-demos/darfur-fire-signals/" target="_blank" rel="noopener">full page</a>. Its method and data are embedded.</dd></div><div class="short"><dt>Where it falls short</dt><dd>Fires are not attacks. This can't say who set a fire or why. Only 2.7% of detections were near a mapped settlement, and low-confidence detections are included. No ground truth.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Low.</dd></div><div><dt>What would change my mind</dt><dd>Field reports or imagery that don't line up with the spikes.</dd></div><div class="std"><dt>Standard used</dt><dd>ICD 203 style: facts kept apart from assessment. Caveat first is my own rule. ICD 206-style sourcing.</dd></div></dl></details>
+<details class="cl-row" id="c-etosha" data-cls="A" data-intl="1"><summary><span class="cl-n">73</span><span class="cl-l">Automated re-checks passed on the Etosha fire timeline</span><span class="cl-meta"><span class="cl-tag">Namibia</span><span class="cl-g gA">Anyone can check</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>A script re-derives the page's numbers from live sources and compares file hashes. All 73 passed on 8 Oct 2026.</dd></div><div><dt>Source</dt><dd>NOAA eFire, NASA FIRMS, Sentinel-2, OpenStreetMap and a published investigation.</dd></div><div><dt>How to check it</dt><dd>Open the <a href="https://myersmail9-afk.github.io/client-demos/etosha-one-year-on/" target="_blank" rel="noopener">full page</a>. I can share the check file on request.</dd></div><div class="short"><dt>Where it falls short</dt><dd>It proves my numbers match the sources, not what caused the fires. The dates are “consistent with” the investigation, never confirmed. I built the checks with Claude Code, so they aren't independent. I spent part of my mission in Namibia, but this work used public data from a desk.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Moderate.</dd></div><div><dt>What would change my mind</dt><dd>An independent recount that disagrees.</dd></div><div class="std"><dt>Standard used</dt><dd>ICD 203 style. “Consistent with”, never “confirmed”, is my own wording rule. ICD 206-style sourcing.</dd></div></dl></details>
+<details class="cl-row" id="c-report" data-cls="C" data-intl="1"><summary><span class="cl-n">19 / 19</span><span class="cl-l">Questions the reporting assistant had to refuse, refused (Oct 2026)</span><span class="cl-meta"><span class="cl-tag">Multi-country</span><span class="cl-g gC">My own test</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>A release test of 57 answerable and 19 must-refuse questions on a demining NGO's public monthly data. Tool choice 96%, numbers 100%.</dd></div><div><dt>Source</dt><dd>Release record, 15 Oct 2026. Public source data, private test.</dd></div><div><dt>How to check it</dt><dd>The demo on this page shows it. I can share the release record on request.</dd></div><div class="short"><dt>Where it falls short</dt><dd>I built the test with Claude Code, so it isn't independent. The run used gpt-5-mini, not Claude. Earlier versions missed some, so this isn't a first-try score. It's a concept, and nobody uses it for real reporting.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Moderate.</dd></div><div><dt>What would change my mind</dt><dd>Someone else's question set getting a made-up number out of it.</dd></div><div class="std"><dt>Standard used</dt><dd>IMAS 07.12 §17.7, used as the release rule: if there's any doubt, it isn't released.</dd></div></dl></details>
+<details class="cl-row" id="c-forecast" data-cls="D" data-intl="0"><summary><span class="cl-n">0.14</span><span class="cl-l">Mean Brier score on 10 resolved forecasts (lower is better)</span><span class="cl-meta"><span class="cl-g gD">My account</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>Final forecasts on 7 questions from my CAI 4300 class in 2023, one split into 4 time bins.</dd></div><div><dt>Source</dt><dd>My forecast log, entered after the course from my class work.</dd></div><div><dt>How to check it</dt><dd>The demo on this page steps through the updates. I can share the log.</dd></div><div class="short"><dt>Where it falls short</dt><dd>A flat 20% on the same outcomes scores 0.16, so this is barely better than a base rate. On all 4 questions with a logged crowd figure, the crowd was closer. On one I said 52% and the crowd said 6%. Ten is a small sample.</dd></div><div><dt>Confidence</dt><dd>The number: High. What it means: Low.</dd></div><div><dt>What would change my mind</dt><dd>It's a weak claim now. A larger scored record could raise it or lower it.</dd></div><div class="std"><dt>Standard used</dt><dd>Brier score on a 0–1 scale (0.25 is always saying 50%). Questions came from Good Judgment Open through CAI 4300, but GJ Open scores 0–2 and averages daily, so don't compare directly.</dd></div></dl></details>
+<details class="cl-row" id="c-herat" data-cls="D" data-intl="1"><summary><span class="cl-n">500+</span><span class="cl-l">Students a year in Herat, with 15 staff, run remotely as an unpaid NGO CEO</span><span class="cl-meta"><span class="cl-tag">Afghanistan</span><span class="cl-g gD">My account</span></span></summary>
+<dl class="cl-d"><div><dt>What it measures</dt><dd>Literacy and vocational programs for children, women and mothers, 2022–23.</dd></div><div><dt>Source</dt><dd>NGO records and my own account. Sources disagree on some wording, so I use the broader “students”.</dd></div><div><dt>How to check it</dt><dd>References on request. I keep details about people and exact locations off this public page for their safety.</dd></div><div class="short"><dt>Where it falls short</dt><dd>I was in Utah. Local managers did all the in-person work, and I would have failed without them. These numbers aren't audited.</dd></div><div><dt>Confidence</dt><dd>The number: Moderate. What it means: Moderate.</dd></div><div><dt>What would change my mind</dt><dd>NGO records that show different numbers.</dd></div><div class="std"><dt>Standard used</dt><dd>ICD 206-style source descriptor. Nothing here is independently checkable.</dd></div></dl></details>
+  </div>
+<details class="more"><summary>Corrections I've made</summary><div class="more-b"><ul class="cl-fix"><li>Two giraffe tests were merged into one claim. <span class="hint">They're now separate rows, and the clean test comes first.</span></li><li>“73 of 73 dates” overstated the Etosha check. <span class="hint">It's 73 automated re-checks. The dates are “consistent with” the investigation.</span></li><li>“22 stopped on purpose” went beyond the log. <span class="hint">It now says “22 stopped”.</span></li><li>Top-1 was 30 of 52 in an early hand count that mixed two runs. <span class="hint">31 of 52 is the reproducible figure.</span></li><li>“0 of 32” was the headline and called pre-registered. <span class="hint">It no longer leads, and it's labeled not a clean test.</span></li><li>“Checks itself” described the agents. <span class="hint">An agent graded itself wrong, so the site now says the work gets checked.</span></li></ul></div></details>
+<p class="foot">Confidence is listed twice because a number can be exact and still say little. Drafted with Claude from my source files.</p>
+</section>
+<!-- STANDARDS -->
+<section class="claims" id="standards">
+<div class="pills"><span class="pill">Standards register</span></div>
+<h2>The standards I chose, and where I fall short of them</h2>
+<p class="one">I picked the ones marked Chosen for this work. AI helped me find and apply them, and suggested the others. Status is my own assessment unless it names a check.</p>
+<details class="more"><summary>See each standard and its status</summary><div class="more-b"><table class="std-t"><thead><tr><th scope="col">Standard</th><th scope="col">What it governs</th><th scope="col">Where</th><th scope="col">Status</th><th scope="col">Standing</th></tr></thead><tbody><tr><th scope="row">ICD 203 style<span class="hint">Analytic tradecraft from ODNI</span></th><td data-l="Governs">Facts kept apart from judgment, confidence stated, sources named, limits beside results.</td><td data-l="Where">Every claim in the ledger, Darfur and Etosha caveats.</td><td data-l="Status">Partly. I apply it by hand and nobody outside has reviewed it. It's an intelligence community directive, so this is its style, not compliance. One tradecraft standard, analysis of alternatives, isn't done across the ledger. “What would change my mind” is near it but isn't it.</td><td data-l="Standing"><span class="cl-g gA">Chosen</span></td></tr><tr><th scope="row">NIST AI RMF 1.0<span class="hint">AI risk framework, voluntary</span></th><td data-l="Governs">Govern, Map, Measure and Manage for the AI work.</td><td data-l="Where">The risk map below, and the ledger's Measure rows.</td><td data-l="Status">Self-assessed. Not a certification.</td><td data-l="Standing"><span class="cl-g gD">Proposed</span></td></tr><tr><th scope="row">My resume standard<span class="hint">In-house, 10-item audit, pass at 17 of 20 with no zeros</span></th><td data-l="Governs">How the resume is written, formatted and audited. Every number needs a source I can explain.</td><td data-l="Where">The PDF resume.</td><td data-l="Status">Round 1 failed at 11 of 20. Round 2 failed at 14 of 20. The numbers file isn't written yet.</td><td data-l="Standing"><span class="cl-g gA">Chosen</span></td></tr><tr><th scope="row">WCAG 2.2 AA + USWDS<span class="hint">W3C accessibility guidelines, US Web Design System tokens</span></th><td data-l="Governs">Contrast, keyboard use, labels and color.</td><td data-l="Where">This site.</td><td data-l="Status">Targeted. Automated axe-core scan, 6 Nov 2026: 0 violations in light and dark, at phone and desktop widths, with every section open. Automated scans catch only part of WCAG, and nobody outside has tested it.</td><td data-l="Standing"><span class="cl-g gA">Chosen</span></td></tr><tr><th scope="row">ICD 206 style<span class="hint">Source descriptors from ODNI</span></th><td data-l="Governs">Says what kind of record each number came from when the raw log stays private.</td><td data-l="Where">Source field in the ledger.</td><td data-l="Status">Used in style only.</td><td data-l="Standing"><span class="cl-g gD">Also used</span></td></tr><tr><th scope="row">NIST SP 800-53 AC-6<span class="hint">Least privilege</span></th><td data-l="Governs">Tools get only the access they need.</td><td data-l="Where">The hosted connector.</td><td data-l="Status">The idea only. Not audited against it.</td><td data-l="Standing"><span class="cl-g gD">Also used</span></td></tr><tr><th scope="row">TRIPOD+AI<span class="hint">AI evaluation reporting checklist, 2024</span></th><td data-l="Governs">How the giraffe test should be reported.</td><td data-l="Where">Planned for the next giraffe results note.</td><td data-l="Status">Not done yet. No item-by-item checklist exists. The evaluation files cover some of the same ground. It was also written for clinical models, so it would need adapting.</td><td data-l="Standing"><span class="cl-g gC">Not yet applied</span></td></tr><tr><th scope="row">Pre-registration + Wilson intervals<span class="hint">Targets set before scoring, with honest error bars</span></th><td data-l="Governs">Giraffe test design and reporting.</td><td data-l="Where">Giraffe rows in the ledger.</td><td data-l="Status">Deviations are logged. The 31 of 52 test was added after first results, and the 0 of 32 rerun doesn't count as untouched.</td><td data-l="Standing"><span class="cl-g gD">Also used</span></td></tr><tr><th scope="row">Brier score<span class="hint">Forecast scoring rule</span></th><td data-l="Governs">Scores my forecasts.</td><td data-l="Where">Forecast row in the ledger.</td><td data-l="Status">Computed by script from my log, on a 0–1 scale.</td><td data-l="Standing"><span class="cl-g gD">Also used</span></td></tr><tr><th scope="row">IMAS 07.12 §17.7<span class="hint">Mine action standard, used as a release rule</span></th><td data-l="Governs">Mine action products: if there's any doubt about conformity, it isn't released. I borrow the rule for figures.</td><td data-l="Where">Reporting assistant release test.</td><td data-l="Status">Borrowed as a rule. The assistant is a concept.</td><td data-l="Standing"><span class="cl-g gD">Also used</span></td></tr><tr><th scope="row">OPM federal resume rules<span class="hint">Two-page limit and month-and-year dates</span></th><td data-l="Governs">Resume length and format.</td><td data-l="Where">The PDF resume.</td><td data-l="Status">Borrowed. Two pages and dates met. Hours per week aren't complete.</td><td data-l="Standing"><span class="cl-g gD">Also used</span></td></tr></tbody></table></div></details>
+<details class="more"><summary>See the NIST AI RMF risk map</summary><div class="more-b"><div class="rmf"><div><b>Govern</b><p>A person owns decisions that matter: an estimator prices and sends every quote, and a person files every legal form.</p><p class="rmf-gap"><span>Gap:</span> Nobody outside reviews this work.</p></div><div><b>Map</b><p>Each system has a written purpose and a label for what's true about it. See the system map.</p><p class="rmf-gap"><span>Gap:</span> Most systems have no one-page risk map of their own. This one covers the whole body of work.</p></div><div><b>Measure</b><p>Golden-set tests, a frozen run on another team's photos, and confidence intervals on the giraffe results.</p><p class="rmf-gap"><span>Gap:</span> Company memory tests measure search, not answers, and use questions from its own transcripts.</p></div><div><b>Manage</b><p>Tools deny by default, a nightly test blocks a worse search index, and corrections are logged on this page.</p><p class="rmf-gap"><span>Gap:</span> The rest of the company platform has no equivalent automated test.</p></div></div></div></details>
+</section>
 <!-- ABOUT -->
 <section class="sys" id="about">
-  <header><h2>How I build trust</h2></header>
-  <div class="panel"><div class="trust">
-    <div><b>Govern</b><p>A person owns every decision that matters.</p></div>
-    <div><b>Map</b><p>Each system has a written purpose, refusals and data limits.</p></div>
-    <div><b>Measure</b><p>Golden sets, held-out tests, pre-registered targets.</p></div>
-    <div><b>Manage</b><p>Nothing ships if it gets worse. Limits sit next to results.</p></div></div></div>
-  <div class="panel"><div class="ph"><span class="k">Background</span></div><div class="prose">
-    <p>During university I had a traumatic brain injury and had to relearn walking, talking, driving, even how to move my eyes together. I taught myself neuroscience to do it. That's where my problem-solving comes from: if something's broken, I figure out how the system works and rebuild it.</p>
-    <p>International Studies, Utah State · Global Peacebuilding certificate · Anticipatory Intelligence minor. CEO of a refugee NGO running a school for girls in Herat. Nearly two years in Botswana, Namibia and South Africa. Logan, Utah. US citizen.</p></div></div>
-
-  <div class="panel"><div class="ph"><span class="k">How this page is built</span></div><div class="prose" style="font-size:13px">
-    <p><b>Analytic standards:</b> claims follow ODNI ICD 203. Facts are separated from assessments, uncertainty is stated, and each section carries a confidence level with its source. Confidence: <b>High</b> = direct system logs or eval files; <b>Moderate</b> = real data with small samples or known gaps.</p>
-    <ul style="margin:0;padding-left:18px;display:grid;gap:3px;font-size:12.5px"><li>[1] Production run log, 151 runs, 23 Sep – 4 Nov 2026; [2] live test battery record, 26 Oct <span class="hint">· High confidence</span></li><li>[8] Pre-registered eval files on public datasets (GZGC Nairobi, CDLA-Permissive-1.0; Snapshot Serengeti). Not yet tested on partner animals. <span class="hint">· Moderate confidence</span></li><li>[4] Knowledge-base state report, 5 Nov 2026; [5] golden-set eval files, Sep–Oct 2026. Adoption evidence is weak. <span class="hint">· Moderate confidence</span></li><li>[9] verify.py outputs against NASA FIRMS, Global Fishing Watch, Sentinel-1 public archives <span class="hint">· High confidence</span></li><li>[3] Watcher event log, 4 Nov 2026 (single event; short production history) <span class="hint">· High confidence</span></li><li>[7] Locate scan log, 5 Nov 2026 (one morning) <span class="hint">· High confidence</span></li><li>[6] MCP connector source and tool manifest <span class="hint">· High confidence</span></li><li>[10] 82-question eval and 255-question stress test files <span class="hint">· High confidence</span></li><li>[11] Forecast casebook, 28 logged / 10 resolved. Small sample. <span class="hint">· Moderate confidence</span></li></ul>
-    <p><b>Sourcing:</b> numbered source descriptors in the style of ICD 206. Raw logs stay private; the descriptors say what kind of record each number came from.</p>
-    <p><b>Design:</b> U.S. Web Design System color tokens and Public Sans. Built to Section 508 / WCAG 2.1 AA: text contrast, keyboard access, alt text.</p></div></div>
-  <p class="foot">Numbers come from my own logs and evaluation files. Demos marked “sample content” use invented examples; employer and partner data stays private.</p>
+<h2>About</h2>
+<div class="prose">
+<p>During university I had a traumatic brain injury and had to relearn walking, talking, driving, even how to move my eyes together. I taught myself neuroscience to do it. That's where my problem-solving comes from: if something's broken, I figure out how the system works and rebuild it.</p>
+<p>International Studies, Utah State · Global Peacebuilding certificate · Anticipatory Intelligence minor. CEO of a refugee NGO running a school for girls in Herat, unpaid, working remotely from Utah through local managers. Nearly two years in Botswana, Namibia and South Africa. Logan, Utah. US citizen.</p>
+</div>
+<details class="more"><summary>How this page is built</summary><div class="more-b prose">
+<p><b>Analytic standards:</b> written in the style of ODNI ICD 203, not reviewed against it. Facts are separated from assessments, uncertainty is stated, and each section carries a confidence level with its source. Confidence: <b>High</b> = direct system logs or eval files; <b>Moderate</b> = real data with small samples or known gaps.</p>
+<ul class="srclist"><li>[1] Production run log, 151 runs, 23 Sep – 4 Nov 2026; [2] live test battery record, 26 Oct <span class="hint">· High confidence</span></li><li>[8] Eval files on public datasets, with a pre-registration and logged deviations (GZGC Nairobi, CDLA-Permissive-1.0; Snapshot Serengeti). Not yet tested on partner animals. <span class="hint">· Moderate confidence</span></li><li>[4] Knowledge-base state report, 5 Nov 2026; [5] golden-set eval files, Sep–Oct 2026. Adoption evidence is weak. <span class="hint">· Moderate confidence</span></li><li>[9] verify.py outputs against NASA FIRMS, Global Fishing Watch, Sentinel-1 public archives <span class="hint">· High confidence</span></li><li>[3] Watcher event log, 4 Nov 2026 (single event; short production history) <span class="hint">· High confidence</span></li><li>[7] Locate scan log, 5 Nov 2026 (one morning) <span class="hint">· High confidence</span></li><li>[6] MCP connector source and tool manifest <span class="hint">· High confidence</span></li><li>[10] 82-question eval and 255-question stress test files <span class="hint">· High confidence</span></li><li>[11] Forecast casebook, 28 logged / 10 resolved. Small sample. <span class="hint">· Moderate confidence</span></li></ul>
+<p><b>Sourcing:</b> numbered source descriptors in the style of ICD 206. Raw logs stay private; the descriptors say what kind of record each number came from.</p>
+<p><b>Design:</b> U.S. Web Design System color tokens and Public Sans. Targeting WCAG 2.2 AA; see the <a href="#standards">standards section</a> for status. Built with Claude Code.</p>
+</div></details>
+<p class="foot">Numbers come from my own logs and evaluation files. Demos marked “sample content” use invented examples; employer and partner data stays private.</p>
+</section>
+<section class="contact" id="contact">
+<h2>Contact</h2>
+<p class="one">Email is the best way to reach me. Full resume on request.</p>
+<p><a class="btn big" href="mailto:myersmail9@gmail.com">myersmail9@gmail.com</a></p>
 </section>
 </main>
-</div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -662,8 +756,7 @@ opts($('kOpts'),KQ,it=>{$('kAns').innerHTML=it.a});
 /* tools */
 const TQ=[{label:"Read the client's past quotes",ok:1,t:"read_quotes(client) → 2 prior quotes"},{label:"Create a draft quote",ok:1,t:"create_draft_quote(...) → DRAFT, prices $0"},{label:"Set the price",ok:0,t:"no pricing tool exists. The estimator prices."},{label:"Send the quote",ok:0,t:"no send tool exists. A person sends."},{label:"Take a payment",ok:0,t:"no payment tool exists"},{label:"Delete a record",ok:0,t:"no delete tool exists"},{label:"Run any query I want",ok:0,t:"no general query tool. Only the 6 named reads."}];
 opts($('tOpts'),TQ,it=>{$('tLog').innerHTML=`agent@connector $ ${esc(it.label.toLowerCase())}<br>${it.ok?'<span class="y">✓ ALLOWED</span>':'<span class="n">✕ BLOCKED</span>'} · ${esc(it.t)}`});
-/* re-id: drawn coat patterns */
-function coat(seed,color){let s=seed,r=()=>(s=(s*9301+49297)%233280)/233280;let p='';for(let i=0;i<14;i++){const x=8+r()*74,y=6+r()*58,w=9+r()*12,h=8+r()*11;p+=`<path d="M${x} ${y}l${w*.6} ${-h*.2}l${w*.4} ${h*.5}l${-w*.2} ${h*.6}l${-w*.7} ${h*.1}z" fill="${color}"/>`}return `<svg viewBox="0 0 90 70" aria-hidden="true"><rect width="90" height="70" fill="var(--amber-soft)"/>${p}</svg>`}
+/* re-id */
 const RBASE=document.querySelector('img[src*="reid-pair"]').getAttribute('src').replace('reid-pair.jpg','reid/');
 const pct=p=>p>=.9995?'>99.9%':p>=.99?(p*100).toFixed(1)+'%':p<.01?'<1%':Math.round(p*100)+'%';
 const SIGHT=[
@@ -672,7 +765,7 @@ const SIGHT=[
  {label:"Confident and wrong",n:"lookalike",qc:"New sighting · per the dataset, this animal isn't in the catalog",cands:[["NNP_GIRM_0051",.998,69],["NNP_GIRM_0042",.001,5],["NNP_GIRM_0044",.001,5]],ev:"69 coat points verified, on the wrong animal per the dataset's label",v:"Top guess 99.8%, and wrong per the dataset's label. The two checks disagreed on the top animal → sent to a person. No automatic match."},
  {label:"Not in the catalog",n:"newanimal",qc:"New sighting · this animal isn't in the catalog",cands:[["NNP_GIRM_0019",.001,0],["NNP_GIRM_0130",.001,0],["NNP_GIRM_0055",.001,4]],ev:"",none:1,nw:1,v:"Best score under 1%, nothing lines up → proposed as a new animal. A person confirms before it joins the catalog."}];
 opts($('rOpts'),SIGHT,it=>{$('rQ').src=RBASE+it.n+'-q.jpg';$('rQc').textContent=it.qc;
- $('rGal').innerHTML=it.cands.map(([id,p,pts],i)=>`<div class="cand ${i===0&&it.go?"top":""}"><img src="${RBASE+it.n}-c${i+1}.jpg" alt="Candidate ${id}" width="360" height="270"><b>${id.replace("NNP_","")}</b><span class="pc">${pct(p)}</span><span>${pts} point${pts===1?'':'s'}</span><div class="bar"><i style="width:${Math.max(p*100,1)}%"></i></div></div>`).join('');
+ $('rGal').innerHTML=it.cands.map(([id,p,pts],i)=>`<div class="cand ${i===0&&it.go?"top":""}"><img loading="lazy" src="${RBASE+it.n}-c${i+1}.jpg" alt="Candidate ${id}" width="360" height="270"><b>${id.replace("NNP_","")}</b><span class="pc">${pct(p)}</span><span>${pts} point${pts===1?'':'s'}</span><div class="bar"><i style="width:${Math.max(p*100,1)}%"></i></div></div>`).join('');
  $('rEv').hidden=!!it.none;$('rNone').hidden=!it.none;if(!it.none)$('rEv').src=RBASE+it.n+'-ev.jpg';$('rEc').textContent=it.ev;
  $('rVer').innerHTML=`<div class="verdict ${it.go?'go':'q'} fadein">${it.v}</div>`});
 
@@ -688,7 +781,7 @@ let oT=[];$('oVerify').onclick=()=>{oT.forEach(clearTimeout);oT=[];const L=["re-
 
 /* report */
 const PQ=[{label:"Area released last quarter?",a:'<div class="q">Area released last quarter?</div><div><span class="src">tool: sum_area(quarter)</span></div><div><b class="v">▇▇▇,▇▇▇ m²</b> <span class="hint">(computed by code)</span></div><div class="row"><span class="src">rows 412–437 · public Monthly Summary</span></div>'},
- {label:"Which village is safest to farm?",a:'<div class="q">Which village is safest to farm?</div><div class="refuse"><b>Refused.</b> Safety calls belong to the clearance operator, not a chatbot. Here is the survey status data instead.</div>'},
+ {label:"Which village is safest to farm?",a:'<div class="q">Which village is safest to farm?</div><div class="refuse"><b>Refused.</b> Safety calls belong to the mine-clearance operator, not a chatbot. Here is the survey status data instead.</div>'},
  {label:"Mines found per month, trend?",a:'<div class="q">Mines found per month, trend?</div><div><span class="src">tool: monthly_series(item="AP mines")</span></div><div><b class="v">chart + table</b> <span class="hint">(every point links to its rows)</span></div>'}];
 opts($('pOpts'),PQ,it=>{$('pAns').innerHTML=it.a});
 
@@ -709,30 +802,32 @@ $('brier').textContent='Mean Brier '+(br/F.length).toFixed(2)+' · lower is bett
 $('dCase').children[0].click();$('kOpts').children[0].click();$('tOpts').children[3].click();$('rOpts').children[0].click();$('pOpts').children[0].click();
 
 
-/* design skins */
-const SK=document.querySelectorAll('.skins button');
-function skin(v){if(v)document.documentElement.setAttribute('data-skin',v);else document.documentElement.removeAttribute('data-skin');SK.forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===v?'true':'false'));try{localStorage.setItem('skin',v)}catch(_){}}
-SK.forEach(b=>b.onclick=()=>skin(b.dataset.s));
-let sv='';try{sv=localStorage.getItem('skin')||''}catch(_){}if(sv!=='light')sv='';skin(sv);
-
-
-/* autoplay demos once when they scroll into view */
-const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function onView(el,fn){if(RM||!el)return;const o=new IntersectionObserver(es=>{if(es[0].isIntersecting){fn();o.disconnect()}},{threshold:.45});o.observe(el)}
-/* no autoplay: demos run only when tapped, so nothing moves while scrolling */
+/* theme: follows the device until the visitor picks */
+const TB=$('theme'),DM=matchMedia('(prefers-color-scheme: dark)');
+const isDark=()=>{const v=document.documentElement.getAttribute('data-skin');return v?v==='dark':DM.matches};
+function themeLabel(){TB.textContent=isDark()?'Light mode':'Dark mode'}
+TB.onclick=()=>{const v=isDark()?'light':'dark';document.documentElement.setAttribute('data-skin',v);try{localStorage.setItem('skin',v)}catch(_){}themeLabel()};
+themeLabel();DM.addEventListener('change',themeLabel);
 
 /* gallery lightbox */
-document.querySelectorAll('.tile').forEach(t=>t.addEventListener('click',()=>{$('lbimg').src=t.dataset.full;$('lbimg').alt=t.querySelector('img').alt;$('lb').hidden=false;document.body.style.overflow='hidden';$('lbx').focus()}));
-function lbClose(){$('lb').hidden=true;document.body.style.overflow=''}
+let lbFrom=null;
+document.querySelectorAll('.tile').forEach(t=>t.addEventListener('click',()=>{const im=t.querySelector('img');lbFrom=t;$('lbimg').src=im.src;$('lbimg').alt=im.alt;$('lb').hidden=false;document.body.style.overflow='hidden';$('lbx').focus()}));
+function lbClose(){$('lb').hidden=true;document.body.style.overflow='';if(lbFrom)lbFrom.focus()}
 $('lb').addEventListener('click',e=>{if(e.target.id!=='lbimg')lbClose()});addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('lb').hidden)lbClose()});
-/* copy + nav */
+/* copy + print */
 $('copy').onclick=async e=>{const t=$('email').textContent;try{await navigator.clipboard.writeText(t);e.target.textContent='Copied'}catch(_){const r=document.createRange();r.selectNodeContents($('email'));const s=getSelection();s.removeAllRanges();s.addRange(r);e.target.textContent='Selected'}};
-const links=[...document.querySelectorAll('.nav a')];
-const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
-let lock=0;
-function mark(id){links.forEach(l=>{const on=l.getAttribute('href')==='#'+id;l.classList.toggle('on',on);if(on){l.setAttribute('aria-current','true');}else l.removeAttribute('aria-current')})}
-function spy(){if(Date.now()<lock)return;const off=(document.querySelector('.nav').getBoundingClientRect().bottom>0&&innerWidth<=860?document.querySelector('.nav').offsetHeight:0)+80;let cur=secs[0].id;for(const s of secs){if(s.getBoundingClientRect().top-off<=0)cur=s.id}if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)cur=secs[secs.length-1].id;mark(cur)}
-links.forEach(a=>a.addEventListener('click',()=>{lock=Date.now()+900;mark(a.getAttribute('href').slice(1))}));
-let rq=0;addEventListener('scroll',()=>{if(!rq){rq=requestAnimationFrame(()=>{rq=0;spy()})}},{passive:true});spy();
+$('print').onclick=()=>window.print();
+
+/* layers: a link to a claim or a system opens its proof */
+(function(){const list=$('clList');
+function openTarget(h){if(!h)return;const d=document.getElementById(h);if(!d)return;
+ if(h.startsWith('c-')){[...list.children].forEach(r=>r.hidden=false);$('clOpts').querySelectorAll('.opt').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f==='all'?'true':'false'));d.open=true;d.scrollIntoView({block:'start'});return}
+ const m=d.querySelector(':scope > details.more');if(m&&d.classList.contains('sys')&&d.id!=='map'){m.open=true}}
+$('clOpts').addEventListener('click',ev=>{const b=ev.target.closest('.opt');if(!b)return;$('clOpts').querySelectorAll('.opt').forEach(o=>o.setAttribute('aria-pressed',o===b?'true':'false'));const f=b.dataset.f;[...list.children].forEach(r=>{r.hidden=!(f==='all'||(f==='intl'?r.dataset.intl==='1':r.dataset.cls===f))})});
+addEventListener('hashchange',()=>openTarget(location.hash.slice(1)));
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#c-"]');if(a&&a.hash===location.hash){e.preventDefault();openTarget(a.hash.slice(1))}});
+openTarget(location.hash.slice(1));
+if(location.hash){const t=document.getElementById(location.hash.slice(1));if(t&&!location.hash.startsWith('#c-'))t.scrollIntoView()}
+})();
 </script>
 </html>
